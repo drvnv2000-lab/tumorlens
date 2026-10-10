@@ -1,0 +1,8 @@
+numpy
+scipy
+pandas
+nibabel
+
+[dev]
+pytest
+ruff

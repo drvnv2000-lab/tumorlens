@@ -1,0 +1,19 @@
+[project]
+name = "tumorlens"
+version = "0.1.0"
+description = "How fragile are automated RANO response calls?"
+requires-python = ">=3.10"
+dependencies = ["numpy", "scipy", "pandas", "nibabel"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
