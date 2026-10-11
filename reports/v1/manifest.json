@@ -1,0 +1,19 @@
+{
+  "label": "primary",
+  "code_commit": "92c659db2449f68fbc19257f481e6c340eb0fb9d+uncommitted-changes",
+  "command": "scripts/run_v1_analysis.py results/v1/measurements.csv data/raw/lumiere results/lumiere-audit reports/v1",
+  "python": "3.12.10",
+  "numpy": "2.5.3",
+  "seed": 20261011,
+  "bootstrap_resamples": 10000,
+  "inputs_sha256": {
+    "LUMIERE-ExpertRating-v202211.csv": "2215db82453a3315d5b5f0e519849bd5079b25e6e4e555f3f7237cf77f7cd952",
+    "measurements (local, patient-level)": "c8cf9863ebc25e677047170e89c6568ff81473b9d3ce5098b8ca0ba17ee00c02",
+    "rationale_review_queue.csv (local audit)": "797bc3a3f5e18081fcfc1dbd60f6dc6272b5804dc2c7585f659f30ed8056a488",
+    "rating_key_collisions.csv (local audit)": "b4ecafe930675d67c2272f0db70b77589452098d2530337b41561e6c49e96c39"
+  },
+  "outputs": [
+    "v1_results.json",
+    "v1_tables.md"
+  ]
+}

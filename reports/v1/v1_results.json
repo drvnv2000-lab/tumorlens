@@ -1,9 +1,11 @@
 {
-  "plan": "PREREGISTRATION.md, deviation 2026-10-11 'analysis details fixed before any automated measurement is computed'",
+  "label": "primary",
+  "plan": "PREREGISTRATION.md (2026-10-10 plan and dated deviations of 2026-10-11)",
   "bootstrap": {
     "resamples": 10000,
     "unit": "patient",
-    "interval": "percentile 95%"
+    "interval": "percentile 95%",
+    "seed": 20261011
   },
   "measurement_status_counts": {
     "deepbratumia|missing": 39,
@@ -18,7 +20,8 @@
       "PD": 106,
       "PR": 4
     },
-    "visits_with_more_than_one_expert_lesion": 17
+    "visits_with_more_than_one_expert_lesion": 17,
+    "rows_flagged_in_hand_audit": 6
   },
   "analysis1_measurement_agreement": {
     "deepbratumia": {
@@ -28,12 +31,14 @@
       "analysed_visits": 102,
       "analysed_patients": 48,
       "automated_lesion_measurable": 102,
+      "measured_in_non_axial_plane": 0,
       "ratio_auto_over_expert_median": {
         "estimate": 1.383,
         "ci95": [
           1.306,
           1.493
-        ]
+        ],
+        "undefined_resamples": 0
       },
       "ratio_iqr": [
         1.183,
@@ -53,21 +58,24 @@
           "ci95": [
             218.085,
             724.544
-          ]
+          ],
+          "undefined_resamples": 0
         },
         "lower_limit": {
           "estimate": -1610.736,
           "ci95": [
             -2067.131,
             -1086.7
-          ]
+          ],
+          "undefined_resamples": 0
         },
         "upper_limit": {
           "estimate": 2507.75,
           "ci95": [
             1761.607,
             3279.929
-          ]
+          ],
+          "undefined_resamples": 0
         }
       }
     },
@@ -78,12 +86,14 @@
       "analysed_visits": 102,
       "analysed_patients": 48,
       "automated_lesion_measurable": 101,
+      "measured_in_non_axial_plane": 0,
       "ratio_auto_over_expert_median": {
         "estimate": 1.348,
         "ci95": [
           1.224,
           1.442
-        ]
+        ],
+        "undefined_resamples": 0
       },
       "ratio_iqr": [
         1.047,
@@ -103,21 +113,24 @@
           "ci95": [
             67.703,
             526.777
-          ]
+          ],
+          "undefined_resamples": 0
         },
         "lower_limit": {
           "estimate": -1439.341,
           "ci95": [
             -1875.178,
             -967.643
-          ]
+          ],
+          "undefined_resamples": 0
         },
         "upper_limit": {
           "estimate": 2011.856,
           "ci95": [
             1476.265,
             2602.177
-          ]
+          ],
+          "undefined_resamples": 0
         }
       }
     }
@@ -132,7 +145,8 @@
           "ci95": [
             0.7,
             0.95
-          ]
+          ],
+          "undefined_resamples": 0
         }
       },
       "suter_matched_consecutive_volume": {
@@ -143,7 +157,8 @@
           "ci95": [
             0.673,
             0.941
-          ]
+          ],
+          "undefined_resamples": 0
         }
       },
       "suter_matched_consecutive_spd": {
@@ -154,8 +169,14 @@
           "ci95": [
             0.692,
             0.909
-          ]
+          ],
+          "undefined_resamples": 0
         }
+      },
+      "consecutive_pairs_with_zero_change": {
+        "expert_change_zero": 4,
+        "auto_volume_change_zero": 0,
+        "auto_spd_change_zero": 0
       }
     },
     "hd_glio_auto": {
@@ -167,7 +188,8 @@
           "ci95": [
             0.781,
             1.0
-          ]
+          ],
+          "undefined_resamples": 0
         }
       },
       "suter_matched_consecutive_volume": {
@@ -178,7 +200,8 @@
           "ci95": [
             0.722,
             0.97
-          ]
+          ],
+          "undefined_resamples": 0
         }
       },
       "suter_matched_consecutive_spd": {
@@ -189,8 +212,14 @@
           "ci95": [
             0.707,
             0.943
-          ]
+          ],
+          "undefined_resamples": 0
         }
+      },
+      "consecutive_pairs_with_zero_change": {
+        "expert_change_zero": 4,
+        "auto_volume_change_zero": 0,
+        "auto_spd_change_zero": 0
       }
     }
   },
@@ -214,30 +243,35 @@
           "ci95": [
             0.0,
             0.023
-          ]
+          ],
+          "undefined_resamples": 0
         },
         "1": {
           "estimate": 0.283,
           "ci95": [
             0.222,
             0.339
-          ]
+          ],
+          "undefined_resamples": 0
         },
         "2": {
           "estimate": 0.546,
           "ci95": [
             0.469,
             0.617
-          ]
+          ],
+          "undefined_resamples": 0
         },
         "3": {
           "estimate": 0.697,
           "ci95": [
             0.621,
             0.768
-          ]
+          ],
+          "undefined_resamples": 0
         }
       },
+      "calls_not_flipping_within_3mm_censored": 106,
       "descriptive_expert_vs_automated_call": {
         "CR|CR": 15,
         "CR|PD": 1,
@@ -275,30 +309,35 @@
           "ci95": [
             0.0,
             0.019
-          ]
+          ],
+          "undefined_resamples": 0
         },
         "1": {
           "estimate": 0.171,
           "ci95": [
             0.124,
             0.227
-          ]
+          ],
+          "undefined_resamples": 0
         },
         "2": {
           "estimate": 0.377,
           "ci95": [
             0.314,
             0.444
-          ]
+          ],
+          "undefined_resamples": 0
         },
         "3": {
           "estimate": 0.534,
           "ci95": [
             0.455,
             0.613
-          ]
+          ],
+          "undefined_resamples": 0
         }
       },
+      "calls_not_flipping_within_3mm_censored": 163,
       "descriptive_expert_vs_automated_call": {
         "CR|CR": 24,
         "CR|SD": 2,
@@ -314,6 +353,354 @@
         "SD|PD": 24,
         "SD|PR": 1,
         "SD|SD": 17
+      }
+    }
+  },
+  "analysis4_exploratory": {
+    "status": "exploratory (deviation 2026-10-11, independent review); not the planned confirmatory test",
+    "outcome": "automated PD/non-PD call (offset 0) differs from the expert PD/non-PD call",
+    "censored_flip_score": -3.5,
+    "all_calls": {
+      "deepbratumia": {
+        "calls": 350,
+        "patients": 73,
+        "disagreements": 121,
+        "expert_pd": 222,
+        "expert_non_pd": 128,
+        "disagreement_rate_when_expert_pd": 0.387,
+        "disagreement_rate_when_expert_non_pd": 0.273,
+        "auroc_fragility_score": {
+          "estimate": 0.649,
+          "ci95": [
+            0.576,
+            0.713
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_flip_within_1mm": {
+          "estimate": 0.587,
+          "ci95": [
+            0.527,
+            0.642
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_tool_disagreement": {
+          "estimate": 0.586,
+          "ci95": [
+            0.526,
+            0.643
+          ],
+          "undefined_resamples": 0
+        },
+        "calls_with_both_tools": 350
+      },
+      "hd_glio_auto": {
+        "calls": 350,
+        "patients": 73,
+        "disagreements": 112,
+        "expert_pd": 222,
+        "expert_non_pd": 128,
+        "disagreement_rate_when_expert_pd": 0.356,
+        "disagreement_rate_when_expert_non_pd": 0.258,
+        "auroc_fragility_score": {
+          "estimate": 0.6,
+          "ci95": [
+            0.538,
+            0.666
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_flip_within_1mm": {
+          "estimate": 0.538,
+          "ci95": [
+            0.492,
+            0.586
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_tool_disagreement": {
+          "estimate": 0.54,
+          "ci95": [
+            0.491,
+            0.593
+          ],
+          "undefined_resamples": 0
+        },
+        "calls_with_both_tools": 350
+      }
+    },
+    "sensitivity_without_documented_t2_or_new_lesion": {
+      "deepbratumia": {
+        "calls": 191,
+        "patients": 57,
+        "disagreements": 51,
+        "expert_pd": 91,
+        "expert_non_pd": 100,
+        "disagreement_rate_when_expert_pd": 0.308,
+        "disagreement_rate_when_expert_non_pd": 0.23,
+        "auroc_fragility_score": {
+          "estimate": 0.727,
+          "ci95": [
+            0.638,
+            0.802
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_flip_within_1mm": {
+          "estimate": 0.607,
+          "ci95": [
+            0.516,
+            0.695
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_tool_disagreement": {
+          "estimate": 0.615,
+          "ci95": [
+            0.541,
+            0.687
+          ],
+          "undefined_resamples": 0
+        },
+        "calls_with_both_tools": 191
+      },
+      "hd_glio_auto": {
+        "calls": 191,
+        "patients": 57,
+        "disagreements": 45,
+        "expert_pd": 91,
+        "expert_non_pd": 100,
+        "disagreement_rate_when_expert_pd": 0.308,
+        "disagreement_rate_when_expert_non_pd": 0.17,
+        "auroc_fragility_score": {
+          "estimate": 0.728,
+          "ci95": [
+            0.65,
+            0.814
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_flip_within_1mm": {
+          "estimate": 0.614,
+          "ci95": [
+            0.544,
+            0.696
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_tool_disagreement": {
+          "estimate": 0.549,
+          "ci95": [
+            0.493,
+            0.618
+          ],
+          "undefined_resamples": 0
+        },
+        "calls_with_both_tools": 191
+      }
+    }
+  },
+  "sensitivity_flagged_expert_rows_excluded": {
+    "status": "post hoc",
+    "analysis1": {
+      "deepbratumia": {
+        "visits_in_set": 104,
+        "no_readable_mask": 7,
+        "no_enhancing_voxel": 1,
+        "analysed_visits": 96,
+        "analysed_patients": 47,
+        "automated_lesion_measurable": 96,
+        "measured_in_non_axial_plane": 0,
+        "ratio_auto_over_expert_median": {
+          "estimate": 1.383,
+          "ci95": [
+            1.306,
+            1.486
+          ],
+          "undefined_resamples": 0
+        },
+        "ratio_iqr": [
+          1.177,
+          2.175
+        ],
+        "ratio_median_single_expert_lesion": {
+          "n": 81,
+          "median": 1.403
+        },
+        "ratio_median_multiple_expert_lesions": {
+          "n": 15,
+          "median": 0.805
+        },
+        "bland_altman_mm2": {
+          "bias": {
+            "estimate": 470.25,
+            "ci95": [
+              225.202,
+              743.35
+            ],
+            "undefined_resamples": 0
+          },
+          "lower_limit": {
+            "estimate": -1645.57,
+            "ci95": [
+              -2104.689,
+              -1111.625
+            ],
+            "undefined_resamples": 0
+          },
+          "upper_limit": {
+            "estimate": 2586.07,
+            "ci95": [
+              1831.261,
+              3330.001
+            ],
+            "undefined_resamples": 0
+          }
+        }
+      },
+      "hd_glio_auto": {
+        "visits_in_set": 104,
+        "no_readable_mask": 7,
+        "no_enhancing_voxel": 1,
+        "analysed_visits": 96,
+        "analysed_patients": 47,
+        "automated_lesion_measurable": 95,
+        "measured_in_non_axial_plane": 0,
+        "ratio_auto_over_expert_median": {
+          "estimate": 1.321,
+          "ci95": [
+            1.203,
+            1.437
+          ],
+          "undefined_resamples": 0
+        },
+        "ratio_iqr": [
+          1.02,
+          1.92
+        ],
+        "ratio_median_single_expert_lesion": {
+          "n": 81,
+          "median": 1.378
+        },
+        "ratio_median_multiple_expert_lesions": {
+          "n": 15,
+          "median": 0.906
+        },
+        "bland_altman_mm2": {
+          "bias": {
+            "estimate": 297.167,
+            "ci95": [
+              68.13,
+              541.218
+            ],
+            "undefined_resamples": 0
+          },
+          "lower_limit": {
+            "estimate": -1479.619,
+            "ci95": [
+              -1915.777,
+              -997.134
+            ],
+            "undefined_resamples": 0
+          },
+          "upper_limit": {
+            "estimate": 2073.952,
+            "ci95": [
+              1538.299,
+              2638.634
+            ],
+            "undefined_resamples": 0
+          }
+        }
+      }
+    },
+    "analysis2": {
+      "deepbratumia": {
+        "planned_change_from_nadir_spd": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.868,
+            "ci95": [
+              0.733,
+              1.0
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "suter_matched_consecutive_volume": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.868,
+            "ci95": [
+              0.756,
+              0.972
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "suter_matched_consecutive_spd": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.842,
+            "ci95": [
+              0.725,
+              0.949
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "consecutive_pairs_with_zero_change": {
+          "expert_change_zero": 1,
+          "auto_volume_change_zero": 0,
+          "auto_spd_change_zero": 0
+        }
+      },
+      "hd_glio_auto": {
+        "planned_change_from_nadir_spd": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.947,
+            "ci95": [
+              0.85,
+              1.0
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "suter_matched_consecutive_volume": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.921,
+            "ci95": [
+              0.853,
+              1.0
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "suter_matched_consecutive_spd": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.895,
+            "ci95": [
+              0.821,
+              0.971
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "consecutive_pairs_with_zero_change": {
+          "expert_change_zero": 1,
+          "auto_volume_change_zero": 0,
+          "auto_spd_change_zero": 0
+        }
       }
     }
   }

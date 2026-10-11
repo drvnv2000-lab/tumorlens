@@ -51,7 +51,16 @@ def _pixel_corners(mask2d: np.ndarray, spacing_xy: tuple[float, float]) -> np.nd
     return np.unique(np.vstack(pts), axis=0)
 
 
-def bidimensional(mask2d: np.ndarray, spacing_xy: tuple[float, float]) -> tuple[float, float]:
+def _pixel_centres(mask2d: np.ndarray, spacing_xy: tuple[float, float]) -> np.ndarray:
+    """Centre coordinates (mm) of foreground pixels: a lower bracket on the outline."""
+    ys, xs = np.nonzero(mask2d)
+    sy, sx = spacing_xy
+    return np.column_stack([(xs + 0.5) * sx, (ys + 0.5) * sy])
+
+
+def bidimensional(
+    mask2d: np.ndarray, spacing_xy: tuple[float, float], convention: str = "corner"
+) -> tuple[float, float]:
     """Longest in-plane diameter and the longest diameter perpendicular to it, in mm.
 
     Uses the convex hull of the foreground, so it measures the tumour outline and is
@@ -59,7 +68,9 @@ def bidimensional(mask2d: np.ndarray, spacing_xy: tuple[float, float]) -> tuple[
     """
     if not mask2d.any():
         return 0.0, 0.0
-    pts = _pixel_corners(mask2d, spacing_xy)
+    if convention not in ("corner", "centre"):
+        raise ValueError(f"Unknown convention: {convention}")
+    pts = (_pixel_corners if convention == "corner" else _pixel_centres)(mask2d, spacing_xy)
     if len(pts) < 3:
         return 0.0, 0.0
     try:
@@ -85,7 +96,8 @@ def measurement_axis(spacing: tuple[float, float, float], ratio: float = 1.5) ->
 
 
 def largest_lesion(
-    mask3d: np.ndarray, spacing: tuple[float, float, float], axis: int = 2
+    mask3d: np.ndarray, spacing: tuple[float, float, float], axis: int = 2,
+    convention: str = "corner",
 ) -> Lesion:
     """Measure the largest 26-connected 3D component on its maximal slice along `axis`.
 
@@ -105,7 +117,7 @@ def largest_lesion(
     sp = [s for i, s in enumerate(spacing) if i != axis]
     areas = lesion_mask.sum(axis=(0, 1))
     k = int(np.argmax(areas))
-    d1, d2 = bidimensional(lesion_mask[:, :, k].T, (sp[1], sp[0]))
+    d1, d2 = bidimensional(lesion_mask[:, :, k].T, (sp[1], sp[0]), convention)
     return Lesion(d1, d2, k)
 
 

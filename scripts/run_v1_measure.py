@@ -1,6 +1,6 @@
 """Measure every LUMIERE visit with both tools at every boundary offset (patient-level, local).
 
-Usage: python scripts/run_v1_measure.py IMAGING_ROOT OUT_CSV [--workers 6]
+Usage: python scripts/run_v1_measure.py IMAGING_ROOT OUT_CSV [--workers 6] [--convention centre]
 """
 
 from __future__ import annotations
@@ -23,13 +23,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("imaging_root", type=Path)
     ap.add_argument("out", type=Path)
     ap.add_argument("--workers", type=int, default=6)
+    ap.add_argument("--convention", choices=("corner", "centre"), default="corner")
     a = ap.parse_args(argv)
     visits = sorted(v for p in a.imaging_root.glob("Patient-*") for v in p.glob("week-*") if v.is_dir())
     a.out.parent.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     rows = []
     with ProcessPoolExecutor(a.workers) as ex:
-        futures = [ex.submit(measure_visit, v) for v in visits]
+        futures = [ex.submit(measure_visit, v, a.convention) for v in visits]
         for i, f in enumerate(as_completed(futures), 1):
             rows.extend(f.result())
             if i % 50 == 0:

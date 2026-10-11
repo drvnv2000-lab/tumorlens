@@ -75,3 +75,12 @@ def test_flip_margin():
     assert rano.flip_margin(series, 2) is None
     series[1.0] = [450, 300, 400]  # grows the last scan so it crosses +25% of the nadir
     assert rano.flip_margin(series, 2) == 1.0
+
+
+def test_centre_convention_is_smaller_than_corner():
+    m = ellipse((120, 120), (60, 60), 15, 10)  # 30 x 20 mm
+    c1, c2 = rano.bidimensional(m, (1.0, 1.0), "corner")
+    k1, k2 = rano.bidimensional(m, (1.0, 1.0), "centre")
+    assert k1 < c1 and k2 < c2
+    assert k1 == pytest.approx(30, abs=1.0) and k2 == pytest.approx(20, abs=1.0)
+    assert c1 - k1 == pytest.approx(1.0, abs=0.5)

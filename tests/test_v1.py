@@ -93,3 +93,35 @@ def test_bootstrap_ci_is_reproducible_and_brackets_point():
     b = v1.bootstrap_ci(clusters, lambda xs: float(np.mean(xs)), n=500)
     assert a == b
     assert a[1] <= a[0] <= a[2]
+
+
+def test_auroc_basic_and_ties():
+    assert v1.auroc([(1, True), (0, False)]) == 1.0
+    assert v1.auroc([(0, True), (1, False)]) == 0.0
+    assert v1.auroc([(1, True), (1, False)]) == 0.5
+    assert np.isnan(v1.auroc([(1, True), (2, True)]))
+
+
+def test_bootstrap_counts_undefined_resamples():
+    clusters = {"a": [(1.0, True)], "b": [(0.0, False)]}
+    r = v1.bootstrap(clusters, lambda xs: v1.auroc(xs), n=200)
+    assert r["estimate"] == 1.0
+    assert 0 < r["undefined_resamples"] < 200  # resamples drawing one patient twice have one class
+
+
+def test_bootstrap_keeps_duplicated_patients():
+    # one patient with 9 zeros, one with a single 1: resampling the second twice must count twice
+    clusters = {"a": [0.0] * 9, "b": [1.0]}
+    r = v1.bootstrap(clusters, lambda xs: float(np.mean(xs)), n=2000)
+    assert r["ci95"][1] == pytest.approx(1.0)  # both draws = patient b
+
+
+@pytest.mark.parametrize("text, nt, nm", [
+    ("Non-Target L.: 11mm x 22mm", True, False),
+    ("T2-Progr., Target L. 12mm x 16mm, target L. to non-measurable, Non-Target L.: 3", False, True),
+    ("T2-Progr., Target L.:  11mm x 17mm, Non-Target L., target lesion to non-measurable L.", False, True),
+    ("Target L.: 15.5mm x 13mm, non-measurable L. to target L., 25% increase in SPD", False, False),
+    ("Target L.: 20mm x 23mm, non-target L.: 1", False, False),
+])
+def test_expert_row_flags(text, nt, nm):
+    assert v1.expert_row_flags(text) == {"non_target_only": nt, "target_became_non_measurable": nm}

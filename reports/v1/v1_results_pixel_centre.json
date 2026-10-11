@@ -1,0 +1,707 @@
+{
+  "label": "pixel_centre",
+  "plan": "PREREGISTRATION.md (2026-10-10 plan and dated deviations of 2026-10-11)",
+  "bootstrap": {
+    "resamples": 10000,
+    "unit": "patient",
+    "interval": "percentile 95%",
+    "seed": 20261011
+  },
+  "measurement_status_counts": {
+    "deepbratumia|missing": 39,
+    "deepbratumia|ok": 599,
+    "hd_glio_auto|missing": 39,
+    "hd_glio_auto|ok": 599
+  },
+  "expert_measured_set": {
+    "visits": 110,
+    "patients": 49,
+    "expert_ratings": {
+      "PD": 106,
+      "PR": 4
+    },
+    "visits_with_more_than_one_expert_lesion": 17,
+    "rows_flagged_in_hand_audit": 6
+  },
+  "analysis1_measurement_agreement": {
+    "deepbratumia": {
+      "visits_in_set": 110,
+      "no_readable_mask": 7,
+      "no_enhancing_voxel": 1,
+      "analysed_visits": 102,
+      "analysed_patients": 48,
+      "automated_lesion_measurable": 99,
+      "measured_in_non_axial_plane": 0,
+      "ratio_auto_over_expert_median": {
+        "estimate": 1.24,
+        "ci95": [
+          1.155,
+          1.345
+        ],
+        "undefined_resamples": 0
+      },
+      "ratio_iqr": [
+        1.04,
+        2.024
+      ],
+      "ratio_median_single_expert_lesion": {
+        "n": 87,
+        "median": 1.263
+      },
+      "ratio_median_multiple_expert_lesions": {
+        "n": 15,
+        "median": 0.776
+      },
+      "bland_altman_mm2": {
+        "bias": {
+          "estimate": 364.616,
+          "ci95": [
+            135.792,
+            634.797
+          ],
+          "undefined_resamples": 0
+        },
+        "lower_limit": {
+          "estimate": -1658.254,
+          "ci95": [
+            -2119.591,
+            -1134.779
+          ],
+          "undefined_resamples": 0
+        },
+        "upper_limit": {
+          "estimate": 2387.485,
+          "ci95": [
+            1659.322,
+            3141.524
+          ],
+          "undefined_resamples": 0
+        }
+      }
+    },
+    "hd_glio_auto": {
+      "visits_in_set": 110,
+      "no_readable_mask": 7,
+      "no_enhancing_voxel": 1,
+      "analysed_visits": 102,
+      "analysed_patients": 48,
+      "automated_lesion_measurable": 97,
+      "measured_in_non_axial_plane": 0,
+      "ratio_auto_over_expert_median": {
+        "estimate": 1.203,
+        "ci95": [
+          1.067,
+          1.343
+        ],
+        "undefined_resamples": 0
+      },
+      "ratio_iqr": [
+        0.905,
+        1.66
+      ],
+      "ratio_median_single_expert_lesion": {
+        "n": 87,
+        "median": 1.244
+      },
+      "ratio_median_multiple_expert_lesions": {
+        "n": 15,
+        "median": 0.853
+      },
+      "bland_altman_mm2": {
+        "bias": {
+          "estimate": 205.514,
+          "ci95": [
+            -8.549,
+            439.572
+          ],
+          "undefined_resamples": 0
+        },
+        "lower_limit": {
+          "estimate": -1487.811,
+          "ci95": [
+            -1923.026,
+            -1015.758
+          ],
+          "undefined_resamples": 0
+        },
+        "upper_limit": {
+          "estimate": 1898.839,
+          "ci95": [
+            1380.752,
+            2468.937
+          ],
+          "undefined_resamples": 0
+        }
+      }
+    }
+  },
+  "analysis2_direction_agreement": {
+    "deepbratumia": {
+      "planned_change_from_nadir_spd": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.837,
+          "ci95": [
+            0.739,
+            0.969
+          ],
+          "undefined_resamples": 0
+        }
+      },
+      "suter_matched_consecutive_volume": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.791,
+          "ci95": [
+            0.673,
+            0.941
+          ],
+          "undefined_resamples": 0
+        }
+      },
+      "suter_matched_consecutive_spd": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.814,
+          "ci95": [
+            0.737,
+            0.92
+          ],
+          "undefined_resamples": 0
+        }
+      },
+      "consecutive_pairs_with_zero_change": {
+        "expert_change_zero": 4,
+        "auto_volume_change_zero": 0,
+        "auto_spd_change_zero": 0
+      }
+    },
+    "hd_glio_auto": {
+      "planned_change_from_nadir_spd": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.884,
+          "ci95": [
+            0.781,
+            1.0
+          ],
+          "undefined_resamples": 0
+        }
+      },
+      "suter_matched_consecutive_volume": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.837,
+          "ci95": [
+            0.722,
+            0.97
+          ],
+          "undefined_resamples": 0
+        }
+      },
+      "suter_matched_consecutive_spd": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.814,
+          "ci95": [
+            0.707,
+            0.943
+          ],
+          "undefined_resamples": 0
+        }
+      },
+      "consecutive_pairs_with_zero_change": {
+        "expert_change_zero": 4,
+        "auto_volume_change_zero": 0,
+        "auto_spd_change_zero": 0
+      }
+    }
+  },
+  "analysis3_fragility": {
+    "deepbratumia": {
+      "series_analysed": 99,
+      "series_without_readable_baseline_or_followup": 2,
+      "rated_visits_skipped_no_readable_mask": 18,
+      "automated_calls": 350,
+      "patients": 73,
+      "followups_measured_in_non_axial_plane": 3,
+      "automated_call_counts": {
+        "CR": 55,
+        "PD": 166,
+        "PR": 58,
+        "SD": 71
+      },
+      "share_flipping_within_mm": {
+        "0.5": {
+          "estimate": 0.009,
+          "ci95": [
+            0.0,
+            0.023
+          ],
+          "undefined_resamples": 0
+        },
+        "1": {
+          "estimate": 0.306,
+          "ci95": [
+            0.241,
+            0.369
+          ],
+          "undefined_resamples": 0
+        },
+        "2": {
+          "estimate": 0.554,
+          "ci95": [
+            0.475,
+            0.628
+          ],
+          "undefined_resamples": 0
+        },
+        "3": {
+          "estimate": 0.714,
+          "ci95": [
+            0.638,
+            0.787
+          ],
+          "undefined_resamples": 0
+        }
+      },
+      "calls_not_flipping_within_3mm_censored": 100,
+      "descriptive_expert_vs_automated_call": {
+        "CR|CR": 15,
+        "CR|PD": 1,
+        "CR|PR": 9,
+        "CR|SD": 1,
+        "PD|CR": 16,
+        "PD|PD": 132,
+        "PD|PR": 29,
+        "PD|SD": 45,
+        "PR|PD": 3,
+        "PR|PR": 11,
+        "PR|SD": 4,
+        "SD|CR": 24,
+        "SD|PD": 30,
+        "SD|PR": 9,
+        "SD|SD": 21
+      }
+    },
+    "hd_glio_auto": {
+      "series_analysed": 99,
+      "series_without_readable_baseline_or_followup": 2,
+      "rated_visits_skipped_no_readable_mask": 18,
+      "automated_calls": 350,
+      "patients": 73,
+      "followups_measured_in_non_axial_plane": 3,
+      "automated_call_counts": {
+        "CR": 106,
+        "PD": 165,
+        "PR": 8,
+        "SD": 71
+      },
+      "share_flipping_within_mm": {
+        "0.5": {
+          "estimate": 0.006,
+          "ci95": [
+            0.0,
+            0.019
+          ],
+          "undefined_resamples": 0
+        },
+        "1": {
+          "estimate": 0.189,
+          "ci95": [
+            0.139,
+            0.243
+          ],
+          "undefined_resamples": 0
+        },
+        "2": {
+          "estimate": 0.389,
+          "ci95": [
+            0.324,
+            0.455
+          ],
+          "undefined_resamples": 0
+        },
+        "3": {
+          "estimate": 0.557,
+          "ci95": [
+            0.478,
+            0.637
+          ],
+          "undefined_resamples": 0
+        }
+      },
+      "calls_not_flipping_within_3mm_censored": 155,
+      "descriptive_expert_vs_automated_call": {
+        "CR|CR": 24,
+        "CR|SD": 2,
+        "PD|CR": 36,
+        "PD|PD": 133,
+        "PD|PR": 5,
+        "PD|SD": 48,
+        "PR|CR": 4,
+        "PR|PD": 8,
+        "PR|PR": 1,
+        "PR|SD": 5,
+        "SD|CR": 42,
+        "SD|PD": 24,
+        "SD|PR": 2,
+        "SD|SD": 16
+      }
+    }
+  },
+  "analysis4_exploratory": {
+    "status": "exploratory (deviation 2026-10-11, independent review); not the planned confirmatory test",
+    "outcome": "automated PD/non-PD call (offset 0) differs from the expert PD/non-PD call",
+    "censored_flip_score": -3.5,
+    "all_calls": {
+      "deepbratumia": {
+        "calls": 350,
+        "patients": 73,
+        "disagreements": 124,
+        "expert_pd": 222,
+        "expert_non_pd": 128,
+        "disagreement_rate_when_expert_pd": 0.405,
+        "disagreement_rate_when_expert_non_pd": 0.266,
+        "auroc_fragility_score": {
+          "estimate": 0.631,
+          "ci95": [
+            0.557,
+            0.697
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_flip_within_1mm": {
+          "estimate": 0.582,
+          "ci95": [
+            0.518,
+            0.641
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_tool_disagreement": {
+          "estimate": 0.565,
+          "ci95": [
+            0.504,
+            0.623
+          ],
+          "undefined_resamples": 0
+        },
+        "calls_with_both_tools": 350
+      },
+      "hd_glio_auto": {
+        "calls": 350,
+        "patients": 73,
+        "disagreements": 121,
+        "expert_pd": 222,
+        "expert_non_pd": 128,
+        "disagreement_rate_when_expert_pd": 0.401,
+        "disagreement_rate_when_expert_non_pd": 0.25,
+        "auroc_fragility_score": {
+          "estimate": 0.628,
+          "ci95": [
+            0.558,
+            0.699
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_flip_within_1mm": {
+          "estimate": 0.577,
+          "ci95": [
+            0.528,
+            0.629
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_tool_disagreement": {
+          "estimate": 0.55,
+          "ci95": [
+            0.5,
+            0.602
+          ],
+          "undefined_resamples": 0
+        },
+        "calls_with_both_tools": 350
+      }
+    },
+    "sensitivity_without_documented_t2_or_new_lesion": {
+      "deepbratumia": {
+        "calls": 191,
+        "patients": 57,
+        "disagreements": 51,
+        "expert_pd": 91,
+        "expert_non_pd": 100,
+        "disagreement_rate_when_expert_pd": 0.308,
+        "disagreement_rate_when_expert_non_pd": 0.23,
+        "auroc_fragility_score": {
+          "estimate": 0.703,
+          "ci95": [
+            0.607,
+            0.787
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_flip_within_1mm": {
+          "estimate": 0.589,
+          "ci95": [
+            0.496,
+            0.681
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_tool_disagreement": {
+          "estimate": 0.618,
+          "ci95": [
+            0.544,
+            0.692
+          ],
+          "undefined_resamples": 0
+        },
+        "calls_with_both_tools": 191
+      },
+      "hd_glio_auto": {
+        "calls": 191,
+        "patients": 57,
+        "disagreements": 46,
+        "expert_pd": 91,
+        "expert_non_pd": 100,
+        "disagreement_rate_when_expert_pd": 0.33,
+        "disagreement_rate_when_expert_non_pd": 0.16,
+        "auroc_fragility_score": {
+          "estimate": 0.724,
+          "ci95": [
+            0.646,
+            0.806
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_flip_within_1mm": {
+          "estimate": 0.611,
+          "ci95": [
+            0.534,
+            0.694
+          ],
+          "undefined_resamples": 0
+        },
+        "auroc_tool_disagreement": {
+          "estimate": 0.564,
+          "ci95": [
+            0.499,
+            0.642
+          ],
+          "undefined_resamples": 0
+        },
+        "calls_with_both_tools": 191
+      }
+    }
+  },
+  "sensitivity_flagged_expert_rows_excluded": {
+    "status": "post hoc",
+    "analysis1": {
+      "deepbratumia": {
+        "visits_in_set": 104,
+        "no_readable_mask": 7,
+        "no_enhancing_voxel": 1,
+        "analysed_visits": 96,
+        "analysed_patients": 47,
+        "automated_lesion_measurable": 93,
+        "measured_in_non_axial_plane": 0,
+        "ratio_auto_over_expert_median": {
+          "estimate": 1.24,
+          "ci95": [
+            1.142,
+            1.344
+          ],
+          "undefined_resamples": 0
+        },
+        "ratio_iqr": [
+          1.034,
+          2.077
+        ],
+        "ratio_median_single_expert_lesion": {
+          "n": 81,
+          "median": 1.263
+        },
+        "ratio_median_multiple_expert_lesions": {
+          "n": 15,
+          "median": 0.776
+        },
+        "bland_altman_mm2": {
+          "bias": {
+            "estimate": 384.037,
+            "ci95": [
+              143.069,
+              651.518
+            ],
+            "undefined_resamples": 0
+          },
+          "lower_limit": {
+            "estimate": -1695.681,
+            "ci95": [
+              -2156.937,
+              -1158.109
+            ],
+            "undefined_resamples": 0
+          },
+          "upper_limit": {
+            "estimate": 2463.756,
+            "ci95": [
+              1729.889,
+              3190.719
+            ],
+            "undefined_resamples": 0
+          }
+        }
+      },
+      "hd_glio_auto": {
+        "visits_in_set": 104,
+        "no_readable_mask": 7,
+        "no_enhancing_voxel": 1,
+        "analysed_visits": 96,
+        "analysed_patients": 47,
+        "automated_lesion_measurable": 91,
+        "measured_in_non_axial_plane": 0,
+        "ratio_auto_over_expert_median": {
+          "estimate": 1.196,
+          "ci95": [
+            1.052,
+            1.323
+          ],
+          "undefined_resamples": 0
+        },
+        "ratio_iqr": [
+          0.891,
+          1.697
+        ],
+        "ratio_median_single_expert_lesion": {
+          "n": 81,
+          "median": 1.234
+        },
+        "ratio_median_multiple_expert_lesions": {
+          "n": 15,
+          "median": 0.853
+        },
+        "bland_altman_mm2": {
+          "bias": {
+            "estimate": 214.355,
+            "ci95": [
+              -8.895,
+              453.364
+            ],
+            "undefined_resamples": 0
+          },
+          "lower_limit": {
+            "estimate": -1529.922,
+            "ci95": [
+              -1961.612,
+              -1046.125
+            ],
+            "undefined_resamples": 0
+          },
+          "upper_limit": {
+            "estimate": 1958.633,
+            "ci95": [
+              1445.646,
+              2502.986
+            ],
+            "undefined_resamples": 0
+          }
+        }
+      }
+    },
+    "analysis2": {
+      "deepbratumia": {
+        "planned_change_from_nadir_spd": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.895,
+            "ci95": [
+              0.786,
+              1.0
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "suter_matched_consecutive_volume": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.868,
+            "ci95": [
+              0.756,
+              0.972
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "suter_matched_consecutive_spd": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.868,
+            "ci95": [
+              0.787,
+              0.952
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "consecutive_pairs_with_zero_change": {
+          "expert_change_zero": 1,
+          "auto_volume_change_zero": 0,
+          "auto_spd_change_zero": 0
+        }
+      },
+      "hd_glio_auto": {
+        "planned_change_from_nadir_spd": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.947,
+            "ci95": [
+              0.85,
+              1.0
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "suter_matched_consecutive_volume": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.921,
+            "ci95": [
+              0.853,
+              1.0
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "suter_matched_consecutive_spd": {
+          "pairs": 38,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.895,
+            "ci95": [
+              0.821,
+              0.971
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "consecutive_pairs_with_zero_change": {
+          "expert_change_zero": 1,
+          "auto_volume_change_zero": 0,
+          "auto_spd_change_zero": 0
+        }
+      }
+    }
+  }
+}

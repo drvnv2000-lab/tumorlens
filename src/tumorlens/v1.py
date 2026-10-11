@@ -37,7 +37,10 @@ def parse_expert_spd(text: str) -> tuple[float, int]:
 # --------------------------------------------------------------------------- measurement
 
 def measure_mask(
-    mask: np.ndarray, spacing: tuple[float, float, float], offsets: Sequence[float] = OFFSETS_MM
+    mask: np.ndarray,
+    spacing: tuple[float, float, float],
+    offsets: Sequence[float] = OFFSETS_MM,
+    convention: str = "corner",
 ) -> dict:
     """Measure one canonical enhancing mask at each boundary offset."""
     axis = rano.measurement_axis(spacing)
@@ -53,7 +56,7 @@ def measure_mask(
         crop = mask
     for o in offsets:
         m = rano.offset_mask_3d(crop, spacing, o) if crop.any() else crop
-        les = rano.largest_lesion(m, spacing, axis)
+        les = rano.largest_lesion(m, spacing, axis, convention)
         out["by_offset"][o] = {
             "d1": les.d1_mm,
             "d2": les.d2_mm,
@@ -72,7 +75,7 @@ def load_canonical_mask(path: Path, label: int) -> tuple[np.ndarray, tuple[float
     return data == label, tuple(float(z) for z in img.header.get_zooms()[:3])
 
 
-def measure_visit(visit_dir: Path) -> list[dict]:
+def measure_visit(visit_dir: Path, convention: str = "corner") -> list[dict]:
     """Rows (one per tool and offset) for one visit folder; errors are recorded, not raised."""
     rows = []
     for tool, (rel, label) in TOOLS.items():
@@ -83,7 +86,7 @@ def measure_visit(visit_dir: Path) -> list[dict]:
             continue
         try:
             mask, spacing = load_canonical_mask(path, label)
-            res = measure_mask(mask, spacing)
+            res = measure_mask(mask, spacing, convention=convention)
         except Exception as exc:  # noqa: BLE001  one unreadable file must not stop the run
             rows.append({**base, "status": f"error:{type(exc).__name__}"})
             continue
@@ -174,3 +177,48 @@ def direction_pairs_consecutive(expert: Sequence[float], auto: Sequence[float]) 
     """Suter-matched: sign of change between consecutive measured visits."""
     return [bool(same_direction(expert[i] - expert[i - 1], auto[i] - auto[i - 1]))
             for i in range(1, len(expert))]
+
+
+def bootstrap(
+    clusters: dict[str, list],
+    stat: Callable[[list], float],
+    n: int = BOOTSTRAP_N,
+    seed: int = SEED,
+) -> dict:
+    """Like bootstrap_ci, plus the number of resamples where the statistic was undefined."""
+    keys = sorted(clusters)
+    flat = [x for k in keys for x in clusters[k]]
+    point = stat(flat)
+    rng = np.random.default_rng(seed)
+    vals, undefined = [], 0
+    for _ in range(n):
+        pick = rng.integers(0, len(keys), len(keys))
+        v = stat([x for i in pick for x in clusters[keys[i]]])
+        if v is None or not math.isfinite(v):
+            undefined += 1
+        else:
+            vals.append(v)
+    lo, hi = np.percentile(vals, [2.5, 97.5]) if vals else (math.nan, math.nan)
+    return {"estimate": round(float(point), 3) if point is not None else None,
+            "ci95": [round(float(lo), 3), round(float(hi), 3)], "undefined_resamples": undefined}
+
+
+def auroc(pairs: Sequence[tuple[float, bool]]) -> float:
+    """Mann-Whitney AUROC of score for a binary outcome; ties count one half. NaN if one class."""
+    pos = [s for s, y in pairs if y]
+    neg = [s for s, y in pairs if not y]
+    if not pos or not neg:
+        return math.nan
+    p = np.asarray(pos)[:, None]
+    q = np.asarray(neg)[None, :]
+    return float(((p > q).sum() + 0.5 * (p == q).sum()) / (len(pos) * len(neg)))
+
+
+_NON_TARGET_ONLY = re.compile(r"^\s*non-?target", re.IGNORECASE)
+_TARGET_TO_NM = re.compile(r"target\s*l(?:\.|esion)?\s*to\s*non-?measurable", re.IGNORECASE)
+
+
+def expert_row_flags(text: str) -> dict[str, bool]:
+    """Meaning flags from the hand audit of the expert-measurement rows (2026-10-11)."""
+    return {"non_target_only": bool(_NON_TARGET_ONLY.match(text or "")),
+            "target_became_non_measurable": bool(_TARGET_TO_NM.search(text or ""))}
