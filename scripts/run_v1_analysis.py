@@ -448,7 +448,8 @@ def main(argv: list[str] | None = None) -> int:
     manifest = {
         "label": a.label,
         "code_commit": git_commit(),
-        "command": " ".join(sys.argv),
+        "command": f"scripts/run_v1_analysis.py <measurements> <lumiere_root> <audit_dir> <out_dir> "
+                   f"--n-boot {a.n_boot} --label {a.label}",
         "python": platform.python_version(),
         "numpy": np.__version__,
         "seed": SEED,

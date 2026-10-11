@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TumorLens: real cases</title>
-<meta name="description" content="Five real glioblastoma follow-up series from LUMIERE, measured by two segmentation tools, with the expert's RANO call and a boundary slider that shows which automated calls flip.">
+<meta name="description" content="Fifteen real glioblastoma follow-up series from LUMIERE (five illustrative, ten drawn at random), measured by two segmentation tools, with the expert's RANO call and a boundary slider that shows which automated calls flip.">
 <meta property="og:title" content="TumorLens: real LUMIERE cases">
 <meta property="og:description" content="Two segmentation tools, one neuroradiologist, and how far the edge has to move before the call changes.">
 <meta property="og:image" content="https://drvnv2000-lab.github.io/tumorlens/og.png">
@@ -107,7 +107,7 @@ svg.curve { width: 100%; height: auto; display: block; }
 
 <main>
   <section class="intro">
-    <h1>Five real follow-up series, measured twice</h1>
+    <h1>Fifteen real follow-up series, measured twice</h1>
     <p>Each scan is a contrast-enhanced T1 slice from LUMIERE at the level where the automated lesion is largest. Two released segmentations, HD-GLIO-AUTO and DeepBraTumIA, are measured the RANO way and turned into calls. The neuroradiologist's call is shown beside them. Move the edge and watch which calls flip.</p>
   </section>
 
@@ -156,7 +156,7 @@ svg.curve { width: 100%; height: auto; display: block; }
 
   <section class="notes">
     <h3>What you are looking at</h3>
-    <p>Cases were chosen to show the patterns in the <a href="https://github.com/drvnv2000-lab/tumorlens/blob/main/docs/V1_RESULTS.md">v1 results</a>; they are not a random sample. Across 350 automated calls, a 1 mm edge shift changes 17% of HD-GLIO-AUTO calls and 28% of DeepBraTumIA calls. A 0.5 mm shift is smaller than most voxels and changes almost nothing.</p>
+    <p>"Illustrative" cases were chosen to show the patterns in the <a href="https://github.com/drvnv2000-lab/tumorlens/blob/main/docs/V1_RESULTS.md">v1 results</a>. "Random" cases were drawn with a fixed seed from the other analysed series, without looking at their calls. Across 350 automated calls, a uniform 1 mm edge offset changes 17% of HD-GLIO-AUTO calls and 28% of DeepBraTumIA calls under the study's call rules. A 0.5 mm offset is smaller than most voxels and changes almost nothing.</p>
     <p>The outline is the tool's enhancing label on this slice. Calipers appear only for a tool whose largest lesion is measured on the slice shown. The baseline is the expert's post-operative scan. HD-GLIO-AUTO masks for scans stored in PIR orientation were rotated 180 degrees in the release; they are shown corrected.</p>
     <h3>Data</h3>
     <p>LUMIERE: Suter Y, et al. The LUMIERE dataset: longitudinal glioblastoma MRI with expert RANO evaluation. <i>Scientific Data</i> 9, 768 (2022). The data descriptor restricts use to non-commercial purposes, and TumorLens follows that. The slices on this page are derived from LUMIERE and are not covered by the code's MIT licence.</p>
@@ -179,18 +179,19 @@ async function loadIndex() {
   const box = $("cases");
   index.forEach((c, i) => {
     const b = document.createElement("button");
-    b.textContent = `Case ${i + 1}`; b.title = c.patient;
+    const k = index.slice(0, i + 1).filter(x => x.group === c.group).length;
+    b.textContent = `${c.group === "random" ? "Random" : "Illustrative"} ${k}`; b.title = c.id;
     b.addEventListener("click", () => loadCase(i));
     box.appendChild(b);
   });
-  const want = Math.max(0, index.findIndex(c => location.hash === "#" + c.patient));
+  const want = Math.max(0, index.findIndex(c => location.hash === "#" + c.id || location.hash === "#" + c.patient));
   loadCase(want);
 }
 
 async function loadCase(i) {
   [...$("cases").children].forEach((b, j) => b.setAttribute("aria-pressed", j === i));
-  cas = await (await fetch(`cases/${index[i].patient}/case.json`)).json();
-  history.replaceState(null, "", "#" + cas.patient);
+  cas = await (await fetch(`cases/${index[i].id}/case.json`)).json();
+  history.replaceState(null, "", "#" + cas.id);
   $("why").textContent = cas.why;
   imgs = {}; vi = 0;
   buildVisits(); selectVisit(Math.min(1, cas.visits.length - 1));
@@ -230,7 +231,7 @@ function loadImg(src) {
 }
 
 async function drawSlice() {
-  const v = cas.visits[vi], base = `cases/${cas.patient}/${String(vi).padStart(2, "0")}`;
+  const v = cas.visits[vi], base = `cases/${cas.id}/${String(vi).padStart(2, "0")}`;
   const [t1, mk] = await Promise.all([loadImg(base + "_t1c.png"), loadImg(base + "_mask.png")]);
   if (cas.visits[vi] !== v) return;
   const c = $("img"), W = v.size[0], H = v.size[1], S = 2;
@@ -324,7 +325,7 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowRight") selectVisit(vi + 1);
   if (e.key === "ArrowLeft") selectVisit(vi - 1);
 });
-window.addEventListener("hashchange", () => { const i = index.findIndex(c => location.hash === "#" + c.patient); if (i >= 0 && (!cas || cas.patient !== index[i].patient)) loadCase(i); });
+window.addEventListener("hashchange", () => { const i = index.findIndex(c => location.hash === "#" + c.id); if (i >= 0 && (!cas || cas.id !== index[i].id)) loadCase(i); });
 loadIndex().catch(err => { $("why").textContent = "Could not load case data: " + err.message; });
 </script>
 </body>

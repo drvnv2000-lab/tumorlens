@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TumorLens</title>
-<meta name="description" content="How much of an automated glioblastoma response call depends on where the tumour edge is drawn? Measured on 350 real LUMIERE follow-up calls per tool, with a synthetic walk-through and five real cases.">
+<meta name="description" content="How much of an automated glioblastoma response call depends on where the tumour edge is drawn? Measured on 350 real LUMIERE follow-up calls per tool, with a synthetic walk-through and 15 real cases.">
 <meta property="og:title" content="TumorLens: a millimetre can change the call">
 <meta property="og:description" content="Two segmentation tools on real LUMIERE scans: a 1 mm edge shift changes 17 to 28% of automated RANO calls.">
 <meta property="og:image" content="https://drvnv2000-lab.github.io/tumorlens/og.png">
@@ -219,7 +219,7 @@ button { font: inherit; color: inherit; }
     <div class="copy">
       <div class="eyebrow"><span>TumorLens</span><span>Case SYN-07</span></div>
       <h1>A millimetre can <em>change the call.</em></h1>
-      <p class="lede">After glioblastoma surgery, a patient has an MRI every few months and someone measures what is left of the tumor. TumorLens measured 350 real follow-up calls from the LUMIERE dataset with two segmentation tools. Moving every tumor edge by 1 mm changed 17% of one tool's calls and 28% of the other's.</p>
+      <p class="lede">After glioblastoma surgery, a patient has an MRI every few months and someone measures what is left of the tumor. TumorLens measured 350 real follow-up calls from the LUMIERE dataset with two segmentation tools. A uniform 1 mm offset of every tumor edge changed 17% of one tool's calls and 28% of the other's.</p>
       <div class="factline"><span>Data <b>LUMIERE, 91 patients</b></span><span>Criteria <b>RANO, bidimensional</b></span><span>Tools <b>2, compared</b></span></div>
       <div class="cue">Scroll for a synthetic walk-through, then the real results</div>
     </div>
@@ -270,13 +270,13 @@ button { font: inherit; color: inherit; }
   <section class="act" data-act="6">
     <div class="copy">
       <div class="eyebrow"><span class="step">6 / 6</span><span>On real scans</span></div>
-      <h2>On LUMIERE, a 1 mm edge shift changes 17 to 28% of calls.</h2>
+      <h2>On LUMIERE, a uniform 1 mm edge offset changes 17 to 28% of calls.</h2>
       <p>Both released segmentations were measured on every visit and turned into RANO calls, then every edge in a patient's series was moved by the same amount. Bars show the share of 350 calls per tool that change.</p>
       <svg class="rc" id="rc" viewBox="0 0 420 230" role="img" aria-label="Share of automated calls that change with a 1, 2 and 3 millimetre edge shift, per tool"></svg>
-      <p>Against the expert's own measurements, HD-GLIO-AUTO volume moved in the same direction in <strong>84%</strong> of consecutive pairs, close to the 81% Suter et al. reported. Automated sizes ran about 1.35 times the expert's. The 110 expert-measured visits are 106 progression and 4 partial response, so this describes progression scans, not response assessment in general.</p>
-      <a class="cta" href="cases.html">See five real cases →</a>
+      <p>Against the expert's own measurements, HD-GLIO-AUTO volume moved in the same direction in <strong>84%</strong> of consecutive pairs, numerically similar to the 81% Suter et al. reported with a different tool, not a replication. Under this study's measuring conventions, automated sizes ran about 1.2 to 1.4 times the expert's. The 110 expert-measured visits are 106 progression and 4 partial response, so this describes progression scans, not response assessment in general.</p>
+      <a class="cta" href="cases.html">See 15 real cases →</a>
       <button class="cta" id="openViewer">Open the synthetic viewer</button>
-      <p class="fine">Descriptive results; the analysis plan was committed first. Full numbers and limits: <a href="https://github.com/drvnv2000-lab/tumorlens/blob/main/docs/V1_RESULTS.md" style="color:inherit">v1 results</a>. Acts 1 to 5 use a synthetic patient.</p>
+      <p class="fine">Descriptive methods study of measurement-driven calls, not a validation of clinical response assessment; analysis rules were committed before results, and an independent review was run. Full numbers and limits: <a href="https://github.com/drvnv2000-lab/tumorlens/blob/main/docs/V1_RESULTS.md" style="color:inherit">v1 results</a>. Acts 1 to 5 use a synthetic patient.</p>
     </div>
   </section>
 </main>

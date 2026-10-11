@@ -1,27 +1,107 @@
 [
  {
+  "id": "Patient-018_week-003",
   "patient": "Patient-018",
+  "group": "illustrative",
   "why": "Both tools match the expert call at every visit, including complete response.",
   "visits": 5
  },
  {
+  "id": "Patient-007_week-001",
   "patient": "Patient-007",
+  "group": "illustrative",
   "why": "Tools miss early progression, then track the expert once the lesion is large.",
   "visits": 9
  },
  {
+  "id": "Patient-062_week-000-2",
   "patient": "Patient-062",
+  "group": "illustrative",
   "why": "HD-GLIO-AUTO sees no enhancing tumour for five visits the expert rated SD or PD.",
   "visits": 7
  },
  {
+  "id": "Patient-051_week-000-2",
   "patient": "Patient-051",
+  "group": "illustrative",
   "why": "The two tools disagree, and several calls flip with a 1 mm edge shift.",
   "visits": 9
  },
  {
+  "id": "Patient-078_week-001",
   "patient": "Patient-078",
+  "group": "illustrative",
   "why": "Long follow-up: HD-GLIO-AUTO calls PD throughout, DeepBraTumIA mostly SD.",
   "visits": 16
+ },
+ {
+  "id": "Patient-067_week-019-2",
+  "patient": "Patient-067",
+  "group": "random",
+  "why": "Random sample (seed 20261011) from 81 other analysed series; not chosen by outcome.",
+  "visits": 4
+ },
+ {
+  "id": "Patient-045_week-000-2",
+  "patient": "Patient-045",
+  "group": "random",
+  "why": "Random sample (seed 20261011) from 81 other analysed series; not chosen by outcome.",
+  "visits": 3
+ },
+ {
+  "id": "Patient-067_week-059",
+  "patient": "Patient-067",
+  "group": "random",
+  "why": "Random sample (seed 20261011) from 81 other analysed series; not chosen by outcome.",
+  "visits": 11
+ },
+ {
+  "id": "Patient-043_week-070",
+  "patient": "Patient-043",
+  "group": "random",
+  "why": "Random sample (seed 20261011) from 81 other analysed series; not chosen by outcome.",
+  "visits": 4
+ },
+ {
+  "id": "Patient-034_week-044",
+  "patient": "Patient-034",
+  "group": "random",
+  "why": "Random sample (seed 20261011) from 81 other analysed series; not chosen by outcome.",
+  "visits": 2
+ },
+ {
+  "id": "Patient-006_week-001",
+  "patient": "Patient-006",
+  "group": "random",
+  "why": "Random sample (seed 20261011) from 81 other analysed series; not chosen by outcome.",
+  "visits": 9
+ },
+ {
+  "id": "Patient-004_week-041",
+  "patient": "Patient-004",
+  "group": "random",
+  "why": "Random sample (seed 20261011) from 81 other analysed series; not chosen by outcome.",
+  "visits": 4
+ },
+ {
+  "id": "Patient-046_week-001",
+  "patient": "Patient-046",
+  "group": "random",
+  "why": "Random sample (seed 20261011) from 81 other analysed series; not chosen by outcome.",
+  "visits": 3
+ },
+ {
+  "id": "Patient-066_week-001",
+  "patient": "Patient-066",
+  "group": "random",
+  "why": "Random sample (seed 20261011) from 81 other analysed series; not chosen by outcome.",
+  "visits": 4
+ },
+ {
+  "id": "Patient-004_week-000-2",
+  "patient": "Patient-004",
+  "group": "random",
+  "why": "Random sample (seed 20261011) from 81 other analysed series; not chosen by outcome.",
+  "visits": 3
  }
 ]

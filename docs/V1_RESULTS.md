@@ -1,42 +1,58 @@
 # TumorLens v1 results: LUMIERE (descriptive)
 
-Date: 2026-10-11. Rules: [`PREREGISTRATION.md`](../PREREGISTRATION.md), plan of 2026-10-10 plus the dated deviations of 2026-10-11, all committed before any automated measurement was computed (commits 21dbedf and 2b9a1db precede the results commit). Numbers: [`reports/v1/v1_results.json`](../reports/v1/v1_results.json); tables generated from it: [`reports/v1/v1_tables.md`](../reports/v1/v1_tables.md). Patient-level measurements stay local and are not published.
+Updated 2026-10-12 after an independent review. Rules: [`PREREGISTRATION.md`](../PREREGISTRATION.md): the plan of 2026-10-10 and dated deviations. Analyses 1 to 3 were fixed before any automated measurement (commits 21dbedf, 2b9a1db); exploratory analysis 4 and the post hoc sensitivity analyses were fixed before they were run (92c659d). Numbers: [`reports/v1/v1_results.json`](../reports/v1/v1_results.json) and the generated [`v1_tables.md`](../reports/v1/v1_tables.md); pixel-centre sensitivity in [`v1_results_pixel_centre.json`](../reports/v1/v1_results_pixel_centre.json) and [`v1_tables_pixel_centre.md`](../reports/v1/v1_tables_pixel_centre.md); run record in [`manifest.json`](../reports/v1/manifest.json). Patient-level measurements stay local.
+
+## What this study is, and is not
+
+It measures how **measurement-driven response calls**, made from two released segmentations with fixed study rules, depend on measurement conventions and on a **uniform boundary offset**. It is not a validation of automated clinical response assessment. The calls ignore confirmation scans, steroids, clinical status and non-enhancing disease. The baseline is the study's post-operative baseline (the expert's "Post-Op" scan), not necessarily the clinical RANO baseline. The expert is a comparator, not a perfect reference standard.
 
 ## What was done
 
-Both released segmentations (DeepBraTumIA, HD-GLIO-AUTO) were measured on every LUMIERE visit folder: 638 folders, 599 with readable masks for each tool. Each enhancing mask was measured the RANO way (largest 3D lesion, its largest slice, longest diameter and longest perpendicular) at 13 boundary offsets from -3 to +3 mm. No model was trained or run; the masks ship with the dataset.
+Both released segmentations (DeepBraTumIA, HD-GLIO-AUTO) were measured on every LUMIERE visit folder: 638 folders, 599 with readable masks per tool. Each enhancing mask was measured on its largest 3D lesion, on that lesion's largest slice, as longest diameter times longest perpendicular. This was repeated at 13 uniform boundary offsets from -3 to +3 mm, with lesion selection, measurability, nadir and call recomputed at every offset. No model was trained or run.
 
-## Headline findings
+## Findings
 
-1. **The expert-measured visits are almost all progression.** 110 visits from 49 patients carry an expert bidimensional measurement: 106 PD, 4 PR, no SD or CR. Every agreement number below describes progression scans, not response assessment in general.
-2. **Automated SPD runs larger than the expert's.** Median automated/expert ratio 1.38 (95% CI 1.31 to 1.49) for DeepBraTumIA and 1.35 (1.22 to 1.44) for HD-GLIO-AUTO on 102 visits. Limits of agreement are wide (about -1,600 to +2,500 mm²). When the expert summed several lesions and v1 measured one, the ratio falls below 1 (0.81 and 0.91, n = 15).
-3. **Direction agreement is in the range Suter et al. reported.** On 43 consecutive expert-measured pairs (17 patients), HD-GLIO-AUTO volume agrees with the expert's direction of change in 83.7% (72.2 to 97.0), against 81.1% in Suter et al. 2023. DeepBraTumIA volume: 79.1% (67.3 to 94.1). The preregistered change-from-nadir version: 88.4% (HD-GLIO-AUTO) and 81.4% (DeepBraTumIA). Intervals are wide because there are only 17 patients.
-4. **Automated calls are fragile to where the edge is drawn.** Moving every boundary in a series by the same 1 mm changes 17.1% (12.4 to 22.7) of HD-GLIO-AUTO calls and 28.3% (22.2 to 33.9) of DeepBraTumIA calls; within 2 mm, 37.7% and 54.6%.
-5. **The tools often see no enhancing tumour where the expert called progression.** Of 222 expert-PD follow-ups with a readable mask, HD-GLIO-AUTO found no enhancing voxel (automated CR) in 36 and DeepBraTumIA in 16. This is descriptive, not a preregistered analysis.
-6. **Two problems in the released files.** The DeepBraTumIA feature table names label 1 "Necrosis" and label 2 "Contrast-enhancing"; the tool's own volume file and the contrast signal show the reverse ([label check](LABEL_VERIFICATION.md)). And for the 514 visits whose CT1 is stored in PIR orientation, the native-space HD-GLIO-AUTO mask is rotated 180 degrees in plane relative to CT1 (median Dice with DeepBraTumIA 0.00 as stored, 0.74 after the rotation; [`reports/v1/mask_alignment.json`](../reports/v1/mask_alignment.json)). The rotation was found after the results; it changes no number above, because each tool is measured on its own grid, but it matters for any overlay or voxelwise comparison.
+Intervals are 95% patient-level bootstrap intervals (10,000 resamples).
 
-Full tables: [`reports/v1/v1_tables.md`](../reports/v1/v1_tables.md).
+1. **The expert-measured visits are almost all progression.** 110 visits from 49 patients carry an expert bidimensional measurement: 106 PD and 4 PR. Analyses 1 and 2 describe progression scans. Analyses 3 and 4 use a different population: 350 follow-up calls per tool in 99 series from 73 patients (222 expert PD, 128 non-PD). The two sets should not be combined into one claim.
+2. **Automated SPD was higher than the expert's under the study's measurement conventions.** The median automated/expert ratio was 1.38 (1.31 to 1.49) for DeepBraTumIA and 1.35 (1.22 to 1.44) for HD-GLIO-AUTO, on 102 visits. With the pixel-centre convention (post hoc) it was 1.24 (1.16 to 1.34) and 1.20 (1.07 to 1.34). Competing explanations are not separated: outline convention, the convex hull bridging cavities, one automated lesion against the expert's sum (ratio 0.81 and 0.91 at the 15 multi-lesion visits), and segmentation differences. Limits of agreement are wide, about -1,600 to +2,500 mm².
+3. **Direction agreement was numerically similar to Suter et al. 2023.** HD-GLIO-AUTO volume moved in the expert's direction in 83.7% (72.2 to 97.0) of 43 consecutive pairs from 17 patients; Suter et al. reported 81.1%. DeepBraTumIA: 79.1% (67.3 to 94.1). This is not a replication or an equivalence result. Suter et al. used BraTumIA and more expert time points, and 17 patients give wide intervals. 4 of 43 pairs had no change in the expert's measurement.
+4. **Automated calls were sensitive to uniform boundary offsets.** A 1 mm offset changed 17.1% (12.4 to 22.7) of HD-GLIO-AUTO calls and 28.3% (22.2 to 33.9) of DeepBraTumIA calls; within 2 mm, 37.7% and 54.6%. 163 and 106 calls did not change within 3 mm; these are censored, not "3 mm". The pixel-centre convention gives 18.9% and 30.6% at 1 mm. A uniform offset is a constrained experiment. It is not a model of real segmentation error, which varies across the outline and between scans.
+5. **Exploratory analysis 4: fragility weakly discriminated disagreement with the expert call.** The fragility score (minus the flip offset) gave AUROC 0.60 (0.54 to 0.67) for HD-GLIO-AUTO and 0.65 (0.58 to 0.71) for DeepBraTumIA. Tool-vs-tool disagreement gave 0.54 (0.49 to 0.59) and 0.59 (0.53 to 0.64). Excluding calls whose rationale documents T2/FLAIR progression or a new lesion (191 calls, 57 patients), the fragility score gave 0.73 for both tools. That subset is smaller and selected, so it does not show the primary analysis was wrong. Disagreement with the expert mixes measurement error with clinical judgement, so no claim about segmentation error follows. No bootstrap resample was undefined.
+6. **Absence of enhancing voxels, not absence of tumour.** At 222 expert-PD follow-ups, the HD-GLIO-AUTO mask had no enhancing voxels at 36 and DeepBraTumIA at 16 (descriptive). Expert PD can rest on new lesions, T2/FLAIR progression or clinical grounds, so this does not by itself show that the tools missed enhancing tumour.
+7. **Two discrepancies in the released files.** In the released DeepBraTumIA feature table, the names of labels 1 and 2 conflict with the tool's own volume file (60/60 visits) and with the contrast signal (501/529 visits); v1 uses label 1 as enhancing ([label check](LABEL_VERIFICATION.md)). The native-space HD-GLIO-AUTO masks for PIR-stored scans are rotated 180 degrees in plane relative to CT1 ([`mask_alignment.json`](../reports/v1/mask_alignment.json)). Recomputing 25 sampled PIR visits with the rotation undone gave identical measurements, to 1e-14 ([`pir_invariance.json`](../reports/v1/pir_invariance.json)). The rotation matters for overlays and voxelwise comparison, not for v1's per-tool measurements.
 
-## How to read these numbers
+## Checks behind the numbers
 
-- **Not an exact replication of Suter et al.** They used BraTumIA (not DeepBraTumIA) and had expert measurements at more time points than the released rating sheet carries. v1 uses their method (sign of change between consecutive measured follow-ups, automated volume against expert SPD) on the subset the release supports.
-- **Part of the size excess is the measuring convention.** v1 measures the outline through pixel corners. On disc phantoms at 1 mm pixels this inflates SPD by 9 to 14 percent for 12 to 30 mm lesions (4 to 9 percent at 0.5 mm). The convex hull of a lesion also spans any cavity inside an enhancing rim, which a reader would not measure. Neither was corrected after seeing results.
-- **The 0.5 mm offset is below the voxel size.** Most masks are on 1 mm grids, where a 0.5 mm grow or shrink changes no voxel. The near-zero flip share at 0.5 mm reflects that, not stability. The first real step is 1 mm (one voxel layer).
-- **Calls are measurement-driven.** No confirmation scans, steroids, clinical status or non-enhancing disease. The baseline is the expert's post-operative scan, not a post-radiotherapy scan, and a post-operative baseline with no measurable disease makes any later measurable lesion PD. Those rules are in the preregistration and add to fragility.
-- **Agreement between automated and expert calls was not a planned analysis** and is shown only as context. Analysis 4 (does fragility flag disagreement with the expert) was not run: 110 measured visits, almost all PD, cannot support it.
+- **Expert measurements.** All 110 rationale strings were read by hand against the parsed pairs, and 110 of 110 were transcribed correctly. 6 rows are flagged by meaning: 1 measures a non-target lesion, and 5 say the target lesion became non-measurable while still giving its dimensions. Without them (post hoc), the ratios are 1.38 and 1.32, and consecutive volume agreement is 86.8% (DeepBraTumIA) and 92.1% (HD-GLIO-AUTO) on 38 pairs.
+- **Call rules.** A 15-case transition table (zero baseline, zero nadir, exact thresholds, non-measurable residual, nadir from all earlier scans, PD before PR) is in `tests/test_call_rules.py`. A mask-level test confirms that the flip offset reruns the whole pipeline. 74 tests pass.
+- **Reproduction.** A fresh clone of commit aa3e822 rebuilt the audit, both measurement tables and all four result files, and every file was byte-identical to the committed versions.
+- **Labels.** These were checked three ways before analysis ([label check](LABEL_VERIFICATION.md)).
 
 ## Limits
 
-One centre (Bern), 91 patients, 2008 to 2013. The expert measurement is free text parsed by a pattern (all 110 rows parsed). One automated lesion per visit, while 17 expert visits sum several. DeepBraTumIA was trained on pre-operative scans. Bootstrap intervals resample patients (10,000 resamples) but do not account for the choice of measured set.
+- One centre (Bern), 91 patients, 2008 to 2013.
+- The expert measurement is free text.
+- v1 measures one automated lesion per visit, while 17 expert visits sum several.
+- The pixel-corner and pixel-centre conventions differ by about one pixel per diameter. Neither is a strict bound, and neither fixes the convex hull across cavities.
+- The 0.5 mm offset is below most voxel sizes, so the first effective step is 1 mm.
+- The zero-nadir rule (any measurable lesion after a non-measurable nadir is PD) is a study convention that adds to sensitivity.
+- DeepBraTumIA was trained on pre-operative scans.
+- Bootstrap intervals resample patients but do not account for how the measured set was selected; with 17 patients in analysis 2 they are unstable.
 
 ## Reproduce
 
 ```bash
+python -m tumorlens lumiere-audit --ratings data/raw/lumiere/LUMIERE-ExpertRating-v202211.csv \
+  --completeness data/raw/lumiere/LUMIERE-datacompleteness.csv --imaging-root data/raw/lumiere/Imaging --out results/lumiere-audit
 python scripts/verify_labels.py data/raw/lumiere reports/v1/label_check.json
 python scripts/run_v1_measure.py data/raw/lumiere/Imaging results/v1/measurements.csv --workers 4
+python scripts/run_v1_measure.py data/raw/lumiere/Imaging results/v1/measurements_centre.csv --workers 4 --convention centre
 python scripts/run_v1_analysis.py results/v1/measurements.csv data/raw/lumiere results/lumiere-audit reports/v1
+python scripts/run_v1_analysis.py results/v1/measurements_centre.csv data/raw/lumiere results/lumiere-audit reports/v1 --label pixel_centre
 python scripts/check_mask_alignment.py data/raw/lumiere/Imaging reports/v1/mask_alignment.json
+python scripts/check_pir_invariance.py data/raw/lumiere/Imaging results/v1/measurements.csv reports/v1/pir_invariance.json
 python scripts/build_viewer_cases.py data/raw/lumiere results/v1/measurements.csv docs/cases
 ```
 
-On Windows set `OPENBLAS_NUM_THREADS=1` for the measurement step. The audit folder comes from `tumorlens audit` (see `docs/INITIAL_DATA_AUDIT.md`).
+On Windows, set `OPENBLAS_NUM_THREADS=1` for the measurement steps.

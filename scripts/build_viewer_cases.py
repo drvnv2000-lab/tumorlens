@@ -4,13 +4,14 @@ LUMIERE may only be used for non-commercial purposes (Suter et al., Sci Data 202
 written here are derived from it, carry that condition, and are not covered by the repository's
 MIT licence. Only 2D slices at the measured level are exported, no volumes.
 
-Usage: python scripts/build_viewer_cases.py LUMIERE_ROOT MEASUREMENTS_CSV OUT_DIR
+Usage: python scripts/build_viewer_cases.py LUMIERE_ROOT MEASUREMENTS_CSV OUT_DIR [--audit AUDIT_DIR]
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import random
 import sys
 from pathlib import Path
 
@@ -37,6 +38,8 @@ CASES = [
     ("Patient-078", "week-001", "Long follow-up: HD-GLIO-AUTO calls PD throughout, DeepBraTumIA mostly SD."),
 ]
 MAX_PX = 320
+N_RANDOM = 10  # plus a seeded random sample of other analysed series (deviation 2026-10-11)
+RANDOM_SEED = 20261011
 
 
 def calipers(mask2d: np.ndarray, rs: float, cs: float) -> dict | None:
@@ -81,16 +84,32 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("root", type=Path)
     ap.add_argument("measurements", type=Path)
     ap.add_argument("out", type=Path)
+    ap.add_argument("--audit", type=Path, default=Path("results/lumiere-audit"))
     a = ap.parse_args(argv)
     meas, _ = analysis.load_measurements(a.measurements)
     ratings = read_csv(a.root / "LUMIERE-ExpertRating-v202211.csv")
     rationale = {(r["Patient"], r["Date"]): r[RATIONALE_COLUMN] for r in ratings}
+    folders = {(d.parent.name, d.name) for d in (a.root / "Imaging").glob("Patient-*/week-*") if d.is_dir()}
+    collisions = {(r["patient_id"], r["visit_id"]) for r in read_csv(a.audit / "rating_key_collisions.csv")}
+    rows_by_patient: dict[str, list] = {}
+    for r in ratings:  # same series construction as the analysis
+        if (r["Patient"], r["Date"]) in collisions or (r["Patient"], r["Date"]) not in folders:
+            continue
+        rows_by_patient.setdefault(r["Patient"], []).append((week_key(r["Date"]), r["Date"], r[RATING_COLUMN].strip()))
+    all_series = {(p, s[0][0]): s for p, rows in rows_by_patient.items() for s in build_series(sorted(rows))}
+    eligible = sorted(k for k, s in all_series.items()
+                      if all((t, k[0], v) in meas for t in TOOLS for v, _ in s))
+    shown = {(p, b) for p, b, _ in CASES}
+    drawn = random.Random(RANDOM_SEED).sample([k for k in eligible if k not in shown], N_RANDOM)
+    chosen = [(p, b, why, "illustrative") for p, b, why in CASES] + [
+        (p, b, (f"Random sample (seed {RANDOM_SEED}) from {len(eligible) - len(shown)} other analysed series; "
+               "not chosen by outcome."), "random") for p, b in drawn]
     a.out.mkdir(parents=True, exist_ok=True)
     index = []
-    for patient, base, why in CASES:
-        rows = sorted((week_key(r["Date"]), r["Date"], r[RATING_COLUMN].strip()) for r in ratings if r["Patient"] == patient)
-        series = next(s for s in build_series(rows) if s[0][0] == base)
-        cdir = a.out / patient
+    for patient, base, why, group in chosen:
+        series = all_series[(patient, base)]
+        case_id = f"{patient}_{base}"
+        cdir = a.out / case_id
         cdir.mkdir(exist_ok=True)
         tools = {}
         for t in TOOLS:
@@ -169,9 +188,9 @@ def main(argv: list[str] | None = None) -> int:
                               "volume_ml": round(m0[t]["volume"] / 1000, 2),
                               "calipers_on_this_slice": cal.get(t)} for t in TOOLS},
             })
-        case = {"patient": patient, "why": why, "visits": visits, "tools": tools}
+        case = {"id": case_id, "patient": patient, "group": group, "why": why, "visits": visits, "tools": tools}
         (cdir / "case.json").write_text(json.dumps(case), encoding="utf-8")
-        index.append({"patient": patient, "why": why, "visits": len(visits)})
+        index.append({"id": case_id, "patient": patient, "group": group, "why": why, "visits": len(visits)})
         print(patient, len(visits), "visits")
     (a.out / "index.json").write_text(json.dumps(index, indent=1), encoding="utf-8")
     (a.out / "DATA-LICENCE.md").write_text(
