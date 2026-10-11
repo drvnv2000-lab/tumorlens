@@ -1,7 +1,7 @@
 {
   "label": "pixel_centre",
-  "code_commit": "92c659db2449f68fbc19257f481e6c340eb0fb9d+uncommitted-changes",
-  "command": "scripts/run_v1_analysis.py results/v1/measurements_centre.csv data/raw/lumiere results/lumiere-audit reports/v1 --label pixel_centre",
+  "code_commit": "165e7770ab07544e82639b208b27b31ac7704e8b",
+  "command": "scripts/run_v1_analysis.py <measurements> <lumiere_root> <audit_dir> <out_dir> --n-boot 10000 --label pixel_centre",
   "python": "3.12.10",
   "numpy": "2.5.3",
   "seed": 20261011,
