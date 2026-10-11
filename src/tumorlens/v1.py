@@ -222,3 +222,24 @@ def expert_row_flags(text: str) -> dict[str, bool]:
     """Meaning flags from the hand audit of the expert-measurement rows (2026-10-11)."""
     return {"non_target_only": bool(_NON_TARGET_ONLY.match(text or "")),
             "target_became_non_measurable": bool(_TARGET_TO_NM.search(text or ""))}
+
+
+def repeated_measures_loa(diffs_by_patient: dict[str, list[float]]) -> dict:
+    """Bland-Altman limits for repeated measurements, true value varying, unequal visits per
+    patient (Bland and Altman 2007, Stat Methods Med Res 16:571, section 5.2)."""
+    groups = [np.asarray(v, float) for v in diffs_by_patient.values() if len(v)]
+    n = len(groups)
+    m = np.array([len(g) for g in groups])
+    big_n = int(m.sum())
+    if n < 2 or big_n <= n:
+        return {"mean": math.nan, "sd": math.nan, "lower": math.nan, "upper": math.nan}
+    allv = np.concatenate(groups)
+    grand = allv.mean()
+    ss_w = sum(((g - g.mean()) ** 2).sum() for g in groups)
+    ss_b = sum(len(g) * (g.mean() - grand) ** 2 for g in groups)
+    ms_w = ss_w / (big_n - n)
+    ms_b = ss_b / (n - 1)
+    divisor = (big_n**2 - (m**2).sum()) / ((n - 1) * big_n)
+    var_b = max(0.0, (ms_b - ms_w) / divisor)
+    sd = math.sqrt(var_b + ms_w)
+    return {"mean": float(grand), "sd": sd, "lower": float(grand - 1.96 * sd), "upper": float(grand + 1.96 * sd)}

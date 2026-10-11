@@ -38,6 +38,7 @@ from tumorlens.v1 import (
     direction_pairs_nadir,
     expert_row_flags,
     parse_expert_spd,
+    repeated_measures_loa,
     spd_for_call,
     week_key,
 )
@@ -124,7 +125,33 @@ def analysis1(visits, expert, meas, n_boot) -> dict:
                 "lower_limit": bootstrap(diffs, loa(-1), n_boot),
                 "upper_limit": bootstrap(diffs, loa(+1), n_boot),
             },
+            "bland_altman_mm2_repeated_measures_post_hoc": rm_loa_bootstrap(
+                {p: [a - e for a, e in xs] for p, xs in diffs.items()}, n_boot),
         }
+    return out
+
+
+def rm_loa_bootstrap(diffs: dict[str, list[float]], n_boot: int) -> dict:
+    """Repeated-measures limits (post hoc, deviation 2026-10-12) with a patient bootstrap in
+    which a patient drawn twice counts as two patients."""
+    point = repeated_measures_loa(diffs)
+    keys = sorted(diffs)
+    rng = np.random.default_rng(SEED)
+    draws = {"lower": [], "upper": [], "sd": []}
+    undefined = 0
+    for _ in range(n_boot):
+        pick = rng.integers(0, len(keys), len(keys))
+        r = repeated_measures_loa({f"{j}": diffs[keys[i]] for j, i in enumerate(pick)})
+        if not np.isfinite(r["sd"]):
+            undefined += 1
+            continue
+        for k, vals in draws.items():
+            vals.append(r[k])
+    out = {"status": "post hoc", "mean_difference": round(point["mean"], 3)}
+    for k, v in draws.items():
+        lo, hi = np.percentile(v, [2.5, 97.5]) if v else (float("nan"), float("nan"))
+        out[k] = {"estimate": round(point[k], 3), "ci95": [round(float(lo), 3), round(float(hi), 3)]}
+    out["undefined_resamples"] = undefined
     return out
 
 
@@ -134,6 +161,9 @@ def analysis2(series_by_patient, expert, meas, n_boot) -> dict:
         nadir: dict[str, list[bool]] = defaultdict(list)
         cons_vol: dict[str, list[bool]] = defaultdict(list)
         cons_spd: dict[str, list[bool]] = defaultdict(list)
+        nadir_m: dict[str, list[bool]] = defaultdict(list)
+        cons_m: dict[str, list[bool]] = defaultdict(list)
+        affected = 0
         ties = Counter()
         for p, series in series_by_patient.items():
             for s in series:  # pairs never cross series
@@ -148,6 +178,10 @@ def analysis2(series_by_patient, expert, meas, n_boot) -> dict:
                 nadir[p] += direction_pairs_nadir(e, a_spd)
                 cons_vol[p] += direction_pairs_consecutive(e, a_vol)
                 cons_spd[p] += direction_pairs_consecutive(e, a_spd)
+                m_spd = [spd_for_call(x[1]["d1"], x[1]["d2"]) for x in pts]
+                nadir_m[p] += direction_pairs_nadir(e, m_spd)
+                cons_m[p] += direction_pairs_consecutive(e, m_spd)
+                affected += sum(a != b for a, b in zip(a_spd, m_spd))
                 for i in range(1, len(pts)):
                     ties["expert_change_zero"] += int(e[i] == e[i - 1])
                     ties["auto_volume_change_zero"] += int(a_vol[i] == a_vol[i - 1])
@@ -162,6 +196,11 @@ def analysis2(series_by_patient, expert, meas, n_boot) -> dict:
             "suter_matched_consecutive_volume": block(cons_vol),
             "suter_matched_consecutive_spd": block(cons_spd),
             "consecutive_pairs_with_zero_change": dict(ties),
+            "sensitivity_measurable_spd_post_hoc": {
+                "visits_where_measurability_rule_changes_spd": affected,
+                "change_from_nadir_spd": block(nadir_m),
+                "consecutive_spd": block(cons_m),
+            },
         }
     return out
 
@@ -358,6 +397,22 @@ def render_tables(r: dict) -> str:
         x1, x2 = s["analysis1"][t], s["analysis2"][t]["suter_matched_consecutive_volume"]
         lines.append(f"| {NAMES[t]} | {x1['analysed_visits']} | {fmt(x1['ratio_auto_over_expert_median'])} | "
                      f"{x2['pairs']} | {fmt(x2['agreement'], True)} |")
+    lines += ["", "### Post hoc: Bland-Altman limits for repeated measurements (Bland and Altman 2007)", "",
+              "| Tool | Mean difference, mm² | Pooled limits (primary) | Repeated-measures limits (95% CI of each) |",
+              "|---|---|---|---|"]
+    for t, x in a1.items():
+        rm, ba = x["bland_altman_mm2_repeated_measures_post_hoc"], x["bland_altman_mm2"]
+        lines.append(f"| {NAMES[t]} | {rm['mean_difference']:.0f} | {ba['lower_limit']['estimate']:.0f} to "
+                     f"{ba['upper_limit']['estimate']:.0f} | {rm['lower']['estimate']:.0f} "
+                     f"({rm['lower']['ci95'][0]:.0f} to {rm['lower']['ci95'][1]:.0f}) to "
+                     f"{rm['upper']['estimate']:.0f} ({rm['upper']['ci95'][0]:.0f} to {rm['upper']['ci95'][1]:.0f}) |")
+    lines += ["", "### Post hoc: analysis 2 with automated SPD set to 0 when a diameter is under 10 mm", "",
+              "| Tool | Visits changed by the rule | Change from nadir, SPD | Consecutive, SPD |", "|---|---|---|---|"]
+    for t, x in a2.items():
+        m = x["sensitivity_measurable_spd_post_hoc"]
+        lines.append(f"| {NAMES[t]} | {m['visits_where_measurability_rule_changes_spd']} | "
+                     f"{fmt(m['change_from_nadir_spd']['agreement'], True)} | "
+                     f"{fmt(m['consecutive_spd']['agreement'], True)} |")
     return "\n".join(lines) + "\n"
 
 

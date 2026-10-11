@@ -51,5 +51,32 @@
     },
     "most_enhancing_label": 2,
     "share_of_visits_where_it_enhances_most": 1.0
+  },
+  "native_ct1_masks": {
+    "visits_used": 60,
+    "deepbratumia_native_volume_over_named_volume_median": {
+      "1 (Enhancing_Core)": 1.0,
+      "2 (Necrotic_NonEnhancing)": 1.0,
+      "3 (Edema_Compartment)": 1.0
+    },
+    "median_ct1_relative_to_brain_median": {
+      "deepbratumia": {
+        "1": 1.466,
+        "2": 0.778,
+        "3": 0.999
+      },
+      "hd_glio_auto": {
+        "1": 0.99,
+        "2": 1.489
+      }
+    },
+    "enhancing_label_brightest_on_ct1": {
+      "deepbratumia": "53 of 54",
+      "hd_glio_auto": "48 of 48"
+    },
+    "enhancing_label_tested": {
+      "deepbratumia": 1,
+      "hd_glio_auto": 2
+    }
   }
 }

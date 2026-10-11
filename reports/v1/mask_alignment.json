@@ -18,5 +18,18 @@
     "RAS": 1
   },
   "median_dice_stored": 0.0,
-  "median_dice_best": 0.735
+  "median_dice_best": 0.735,
+  "pir_per_case": {
+    "confirmed_flip01_dice_gain_ge_0.1": 507,
+    "consistent_flip01_dice_gain_lt_0.1": 6,
+    "undetermined_or_other": 1
+  },
+  "non_pir_with_a_better_flip": [
+    {
+      "ct1_axcodes": "RAS",
+      "best_flip": "0",
+      "dice_stored": 0.249,
+      "dice_best": 0.405
+    }
+  ]
 }

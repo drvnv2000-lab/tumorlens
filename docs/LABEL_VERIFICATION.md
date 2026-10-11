@@ -12,3 +12,11 @@ The analysis plan requires the contrast-enhancing label of each segmentation too
 Method of the signal check: for each visit in the released pyradiomics tables, the median intensity inside each label on post-contrast T1 divided by the median on pre-contrast T1 (atlas or reference space as released). Enhancing tissue brightens after gadolinium, so its ratio is above 1.
 
 Limits: DeepBraTumIA evidence is its own output file plus signal behaviour, not a published specification. The volume-file check used a random sample of 60 visits (seed 0).
+
+## Native CT1-space masks (added 2026-10-12)
+
+The checks above use the atlas-space DeepBraTumIA map and the released atlas-space features. v1 measures the native CT1-space masks, so the same 60 sampled visits were checked on those directly (`native_ct1_masks` in [`label_check.json`](../reports/v1/label_check.json)):
+
+- The native DeepBraTumIA label volumes match DeepBraTumIA's named volumes (median ratio 1.00 for labels 1, 2 and 3).
+- Median CT1 intensity relative to the brain median, on the CT1 grid: DeepBraTumIA label 1 1.47, label 2 0.78, label 3 1.00; HD-GLIO-AUTO label 2 1.49, label 1 0.99.
+- The enhancing label is the brightest on CT1 in 53 of 54 visits for DeepBraTumIA (label 1) and 48 of 48 for HD-GLIO-AUTO (label 2). Visits with fewer than 20 voxels in a label are skipped, and HD-GLIO-AUTO masks of PIR-stored scans are rotated back first.

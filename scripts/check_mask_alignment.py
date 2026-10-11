@@ -82,6 +82,20 @@ def main(argv: list[str] | None = None) -> int:
         "median_dice_stored": float(np.median([r["dice_stored"] for r in ok])),
         "median_dice_best": float(np.median([r["dice_best"] for r in ok])),
     }
+    # Per-case split for PIR-stored CT1 (added 2026-10-12; see PREREGISTRATION.md)
+    pir = [r for r in ok if r["ct1_axcodes"] == "PIR"]
+
+    def pir_class(r):
+        if r["best_flip"] == "01" and r["dice_best"] >= r["dice_stored"] + 0.1:
+            return "confirmed_flip01_dice_gain_ge_0.1"
+        if r["best_flip"] == "01":
+            return "consistent_flip01_dice_gain_lt_0.1"
+        return "undetermined_or_other"
+    summary["pir_per_case"] = dict(Counter(pir_class(r) for r in pir))
+    summary["non_pir_with_a_better_flip"] = [
+        {"ct1_axcodes": r["ct1_axcodes"], "best_flip": r["best_flip"],
+         "dice_stored": r["dice_stored"], "dice_best": r["dice_best"]}
+        for r in ok if r["ct1_axcodes"] != "PIR" and r["best_flip"] != "none"]
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(summary, indent=2), encoding="utf-8")
     if a.details:

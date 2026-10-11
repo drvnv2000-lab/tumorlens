@@ -77,6 +77,32 @@
           ],
           "undefined_resamples": 0
         }
+      },
+      "bland_altman_mm2_repeated_measures_post_hoc": {
+        "status": "post hoc",
+        "mean_difference": 448.507,
+        "lower": {
+          "estimate": -1622.653,
+          "ci95": [
+            -2081.655,
+            -1096.933
+          ]
+        },
+        "upper": {
+          "estimate": 2519.667,
+          "ci95": [
+            1769.618,
+            3293.26
+          ]
+        },
+        "sd": {
+          "estimate": 1056.714,
+          "ci95": [
+            748.076,
+            1350.048
+          ]
+        },
+        "undefined_resamples": 0
       }
     },
     "hd_glio_auto": {
@@ -132,6 +158,32 @@
           ],
           "undefined_resamples": 0
         }
+      },
+      "bland_altman_mm2_repeated_measures_post_hoc": {
+        "status": "post hoc",
+        "mean_difference": 286.258,
+        "lower": {
+          "estimate": -1449.843,
+          "ci95": [
+            -1886.124,
+            -974.632
+          ]
+        },
+        "upper": {
+          "estimate": 2022.359,
+          "ci95": [
+            1482.987,
+            2615.279
+          ]
+        },
+        "sd": {
+          "estimate": 885.766,
+          "ci95": [
+            650.308,
+            1117.796
+          ]
+        },
+        "undefined_resamples": 0
       }
     }
   },
@@ -177,6 +229,33 @@
         "expert_change_zero": 4,
         "auto_volume_change_zero": 0,
         "auto_spd_change_zero": 0
+      },
+      "sensitivity_measurable_spd_post_hoc": {
+        "visits_where_measurability_rule_changes_spd": 0,
+        "change_from_nadir_spd": {
+          "pairs": 43,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.814,
+            "ci95": [
+              0.7,
+              0.95
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "consecutive_spd": {
+          "pairs": 43,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.791,
+            "ci95": [
+              0.692,
+              0.909
+            ],
+            "undefined_resamples": 0
+          }
+        }
       }
     },
     "hd_glio_auto": {
@@ -220,6 +299,33 @@
         "expert_change_zero": 4,
         "auto_volume_change_zero": 0,
         "auto_spd_change_zero": 0
+      },
+      "sensitivity_measurable_spd_post_hoc": {
+        "visits_where_measurability_rule_changes_spd": 1,
+        "change_from_nadir_spd": {
+          "pairs": 43,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.884,
+            "ci95": [
+              0.781,
+              1.0
+            ],
+            "undefined_resamples": 0
+          }
+        },
+        "consecutive_spd": {
+          "pairs": 43,
+          "patients": 17,
+          "agreement": {
+            "estimate": 0.814,
+            "ci95": [
+              0.707,
+              0.943
+            ],
+            "undefined_resamples": 0
+          }
+        }
       }
     }
   },
@@ -557,6 +663,32 @@
             ],
             "undefined_resamples": 0
           }
+        },
+        "bland_altman_mm2_repeated_measures_post_hoc": {
+          "status": "post hoc",
+          "mean_difference": 470.25,
+          "lower": {
+            "estimate": -1655.137,
+            "ci95": [
+              -2118.729,
+              -1123.818
+            ]
+          },
+          "upper": {
+            "estimate": 2595.637,
+            "ci95": [
+              1847.311,
+              3343.781
+            ]
+          },
+          "sd": {
+            "estimate": 1084.381,
+            "ci95": [
+              774.917,
+              1375.159
+            ]
+          },
+          "undefined_resamples": 0
         }
       },
       "hd_glio_auto": {
@@ -612,6 +744,32 @@
             ],
             "undefined_resamples": 0
           }
+        },
+        "bland_altman_mm2_repeated_measures_post_hoc": {
+          "status": "post hoc",
+          "mean_difference": 297.167,
+          "lower": {
+            "estimate": -1488.165,
+            "ci95": [
+              -1926.894,
+              -1004.252
+            ]
+          },
+          "upper": {
+            "estimate": 2082.498,
+            "ci95": [
+              1541.746,
+              2649.745
+            ]
+          },
+          "sd": {
+            "estimate": 910.883,
+            "ci95": [
+              675.677,
+              1134.143
+            ]
+          },
+          "undefined_resamples": 0
         }
       }
     },
@@ -657,6 +815,33 @@
           "expert_change_zero": 1,
           "auto_volume_change_zero": 0,
           "auto_spd_change_zero": 0
+        },
+        "sensitivity_measurable_spd_post_hoc": {
+          "visits_where_measurability_rule_changes_spd": 0,
+          "change_from_nadir_spd": {
+            "pairs": 38,
+            "patients": 17,
+            "agreement": {
+              "estimate": 0.868,
+              "ci95": [
+                0.733,
+                1.0
+              ],
+              "undefined_resamples": 0
+            }
+          },
+          "consecutive_spd": {
+            "pairs": 38,
+            "patients": 17,
+            "agreement": {
+              "estimate": 0.842,
+              "ci95": [
+                0.725,
+                0.949
+              ],
+              "undefined_resamples": 0
+            }
+          }
         }
       },
       "hd_glio_auto": {
@@ -700,6 +885,33 @@
           "expert_change_zero": 1,
           "auto_volume_change_zero": 0,
           "auto_spd_change_zero": 0
+        },
+        "sensitivity_measurable_spd_post_hoc": {
+          "visits_where_measurability_rule_changes_spd": 1,
+          "change_from_nadir_spd": {
+            "pairs": 38,
+            "patients": 17,
+            "agreement": {
+              "estimate": 0.947,
+              "ci95": [
+                0.85,
+                1.0
+              ],
+              "undefined_resamples": 0
+            }
+          },
+          "consecutive_spd": {
+            "pairs": 38,
+            "patients": 17,
+            "agreement": {
+              "estimate": 0.895,
+              "ci95": [
+                0.821,
+                0.971
+              ],
+              "undefined_resamples": 0
+            }
+          }
         }
       }
     }

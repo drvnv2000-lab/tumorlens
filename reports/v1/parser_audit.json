@@ -1,0 +1,12 @@
+{
+  "rows_audited_by_hand": 110,
+  "transcription_correct": 110,
+  "rows_with_more_than_one_pair": 17,
+  "meaning_flags": {
+    "approximate": 1,
+    "non_target_only": 1,
+    "target_became_non_measurable": 5
+  },
+  "rows_excluded_in_post_hoc_flag_sensitivity": 6,
+  "note": "Patient-level table kept local (results/v1/expert_parser_audit.csv)."
+}

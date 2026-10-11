@@ -47,3 +47,17 @@ Run: primary. Expert-measured set: 110 visits, 49 patients, ratings PD 106, PR 4
 |---|---|---|---|---|
 | DeepBraTumIA | 96 | 1.38 (1.31 to 1.49) | 38 | 86.8% (75.6 to 97.2) |
 | HD-GLIO-AUTO | 96 | 1.32 (1.20 to 1.44) | 38 | 92.1% (85.3 to 100.0) |
+
+### Post hoc: Bland-Altman limits for repeated measurements (Bland and Altman 2007)
+
+| Tool | Mean difference, mm² | Pooled limits (primary) | Repeated-measures limits (95% CI of each) |
+|---|---|---|---|
+| DeepBraTumIA | 449 | -1611 to 2508 | -1623 (-2082 to -1097) to 2520 (1770 to 3293) |
+| HD-GLIO-AUTO | 286 | -1439 to 2012 | -1450 (-1886 to -975) to 2022 (1483 to 2615) |
+
+### Post hoc: analysis 2 with automated SPD set to 0 when a diameter is under 10 mm
+
+| Tool | Visits changed by the rule | Change from nadir, SPD | Consecutive, SPD |
+|---|---|---|---|
+| DeepBraTumIA | 0 | 81.4% (70.0 to 95.0) | 79.1% (69.2 to 90.9) |
+| HD-GLIO-AUTO | 1 | 88.4% (78.1 to 100.0) | 81.4% (70.7 to 94.3) |

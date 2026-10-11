@@ -125,3 +125,22 @@ def test_bootstrap_keeps_duplicated_patients():
 ])
 def test_expert_row_flags(text, nt, nm):
     assert v1.expert_row_flags(text) == {"non_target_only": nt, "target_became_non_measurable": nm}
+
+
+def test_repeated_measures_loa_matches_pooled_when_one_visit_each():
+    d = {f"p{i}": [x] for i, x in enumerate([1.0, 3.0, -2.0, 4.0, 0.5])}
+    d["q"] = [2.0, 2.5]  # one patient with two visits so the within term exists
+    r = v1.repeated_measures_loa(d)
+    flat = np.array([1.0, 3.0, -2.0, 4.0, 0.5, 2.0, 2.5])
+    assert r["mean"] == pytest.approx(flat.mean())
+    assert r["upper"] - r["lower"] == pytest.approx(2 * 1.96 * r["sd"])
+
+
+def test_repeated_measures_loa_widens_with_patient_clustering():
+    rng = np.random.default_rng(1)
+    d = {f"p{i}": list(rng.normal(rng.normal(0, 3), 0.5, size=4)) for i in range(40)}
+    r = v1.repeated_measures_loa(d)
+    flat = np.concatenate([np.asarray(v) for v in d.values()])
+    # total SD should be close to the pooled SD for balanced data with large between variance
+    assert r["sd"] == pytest.approx(flat.std(ddof=1), rel=0.1)
+    assert r["sd"] > 2.0
