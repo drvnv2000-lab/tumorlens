@@ -1,6 +1,6 @@
 [project]
 name = "tumorlens"
-version = "0.1.0"
+version = "1.0.0"
 description = "Reproducible feasibility and measurement utilities for longitudinal glioblastoma MRI research"
 requires-python = ">=3.10"
 dependencies = ["numpy", "scipy", "pandas", "nibabel", "matplotlib"]

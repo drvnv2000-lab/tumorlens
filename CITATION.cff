@@ -1,9 +1,9 @@
 cff-version: 1.2.0
 message: "If you use TumorLens, cite this software and the original LUMIERE data descriptor."
-title: "TumorLens: Boundary Fragility of Automated Glioblastoma Response Calls"
+title: "TumorLens: sensitivity of automated glioblastoma response calls to measurement conventions and boundary offsets"
 type: software
-version: 0.1.0
-date-released: 2026-10-11
+version: 1.0.0
+date-released: 2026-10-12
 license: MIT
 authors:
   - family-names: Vaidya
