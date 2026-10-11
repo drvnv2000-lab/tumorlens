@@ -1,0 +1,55 @@
+{
+  "deepbratumia_volume_json": {
+    "visits_sampled": 60,
+    "visits_with_all_three_labels_matched_uniquely": 60,
+    "label_to_named_volume_counts": {
+      "1": {
+        "Enhancing_Core": 60
+      },
+      "2": {
+        "Necrotic_NonEnhancing": 60
+      },
+      "3": {
+        "Edema_Compartment": 60
+      }
+    }
+  },
+  "deepbratumia_signal": {
+    "visits_with_all_labels": 529,
+    "released_label_names": {
+      "1": [
+        "Necrosis"
+      ],
+      "2": [
+        "Contrast-enhancing"
+      ],
+      "3": [
+        "Edema"
+      ]
+    },
+    "median_ct1_over_t1": {
+      "1": 1.643,
+      "2": 0.891,
+      "3": 0.908
+    },
+    "most_enhancing_label": 1,
+    "share_of_visits_where_it_enhances_most": 0.9471
+  },
+  "hd_glio_auto_signal": {
+    "visits_with_all_labels": 424,
+    "released_label_names": {
+      "1": [
+        "Non-enhancing"
+      ],
+      "2": [
+        "Contrast-enhancing"
+      ]
+    },
+    "median_ct1_over_t1": {
+      "1": 0.912,
+      "2": 1.699
+    },
+    "most_enhancing_label": 2,
+    "share_of_visits_where_it_enhances_most": 1.0
+  }
+}
