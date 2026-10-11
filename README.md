@@ -6,7 +6,7 @@ On 350 real follow-up calls per tool from the LUMIERE dataset, moving every tumo
 
 <p align="center"><a href="https://drvnv2000-lab.github.io/tumorlens/"><img src="docs/hero.png" alt="TumorLens: a glass brain with a tumour and an uncertainty aura" width="100%"></a></p>
 
-<p align="center"><a href="https://drvnv2000-lab.github.io/tumorlens/cases.html"><b>Five real cases</b></a> · <a href="https://drvnv2000-lab.github.io/tumorlens/"><b>Story and synthetic 3D walk-through</b></a> (laptop browser, WebGL2) · <a href="docs/V1_RESULTS.md"><b>Results</b></a></p>
+<p align="center"><a href="https://drvnv2000-lab.github.io/tumorlens/cases.html"><b>Five real cases</b></a> · <a href="https://drvnv2000-lab.github.io/tumorlens/"><b>Story and synthetic 3D walk-through</b></a> (laptop browser, WebGL2) · <a href="docs/V1_RESULTS.md"><b>Results</b></a> · <a href="https://drvnv2000-lab.github.io/tumorlens/tour.mp4"><b>60 s tour</b></a></p>
 
 ![CI](https://github.com/drvnv2000-lab/tumorlens/actions/workflows/ci.yml/badge.svg)
 
@@ -54,4 +54,4 @@ With LUMIERE in `data/raw/lumiere/`, the v1 pipeline is in [`docs/V1_RESULTS.md`
 
 ## Licence
 
-Code: MIT. Data: LUMIERE (Suter et al., Scientific Data 2022). Its data descriptor restricts use to non-commercial purposes, while the Figshare record lists CC0; TumorLens follows the stricter non-commercial reading. The case images and numbers in `docs/cases/` are derived from LUMIERE and are not covered by the MIT licence. Not a medical device; nothing here is clinical advice.
+Code: MIT. Data: LUMIERE (Suter et al., Scientific Data 2022). Its data descriptor restricts use to non-commercial purposes, while the Figshare record lists CC0; TumorLens follows the stricter non-commercial reading. The case images and numbers in `docs/cases/`, and the tour video `docs/tour.mp4`, are derived from LUMIERE and are not covered by the MIT licence. Not a medical device; nothing here is clinical advice.
