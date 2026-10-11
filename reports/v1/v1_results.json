@@ -1,0 +1,320 @@
+{
+  "plan": "PREREGISTRATION.md, deviation 2026-10-11 'analysis details fixed before any automated measurement is computed'",
+  "bootstrap": {
+    "resamples": 10000,
+    "unit": "patient",
+    "interval": "percentile 95%"
+  },
+  "measurement_status_counts": {
+    "deepbratumia|missing": 39,
+    "deepbratumia|ok": 599,
+    "hd_glio_auto|missing": 39,
+    "hd_glio_auto|ok": 599
+  },
+  "expert_measured_set": {
+    "visits": 110,
+    "patients": 49,
+    "expert_ratings": {
+      "PD": 106,
+      "PR": 4
+    },
+    "visits_with_more_than_one_expert_lesion": 17
+  },
+  "analysis1_measurement_agreement": {
+    "deepbratumia": {
+      "visits_in_set": 110,
+      "no_readable_mask": 7,
+      "no_enhancing_voxel": 1,
+      "analysed_visits": 102,
+      "analysed_patients": 48,
+      "automated_lesion_measurable": 102,
+      "ratio_auto_over_expert_median": {
+        "estimate": 1.383,
+        "ci95": [
+          1.306,
+          1.493
+        ]
+      },
+      "ratio_iqr": [
+        1.183,
+        2.135
+      ],
+      "ratio_median_single_expert_lesion": {
+        "n": 87,
+        "median": 1.403
+      },
+      "ratio_median_multiple_expert_lesions": {
+        "n": 15,
+        "median": 0.805
+      },
+      "bland_altman_mm2": {
+        "bias": {
+          "estimate": 448.507,
+          "ci95": [
+            218.085,
+            724.544
+          ]
+        },
+        "lower_limit": {
+          "estimate": -1610.736,
+          "ci95": [
+            -2067.131,
+            -1086.7
+          ]
+        },
+        "upper_limit": {
+          "estimate": 2507.75,
+          "ci95": [
+            1761.607,
+            3279.929
+          ]
+        }
+      }
+    },
+    "hd_glio_auto": {
+      "visits_in_set": 110,
+      "no_readable_mask": 7,
+      "no_enhancing_voxel": 1,
+      "analysed_visits": 102,
+      "analysed_patients": 48,
+      "automated_lesion_measurable": 101,
+      "ratio_auto_over_expert_median": {
+        "estimate": 1.348,
+        "ci95": [
+          1.224,
+          1.442
+        ]
+      },
+      "ratio_iqr": [
+        1.047,
+        1.864
+      ],
+      "ratio_median_single_expert_lesion": {
+        "n": 87,
+        "median": 1.378
+      },
+      "ratio_median_multiple_expert_lesions": {
+        "n": 15,
+        "median": 0.906
+      },
+      "bland_altman_mm2": {
+        "bias": {
+          "estimate": 286.258,
+          "ci95": [
+            67.703,
+            526.777
+          ]
+        },
+        "lower_limit": {
+          "estimate": -1439.341,
+          "ci95": [
+            -1875.178,
+            -967.643
+          ]
+        },
+        "upper_limit": {
+          "estimate": 2011.856,
+          "ci95": [
+            1476.265,
+            2602.177
+          ]
+        }
+      }
+    }
+  },
+  "analysis2_direction_agreement": {
+    "deepbratumia": {
+      "planned_change_from_nadir_spd": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.814,
+          "ci95": [
+            0.7,
+            0.95
+          ]
+        }
+      },
+      "suter_matched_consecutive_volume": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.791,
+          "ci95": [
+            0.673,
+            0.941
+          ]
+        }
+      },
+      "suter_matched_consecutive_spd": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.791,
+          "ci95": [
+            0.692,
+            0.909
+          ]
+        }
+      }
+    },
+    "hd_glio_auto": {
+      "planned_change_from_nadir_spd": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.884,
+          "ci95": [
+            0.781,
+            1.0
+          ]
+        }
+      },
+      "suter_matched_consecutive_volume": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.837,
+          "ci95": [
+            0.722,
+            0.97
+          ]
+        }
+      },
+      "suter_matched_consecutive_spd": {
+        "pairs": 43,
+        "patients": 17,
+        "agreement": {
+          "estimate": 0.814,
+          "ci95": [
+            0.707,
+            0.943
+          ]
+        }
+      }
+    }
+  },
+  "analysis3_fragility": {
+    "deepbratumia": {
+      "series_analysed": 99,
+      "series_without_readable_baseline_or_followup": 2,
+      "rated_visits_skipped_no_readable_mask": 18,
+      "automated_calls": 350,
+      "patients": 73,
+      "followups_measured_in_non_axial_plane": 3,
+      "automated_call_counts": {
+        "CR": 55,
+        "PD": 171,
+        "PR": 56,
+        "SD": 68
+      },
+      "share_flipping_within_mm": {
+        "0.5": {
+          "estimate": 0.009,
+          "ci95": [
+            0.0,
+            0.023
+          ]
+        },
+        "1": {
+          "estimate": 0.283,
+          "ci95": [
+            0.222,
+            0.339
+          ]
+        },
+        "2": {
+          "estimate": 0.546,
+          "ci95": [
+            0.469,
+            0.617
+          ]
+        },
+        "3": {
+          "estimate": 0.697,
+          "ci95": [
+            0.621,
+            0.768
+          ]
+        }
+      },
+      "descriptive_expert_vs_automated_call": {
+        "CR|CR": 15,
+        "CR|PD": 1,
+        "CR|PR": 9,
+        "CR|SD": 1,
+        "PD|CR": 16,
+        "PD|PD": 136,
+        "PD|PR": 28,
+        "PD|SD": 42,
+        "PR|PD": 4,
+        "PR|PR": 10,
+        "PR|SD": 4,
+        "SD|CR": 24,
+        "SD|PD": 30,
+        "SD|PR": 9,
+        "SD|SD": 21
+      }
+    },
+    "hd_glio_auto": {
+      "series_analysed": 99,
+      "series_without_readable_baseline_or_followup": 2,
+      "rated_visits_skipped_no_readable_mask": 18,
+      "automated_calls": 350,
+      "patients": 73,
+      "followups_measured_in_non_axial_plane": 3,
+      "automated_call_counts": {
+        "CR": 106,
+        "PD": 176,
+        "PR": 10,
+        "SD": 58
+      },
+      "share_flipping_within_mm": {
+        "0.5": {
+          "estimate": 0.006,
+          "ci95": [
+            0.0,
+            0.019
+          ]
+        },
+        "1": {
+          "estimate": 0.171,
+          "ci95": [
+            0.124,
+            0.227
+          ]
+        },
+        "2": {
+          "estimate": 0.377,
+          "ci95": [
+            0.314,
+            0.444
+          ]
+        },
+        "3": {
+          "estimate": 0.534,
+          "ci95": [
+            0.455,
+            0.613
+          ]
+        }
+      },
+      "descriptive_expert_vs_automated_call": {
+        "CR|CR": 24,
+        "CR|SD": 2,
+        "PD|CR": 36,
+        "PD|PD": 143,
+        "PD|PR": 6,
+        "PD|SD": 37,
+        "PR|CR": 4,
+        "PR|PD": 9,
+        "PR|PR": 3,
+        "PR|SD": 2,
+        "SD|CR": 42,
+        "SD|PD": 24,
+        "SD|PR": 1,
+        "SD|SD": 17
+      }
+    }
+  }
+}
