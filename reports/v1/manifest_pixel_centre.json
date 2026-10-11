@@ -1,6 +1,6 @@
 {
   "label": "pixel_centre",
-  "code_commit": "97f0ac03e1d398e3e6ed8dcfb929f9120564be9c+uncommitted-changes",
+  "code_commit": "eec7ba56cd209a90236b6f45d11acdc9696f3a07",
   "command": "scripts/run_v1_analysis.py <measurements> <lumiere_root> <audit_dir> <out_dir> --n-boot 10000 --label pixel_centre",
   "python": "3.12.10",
   "numpy": "2.5.3",
