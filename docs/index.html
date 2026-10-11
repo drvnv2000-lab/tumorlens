@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TumorLens</title>
-<meta name="description" content="Interactive demo: how fragile is an automated RANO response call, and when should it defer to a radiologist? Synthetic case, not patient data.">
-<meta property="og:title" content="TumorLens: when should the machine defer?">
-<meta property="og:description" content="Interactive glioblastoma response demo with an uncertainty aura. Synthetic case.">
+<meta name="description" content="How much of an automated glioblastoma response call depends on where the tumour edge is drawn? Measured on 350 real LUMIERE follow-up calls per tool, with a synthetic walk-through and five real cases.">
+<meta property="og:title" content="TumorLens: a millimetre can change the call">
+<meta property="og:description" content="Two segmentation tools on real LUMIERE scans: a 1 mm edge shift changes 17 to 28% of automated RANO calls.">
 <meta property="og:image" content="https://drvnv2000-lab.github.io/tumorlens/og.png">
 <meta name="twitter:card" content="summary_large_image">
 </head><body>
@@ -206,10 +206,11 @@ button { font: inherit; color: inherit; }
 <div class="scrim" id="scrim" aria-hidden="true"></div>
 <header class="bar">
   <a class="mark" href="#top" id="markLink">Tumor<b>Lens</b></a>
-  <span class="synth">Synthetic case · not patient data</span>
+  <span class="synth">3D walk-through is synthetic</span>
   <nav class="tabs" role="tablist" aria-label="Views">
     <button role="tab" id="tabStory" aria-selected="true">Story</button>
-    <button role="tab" id="tabViewer" aria-selected="false">Case viewer</button>
+    <button role="tab" id="tabViewer" aria-selected="false">Synthetic viewer</button>
+    <a href="cases.html" style="padding:7px 14px;font-size:var(--s0);color:var(--ink);text-decoration:none">Real cases</a>
   </nav>
 </header>
 
@@ -217,10 +218,10 @@ button { font: inherit; color: inherit; }
   <section class="act" id="top" data-act="0">
     <div class="copy">
       <div class="eyebrow"><span>TumorLens</span><span>Case SYN-07</span></div>
-      <h1>Is the treatment <em>working?</em></h1>
-      <p class="lede">After glioblastoma surgery, a patient has an MRI every few months and someone measures what is left of the tumor. TumorLens makes that measurement automatically, and tells you when its own answer should not be trusted.</p>
-      <div class="factline"><span>Criteria <b>RANO, bidimensional</b></span><span>Scans <b>7 over 48 weeks</b></span><span>Models <b>2, compared</b></span></div>
-      <div class="cue">Scroll to follow one patient</div>
+      <h1>A millimetre can <em>change the call.</em></h1>
+      <p class="lede">After glioblastoma surgery, a patient has an MRI every few months and someone measures what is left of the tumor. TumorLens measured 350 real follow-up calls from the LUMIERE dataset with two segmentation tools. Moving every tumor edge by 1 mm changed 17% of one tool's calls and 28% of the other's.</p>
+      <div class="factline"><span>Data <b>LUMIERE, 91 patients</b></span><span>Criteria <b>RANO, bidimensional</b></span><span>Tools <b>2, compared</b></span></div>
+      <div class="cue">Scroll for a synthetic walk-through, then the real results</div>
     </div>
   </section>
 
@@ -262,19 +263,20 @@ button { font: inherit; color: inherit; }
       <div class="eyebrow"><span class="step">5 / 6</span><span>The decision</span></div>
       <h2>Stable on paper. Too close to call.</h2>
       <p>At week 32 the nodule measures <strong><span data-bind="v4.d1">16.7</span> × <span data-bind="v4.d2">13.5</span> mm</strong>, <span data-bind="v4.change">15.0%</span> above the nadir. That is under the 25% line, so the call is stable disease.</p>
-      <p>Moving the edge outward by <strong class="em-doubt"><span data-bind="v4.flip">0.27</span> mm</strong> would make it progression, and the models disagree by more than that. TumorLens does not answer. It sends this scan to a radiologist.</p>
+      <p>Moving the edge outward by <strong class="em-doubt"><span data-bind="v4.flip">0.27</span> mm</strong> would make it progression, and the models disagree by more than that. The call is decided by less than the gap between two reasonable outlines.</p>
     </div>
   </section>
 
   <section class="act" data-act="6">
     <div class="copy">
-      <div class="eyebrow"><span class="step">6 / 6</span><span>When to answer</span></div>
-      <h2>Answer most scans. Defer the ones a millimetre could flip.</h2>
-      <p>Deferring every hard case is easy. The goal is to defer as few as possible while keeping the error rate on the rest under a limit the clinic chooses.</p>
-      <svg class="rc" id="rc" viewBox="0 0 420 230" role="img" aria-label="Illustrative risk–coverage curve"></svg>
-      <p class="fine">Illustrative curve, not a result. LUMIERE alone has about 110 measured visits, too few for a confirmatory deferral test, so v1 reports measurement agreement and boundary fragility only.</p>
-      <button class="cta" id="openViewer">Open the case viewer →</button>
-      <p class="fine">Synthetic patient. Shapes, measurements and model outputs are simulated to show the interface.</p>
+      <div class="eyebrow"><span class="step">6 / 6</span><span>On real scans</span></div>
+      <h2>On LUMIERE, a 1 mm edge shift changes 17 to 28% of calls.</h2>
+      <p>Both released segmentations were measured on every visit and turned into RANO calls, then every edge in a patient's series was moved by the same amount. Bars show the share of 350 calls per tool that change.</p>
+      <svg class="rc" id="rc" viewBox="0 0 420 230" role="img" aria-label="Share of automated calls that change with a 1, 2 and 3 millimetre edge shift, per tool"></svg>
+      <p>Against the expert's own measurements, HD-GLIO-AUTO volume moved in the same direction in <strong>84%</strong> of consecutive pairs, close to the 81% Suter et al. reported. Automated sizes ran about 1.35 times the expert's. The 110 expert-measured visits are 106 progression and 4 partial response, so this describes progression scans, not response assessment in general.</p>
+      <a class="cta" href="cases.html">See five real cases →</a>
+      <button class="cta" id="openViewer">Open the synthetic viewer</button>
+      <p class="fine">Descriptive results; the analysis plan was committed first. Full numbers and limits: <a href="https://github.com/drvnv2000-lab/tumorlens/blob/main/docs/V1_RESULTS.md" style="color:inherit">v1 results</a>. Acts 1 to 5 use a synthetic patient.</p>
     </div>
   </section>
 </main>
@@ -312,7 +314,7 @@ button { font: inherit; color: inherit; }
     <div class="vhead">
       <div class="when" id="vWhen">Visit 5 of 7 · week 32</div>
       <h2 class="call" id="vCall">Stable disease</h2>
-      <span class="pill defer" id="vPill">Deferred to radiologist</span>
+      <span class="pill defer" id="vPill">Fragile call</span>
       <p class="why" id="vWhy"></p>
     </div>
 
@@ -346,7 +348,7 @@ button { font: inherit; color: inherit; }
       </div>
     </div>
 
-    <p class="foot">Synthetic patient SYN-07. Shapes, measurements and both model outputs are simulated to show the interface. Not a medical device. Not medical advice.</p>
+    <p class="foot">Synthetic patient SYN-07. Shapes, measurements and both model outputs are simulated to show the interface; the amber pill marks a call that an edge shift smaller than the model gap would flip. Real cases: <a href="cases.html" style="color:inherit">cases page</a>. Not a medical device. Not medical advice.</p>
   </aside>
 </section>
 
@@ -878,28 +880,34 @@ void main(){
     }
   }
 
-  // Illustrative risk–coverage curve for act 6 (shape only).
+  // Act 6: share of automated calls that change with a uniform edge shift.
+  // Numbers from reports/v1/v1_results.json (estimate, 95% CI low, high), written by the build step.
   function drawRC() {
     var svg = $('rc'), W = 420, H = 230, L = 44, R = 14, Tp = 26, B = 38;
-    var pts = [[100, 18.5], [95, 15.4], [90, 12.6], [85, 10.4], [80, 8.9], [75, 7.8], [70, 6.9], [60, 5.6], [50, 4.7]];
-    var X = function (c) { return L + (W - L - R) * (100 - c) / 50; };
-    var Y = function (e) { return Tp + (H - Tp - B) * (1 - e / 20); };
+    var D = {"deepbratumia": [[28.3, 22.2, 33.9], [54.6, 46.9, 61.7], [69.7, 62.1, 76.8]], "hd_glio_auto": [[17.1, 12.4, 22.7], [37.7, 31.4, 44.4], [53.4, 45.5, 61.3]]};
+    var tools = [['hd_glio_auto', 'HD-GLIO-AUTO', '#6ec3ff'], ['deepbratumia', 'DeepBraTumIA', '#c9a2ff']];
+    var mm = ['1 mm', '2 mm', '3 mm'], gw = (W - L - R) / 3, bw = 30;
+    var Y = function (v) { return Tp + (H - Tp - B) * (1 - v / 100); };
     var ink3 = '#5f6d80', rule = '#1d2b3c', mono = 'Martian Mono, monospace';
-    [0, 5, 10, 15, 20].forEach(function (t) {
+    [0, 25, 50, 75, 100].forEach(function (t) {
       el('line', { x1: L, x2: W - R, y1: Y(t), y2: Y(t), stroke: rule }, svg);
       el('text', { x: L - 8, y: Y(t) + 3.5, 'text-anchor': 'end', fill: ink3, 'font-size': 10, 'font-family': mono }, svg, t + '%');
     });
-    [100, 90, 80, 70, 60, 50].forEach(function (c) {
-      el('text', { x: X(c), y: H - B + 16, 'text-anchor': 'middle', fill: ink3, 'font-size': 10, 'font-family': mono }, svg, c + '%');
+    mm.forEach(function (m, g) {
+      var cx = L + gw * (g + 0.5);
+      el('text', { x: cx, y: H - B + 16, 'text-anchor': 'middle', fill: ink3, 'font-size': 10, 'font-family': mono }, svg, m);
+      tools.forEach(function (t, k) {
+        var v = D[t[0]][g], x = cx + (k ? 3 : -3 - bw);
+        el('rect', { x: x, y: Y(v[0]), width: bw, height: Y(0) - Y(v[0]), fill: t[2], opacity: 0.85 }, svg);
+        el('line', { x1: x + bw / 2, x2: x + bw / 2, y1: Y(v[1]), y2: Y(v[2]), stroke: '#e6edf5', 'stroke-width': 1 }, svg);
+        el('text', { x: x + bw / 2, y: Y(v[2]) - 4, 'text-anchor': 'middle', fill: '#e6edf5', 'font-size': 9, 'font-family': mono }, svg, Math.round(v[0]) + '%');
+      });
     });
-    el('text', { x: (L + W - R) / 2, y: H - 4, 'text-anchor': 'middle', fill: '#93a1b4', 'font-size': 10, 'font-family': mono }, svg, 'scans TumorLens answers →');
-    el('text', { x: L - 8, y: 10, fill: '#93a1b4', 'font-size': 10, 'font-family': mono }, svg, '↑ error rate on answered scans');
-    el('line', { x1: L, x2: W - R, y1: Y(10), y2: Y(10), stroke: '#ffb23f', 'stroke-dasharray': '4 3' }, svg);
-    el('text', { x: W - R, y: Y(10) - 6, 'text-anchor': 'end', fill: '#ffb23f', 'font-size': 10, 'font-family': mono }, svg, 'limit the clinic sets');
-    var d = pts.map(function (p, i) { return (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); }).join(' ');
-    el('path', { d: d, fill: 'none', stroke: '#eaf6ff', 'stroke-width': 2 }, svg);
-    el('circle', { cx: X(84), cy: Y(10), r: 5, fill: '#eaf6ff', stroke: '#04070c', 'stroke-width': 1.5 }, svg);
-    el('text', { x: X(84) - 10, y: Y(10) + 20, 'text-anchor': 'end', fill: '#eaf6ff', 'font-size': 10, 'font-family': mono }, svg, 'answers 84%, defers 16%');
+    el('text', { x: (L + W - R) / 2, y: H - 4, 'text-anchor': 'middle', fill: '#93a1b4', 'font-size': 10, 'font-family': mono }, svg, 'every edge moved by up to');
+    tools.forEach(function (t, k) {
+      el('rect', { x: L + 4 + k * 120, y: 4, width: 10, height: 10, fill: t[2] }, svg);
+      el('text', { x: L + 18 + k * 120, y: 13, fill: '#93a1b4', 'font-size': 10, 'font-family': mono }, svg, t[1]);
+    });
   }
 
   /* ---------------- WebGL ---------------- */
@@ -1084,7 +1092,7 @@ void main(){
       var b = document.createElement('button');
       b.className = 'visit'; b.type = 'button';
       b.innerHTML = '<span class="w">wk ' + r.wk + '</span><span class="c"><i class="dot' + (r.reliable ? '' : ' defer') + '" style="background:' + CALL_COLOR[r.call] + '"></i><span>' + (r.call === 'BASE' ? 'Base' : r.call) + '</span></span>';
-      b.setAttribute('aria-label', 'Week ' + r.wk + ': ' + CALLS[r.call] + (r.reliable ? '' : ', deferred'));
+      b.setAttribute('aria-label', 'Week ' + r.wk + ': ' + CALLS[r.call] + (r.reliable ? '' : ', fragile'));
       b.addEventListener('click', function () { S.playing = false; setPlayIcon(); goTo(k); });
       box.appendChild(b);
     });
@@ -1101,7 +1109,7 @@ void main(){
     var pill = $('vPill');
     if (k === 0) { pill.className = 'pill reliable'; pill.textContent = 'Reference scan'; }
     else if (r.reliable) { pill.className = 'pill reliable'; pill.textContent = 'Reliable · answered'; }
-    else { pill.className = 'pill defer'; pill.textContent = 'Deferred to radiologist'; }
+    else { pill.className = 'pill defer'; pill.textContent = 'Fragile call'; }
     var why;
     if (k === 0) why = 'Baseline after chemoradiation. Later scans are compared with this one and with the smallest measurement so far.';
     else {
