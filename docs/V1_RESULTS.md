@@ -26,7 +26,7 @@ Intervals are 95% patient-level bootstrap intervals (10,000 resamples).
 
 - **Expert measurements.** All 110 rationale strings were read by hand against the parsed pairs, and 110 of 110 were transcribed correctly. 6 rows are flagged by meaning: 1 measures a non-target lesion, and 5 say the target lesion became non-measurable while still giving its dimensions. Without them (post hoc), the ratios are 1.38 and 1.32, and consecutive volume agreement is 86.8% (DeepBraTumIA) and 92.1% (HD-GLIO-AUTO) on 38 pairs.
 - **Call rules.** A 15-case transition table (zero baseline, zero nadir, exact thresholds, non-measurable residual, nadir from all earlier scans, PD before PR) is in `tests/test_call_rules.py`. A mask-level test confirms that the flip offset reruns the whole pipeline. 76 tests pass.
-- **Reproduction.** A fresh clone of commit aa3e822 rebuilt the audit, both measurement tables and all four result files, and every file was byte-identical to the committed versions.
+- **Reproduction.** A fresh clone of commit bff6977 rebuilt the audit, both measurement tables, all result files, the label, alignment, rotation and expert-audit checks, and every viewer case file. Each was byte-identical to the committed version, and all 76 tests passed in the clone.
 - **Labels.** These were checked three ways before analysis, and on 2026-10-12 directly on the native CT1-space masks that v1 measures: in 60 sampled visits the enhancing label was the brightest on CT1 in 53/54 (DeepBraTumIA label 1) and 48/48 (HD-GLIO-AUTO label 2) ([label check](LABEL_VERIFICATION.md)).
 - **Expert audit table.** The hand audit is kept as a local patient-level table; counts are in [`parser_audit.json`](../reports/v1/parser_audit.json).
 
