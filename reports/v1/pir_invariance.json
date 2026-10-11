@@ -1,0 +1,18 @@
+{
+  "pir_visits_with_hd_mask": 526,
+  "sampled": 25,
+  "sampled_nonempty": 18,
+  "offsets_mm": [
+    -1.0,
+    0.0,
+    1.0
+  ],
+  "quantities": [
+    "d1",
+    "d2",
+    "volume_mm3",
+    "enhancing_voxels"
+  ],
+  "max_abs_difference_stored_vs_rotation_undone": 8.881784197001252e-15,
+  "max_abs_difference_recomputed_vs_v1_table": 1.4210854715202004e-14
+}

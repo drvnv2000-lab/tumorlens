@@ -137,12 +137,17 @@ def call_series(spd: list[float], enhancing: list[bool] | None = None) -> list[s
     Calls compare with the nadir, never with the previous scan. SPD counts measurable lesions
     only, so it is 0 when there is no measurable disease. When the nadir is 0, a measurable
     lesion is PD. `enhancing` says whether any enhancing tissue is present at each scan: an SPD
-    of 0 is CR only without enhancing tissue, else SD. Without `enhancing`, an SPD of 0 is CR.
+    of 0 is CR only without enhancing tissue; with enhancing tissue the PR and SD rules apply.
+    Without `enhancing`, an SPD of 0 is CR. Rule order: CR, then PD, then PR, then SD. The nadir
+    includes every earlier scan, so non-measurable scans (SPD 0) set the nadir to 0; this is a
+    study convention (PREREGISTRATION.md, 2026-10-11), not a clinical RANO assessment.
     """
     if not spd:
         return []
     if enhancing is None:
         enhancing = [v > 0 for v in spd]
+    if len(enhancing) != len(spd):
+        raise ValueError("spd and enhancing must have the same length")
     out = ["Baseline"]
     baseline = spd[0]
     nadir = baseline
