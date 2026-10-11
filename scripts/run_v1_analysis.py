@@ -127,8 +127,36 @@ def analysis1(visits, expert, meas, n_boot) -> dict:
             },
             "bland_altman_mm2_repeated_measures_post_hoc": rm_loa_bootstrap(
                 {p: [a - e for a, e in xs] for p, xs in diffs.items()}, n_boot),
+            "bland_altman_diagnostics_post_hoc": ba_diagnostics(diffs, n_boot),
         }
     return out
+
+
+def ba_diagnostics(diffs: dict[str, list[tuple[float, float]]], n_boot: int) -> dict:
+    """Post hoc (deviation of 2026-10-12, third review): proportional bias and log-ratio limits."""
+    from scipy.stats import spearmanr
+
+    def rho(sample):
+        d = [a - e for a, e in sample]
+        m = [(a + e) / 2 for a, e in sample]
+        return float(spearmanr(m, d).statistic) if len(sample) > 2 else float("nan")
+
+    def log_limit(sign):
+        def f(sample):
+            lr = np.log([a / e for a, e in sample])
+            return float(np.exp(lr.mean() + sign * 1.96 * lr.std(ddof=1))) if len(lr) > 1 else float("nan")
+        return f
+
+    def geo_mean(sample):
+        return float(np.exp(np.mean(np.log([a / e for a, e in sample]))))
+
+    return {
+        "status": "post hoc",
+        "spearman_difference_vs_mean": bootstrap(diffs, rho, n_boot),
+        "ratio_geometric_mean": bootstrap(diffs, geo_mean, n_boot),
+        "ratio_limits_lower": bootstrap(diffs, log_limit(-1), n_boot),
+        "ratio_limits_upper": bootstrap(diffs, log_limit(+1), n_boot),
+    }
 
 
 def rm_loa_bootstrap(diffs: dict[str, list[float]], n_boot: int) -> dict:
@@ -338,7 +366,7 @@ def render_tables(r: dict) -> str:
              + f"; {es['visits_with_more_than_one_expert_lesion']} visits with more than one expert lesion.",
              "", "### Analysis 1: measurement agreement (automated SPD / expert SPD)", "",
              ("| Tool | Visits (patients) | Median ratio (95% CI) | IQR | Single-lesion median (n) "
-              "| Multi-lesion median (n) | Bland-Altman bias, mm² (95% CI) | Limits of agreement, mm² |"),
+              "| Multi-lesion median (n) | Bland-Altman bias, mm² (95% CI) | Pooled visit-level descriptive limits of agreement, mm² |"),
              "|---|---|---|---|---|---|---|---|"]
     for t, x in a1.items():
         ba = x["bland_altman_mm2"]
@@ -398,7 +426,7 @@ def render_tables(r: dict) -> str:
         lines.append(f"| {NAMES[t]} | {x1['analysed_visits']} | {fmt(x1['ratio_auto_over_expert_median'])} | "
                      f"{x2['pairs']} | {fmt(x2['agreement'], True)} |")
     lines += ["", "### Post hoc: Bland-Altman limits for repeated measurements (Bland and Altman 2007)", "",
-              "| Tool | Mean difference, mm² | Pooled limits (primary) | Repeated-measures limits (95% CI of each) |",
+              "| Tool | Mean difference, mm² | Pooled visit-level descriptive limits (primary) | Repeated-measures limits (95% CI of each) |",
               "|---|---|---|---|"]
     for t, x in a1.items():
         rm, ba = x["bland_altman_mm2_repeated_measures_post_hoc"], x["bland_altman_mm2"]
@@ -406,6 +434,13 @@ def render_tables(r: dict) -> str:
                      f"{ba['upper_limit']['estimate']:.0f} | {rm['lower']['estimate']:.0f} "
                      f"({rm['lower']['ci95'][0]:.0f} to {rm['lower']['ci95'][1]:.0f}) to "
                      f"{rm['upper']['estimate']:.0f} ({rm['upper']['ci95'][0]:.0f} to {rm['upper']['ci95'][1]:.0f}) |")
+    lines += ["", "### Post hoc: Bland-Altman diagnostics (proportional bias; limits on the ratio scale)", "",
+              "| Tool | Spearman, difference vs mean (95% CI) | Geometric mean ratio (95% CI) | Ratio limits of agreement |",
+              "|---|---|---|---|"]
+    for t, x in a1.items():
+        g = x["bland_altman_diagnostics_post_hoc"]
+        lines.append(f"| {NAMES[t]} | {fmt(g['spearman_difference_vs_mean'])} | {fmt(g['ratio_geometric_mean'])} | "
+                     f"{g['ratio_limits_lower']['estimate']:.2f} to {g['ratio_limits_upper']['estimate']:.2f} |")
     lines += ["", "### Post hoc: analysis 2 with automated SPD set to 0 when a diameter is under 10 mm", "",
               "| Tool | Visits changed by the rule | Change from nadir, SPD | Consecutive, SPD |", "|---|---|---|---|"]
     for t, x in a2.items():

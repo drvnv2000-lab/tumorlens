@@ -1,6 +1,8 @@
 {
   "rows_audited_by_hand": 110,
-  "transcription_correct": 110,
+  "manual_transcriptions": 110,
+  "parser_matches_manual_transcription": 110,
+  "mismatches": 0,
   "rows_with_more_than_one_pair": 17,
   "meaning_flags": {
     "approximate": 1,

@@ -4,7 +4,7 @@ Run: primary. Expert-measured set: 110 visits, 49 patients, ratings PD 106, PR 4
 
 ### Analysis 1: measurement agreement (automated SPD / expert SPD)
 
-| Tool | Visits (patients) | Median ratio (95% CI) | IQR | Single-lesion median (n) | Multi-lesion median (n) | Bland-Altman bias, mm² (95% CI) | Limits of agreement, mm² |
+| Tool | Visits (patients) | Median ratio (95% CI) | IQR | Single-lesion median (n) | Multi-lesion median (n) | Bland-Altman bias, mm² (95% CI) | Pooled visit-level descriptive limits of agreement, mm² |
 |---|---|---|---|---|---|---|---|
 | DeepBraTumIA | 102 (48) | 1.38 (1.31 to 1.49) | 1.18 to 2.13 | 1.40 (87) | 0.81 (15) | 449 (218 to 725) | -1611 to 2508 |
 | HD-GLIO-AUTO | 102 (48) | 1.35 (1.22 to 1.44) | 1.05 to 1.86 | 1.38 (87) | 0.91 (15) | 286 (68 to 527) | -1439 to 2012 |
@@ -50,10 +50,17 @@ Run: primary. Expert-measured set: 110 visits, 49 patients, ratings PD 106, PR 4
 
 ### Post hoc: Bland-Altman limits for repeated measurements (Bland and Altman 2007)
 
-| Tool | Mean difference, mm² | Pooled limits (primary) | Repeated-measures limits (95% CI of each) |
+| Tool | Mean difference, mm² | Pooled visit-level descriptive limits (primary) | Repeated-measures limits (95% CI of each) |
 |---|---|---|---|
 | DeepBraTumIA | 449 | -1611 to 2508 | -1623 (-2082 to -1097) to 2520 (1770 to 3293) |
 | HD-GLIO-AUTO | 286 | -1439 to 2012 | -1450 (-1886 to -975) to 2022 (1483 to 2615) |
+
+### Post hoc: Bland-Altman diagnostics (proportional bias; limits on the ratio scale)
+
+| Tool | Spearman, difference vs mean (95% CI) | Geometric mean ratio (95% CI) | Ratio limits of agreement |
+|---|---|---|---|
+| DeepBraTumIA | 0.29 (0.01 to 0.57) | 1.64 (1.35 to 2.04) | 0.35 to 7.73 |
+| HD-GLIO-AUTO | 0.21 (-0.05 to 0.48) | 1.43 (1.14 to 1.80) | 0.28 to 7.14 |
 
 ### Post hoc: analysis 2 with automated SPD set to 0 when a diameter is under 10 mm
 

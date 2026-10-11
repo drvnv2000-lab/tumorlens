@@ -103,6 +103,41 @@
           ]
         },
         "undefined_resamples": 0
+      },
+      "bland_altman_diagnostics_post_hoc": {
+        "status": "post hoc",
+        "spearman_difference_vs_mean": {
+          "estimate": 0.295,
+          "ci95": [
+            0.009,
+            0.575
+          ],
+          "undefined_resamples": 0
+        },
+        "ratio_geometric_mean": {
+          "estimate": 1.64,
+          "ci95": [
+            1.355,
+            2.042
+          ],
+          "undefined_resamples": 0
+        },
+        "ratio_limits_lower": {
+          "estimate": 0.348,
+          "ci95": [
+            0.251,
+            0.486
+          ],
+          "undefined_resamples": 0
+        },
+        "ratio_limits_upper": {
+          "estimate": 7.727,
+          "ci95": [
+            4.781,
+            12.109
+          ],
+          "undefined_resamples": 0
+        }
       }
     },
     "hd_glio_auto": {
@@ -184,6 +219,41 @@
           ]
         },
         "undefined_resamples": 0
+      },
+      "bland_altman_diagnostics_post_hoc": {
+        "status": "post hoc",
+        "spearman_difference_vs_mean": {
+          "estimate": 0.206,
+          "ci95": [
+            -0.051,
+            0.48
+          ],
+          "undefined_resamples": 0
+        },
+        "ratio_geometric_mean": {
+          "estimate": 1.425,
+          "ci95": [
+            1.14,
+            1.796
+          ],
+          "undefined_resamples": 0
+        },
+        "ratio_limits_lower": {
+          "estimate": 0.285,
+          "ci95": [
+            0.149,
+            0.492
+          ],
+          "undefined_resamples": 0
+        },
+        "ratio_limits_upper": {
+          "estimate": 7.139,
+          "ci95": [
+            4.2,
+            11.721
+          ],
+          "undefined_resamples": 0
+        }
       }
     }
   },
@@ -689,6 +759,41 @@
             ]
           },
           "undefined_resamples": 0
+        },
+        "bland_altman_diagnostics_post_hoc": {
+          "status": "post hoc",
+          "spearman_difference_vs_mean": {
+            "estimate": 0.271,
+            "ci95": [
+              0.004,
+              0.547
+            ],
+            "undefined_resamples": 0
+          },
+          "ratio_geometric_mean": {
+            "estimate": 1.649,
+            "ci95": [
+              1.339,
+              2.062
+            ],
+            "undefined_resamples": 0
+          },
+          "ratio_limits_lower": {
+            "estimate": 0.334,
+            "ci95": [
+              0.244,
+              0.465
+            ],
+            "undefined_resamples": 0
+          },
+          "ratio_limits_upper": {
+            "estimate": 8.141,
+            "ci95": [
+              5.053,
+              12.617
+            ],
+            "undefined_resamples": 0
+          }
         }
       },
       "hd_glio_auto": {
@@ -770,6 +875,41 @@
             ]
           },
           "undefined_resamples": 0
+        },
+        "bland_altman_diagnostics_post_hoc": {
+          "status": "post hoc",
+          "spearman_difference_vs_mean": {
+            "estimate": 0.188,
+            "ci95": [
+              -0.062,
+              0.46
+            ],
+            "undefined_resamples": 0
+          },
+          "ratio_geometric_mean": {
+            "estimate": 1.419,
+            "ci95": [
+              1.124,
+              1.795
+            ],
+            "undefined_resamples": 0
+          },
+          "ratio_limits_lower": {
+            "estimate": 0.27,
+            "ci95": [
+              0.141,
+              0.47
+            ],
+            "undefined_resamples": 0
+          },
+          "ratio_limits_upper": {
+            "estimate": 7.45,
+            "ci95": [
+              4.351,
+              12.269
+            ],
+            "undefined_resamples": 0
+          }
         }
       }
     },
