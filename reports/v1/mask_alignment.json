@@ -1,0 +1,22 @@
+{
+  "visits_with_both_masks": 599,
+  "visits_both_nonempty": 587,
+  "best_flip_counts": {
+    "none": 73,
+    "01": 513,
+    "0": 1
+  },
+  "hd_mask_mirrored_dice_gain_ge_0.1": 508,
+  "mirrored_by_ct1_orientation": {
+    "PIR": 507,
+    "RAS": 1
+  },
+  "all_by_ct1_orientation": {
+    "LPS": 71,
+    "LIP": 1,
+    "PIR": 514,
+    "RAS": 1
+  },
+  "median_dice_stored": 0.0,
+  "median_dice_best": 0.735
+}

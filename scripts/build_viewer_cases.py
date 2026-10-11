@@ -1,0 +1,186 @@
+"""Build the real-case viewer data (docs/cases/) from LUMIERE for a few chosen series.
+
+LUMIERE may only be used for non-commercial purposes (Suter et al., Sci Data 2022). The files
+written here are derived from it, carry that condition, and are not covered by the repository's
+MIT licence. Only 2D slices at the measured level are exported, no volumes.
+
+Usage: python scripts/build_viewer_cases.py LUMIERE_ROOT MEASUREMENTS_CSV OUT_DIR
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+import nibabel as nib
+import numpy as np
+from nibabel.processing import resample_from_to
+from PIL import Image
+from scipy import ndimage
+from scipy.spatial import ConvexHull
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import run_v1_analysis as analysis
+
+from tumorlens import rano
+from tumorlens.lumiere import RATING_COLUMN, RATIONALE_COLUMN, read_csv
+from tumorlens.v1 import OFFSETS_MM, TOOLS, build_series, parse_expert_spd, spd_for_call, week_key
+
+# (patient, baseline visit, why it is shown). Chosen to illustrate the findings, not representative.
+CASES = [
+    ("Patient-018", "week-003", "Both tools match the expert call at every visit, including complete response."),
+    ("Patient-007", "week-001", "Tools miss early progression, then track the expert once the lesion is large."),
+    ("Patient-062", "week-000-2", "HD-GLIO-AUTO sees no enhancing tumour for five visits the expert rated SD or PD."),
+    ("Patient-051", "week-000-2", "The two tools disagree, and several calls flip with a 1 mm edge shift."),
+    ("Patient-078", "week-001", "Long follow-up: HD-GLIO-AUTO calls PD throughout, DeepBraTumIA mostly SD."),
+]
+MAX_PX = 320
+
+
+def calipers(mask2d: np.ndarray, rs: float, cs: float) -> dict | None:
+    """Longest diameter end points and the perpendicular width line, in pixel units (col, row)."""
+    if not mask2d.any():
+        return None
+    pts = rano._pixel_corners(mask2d, (rs, cs))  # (x_mm, y_mm) = (col*cs, row*rs)
+    try:
+        hull = pts[ConvexHull(pts).vertices]
+    except (ValueError, RuntimeError):
+        hull = pts
+    dist = np.sqrt(((hull[:, None] - hull[None]) ** 2).sum(-1))
+    i, j = np.unravel_index(np.argmax(dist), dist.shape)
+    a, b = hull[i], hull[j]
+    u = (b - a) / dist[i, j]
+    perp = np.array([-u[1], u[0]])
+    proj = hull @ perp
+    mid = hull.mean(0)
+    c = mid - perp * ((mid @ perp) - proj.min())
+    d = mid + perp * (proj.max() - (mid @ perp))
+
+    def px(p):
+        return [round(float(p[0] / cs), 2), round(float(p[1] / rs), 2)]
+
+    return {"d1": [px(a), px(b)], "d2": [px(c), px(d)]}
+
+
+def plane(vol: np.ndarray, axis: int, k: int) -> np.ndarray:
+    """2D slice for display: anterior or superior up, patient right on screen left."""
+    # remaining axes (u, v) in RAS order: rows = v reversed (anterior/superior up),
+    # cols = u reversed (patient right on screen left; anterior on the left for sagittal)
+    return np.take(vol, k, axis=axis).T[::-1, ::-1]
+
+
+def plane_spacing(sp: tuple[float, float, float], axis: int) -> tuple[float, float]:
+    rest = [s for i, s in enumerate(sp) if i != axis]
+    return rest[1], rest[0]  # (row, col)
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("root", type=Path)
+    ap.add_argument("measurements", type=Path)
+    ap.add_argument("out", type=Path)
+    a = ap.parse_args(argv)
+    meas, _ = analysis.load_measurements(a.measurements)
+    ratings = read_csv(a.root / "LUMIERE-ExpertRating-v202211.csv")
+    rationale = {(r["Patient"], r["Date"]): r[RATIONALE_COLUMN] for r in ratings}
+    a.out.mkdir(parents=True, exist_ok=True)
+    index = []
+    for patient, base, why in CASES:
+        rows = sorted((week_key(r["Date"]), r["Date"], r[RATING_COLUMN].strip()) for r in ratings if r["Patient"] == patient)
+        series = next(s for s in build_series(rows) if s[0][0] == base)
+        cdir = a.out / patient
+        cdir.mkdir(exist_ok=True)
+        tools = {}
+        for t in TOOLS:
+            spd = {o: [spd_for_call(meas[(t, patient, v)][o]["d1"], meas[(t, patient, v)][o]["d2"]) for v, _ in series] for o in OFFSETS_MM}
+            enh = {o: [meas[(t, patient, v)][o]["voxels"] > 0 for v, _ in series] for o in OFFSETS_MM}
+            tools[t] = {
+                "calls_by_offset": {f"{o:g}": rano.call_series(spd[o], enh[o]) for o in OFFSETS_MM},
+                "spd_by_offset": {f"{o:g}": [round(x, 1) for x in spd[o]] for o in OFFSETS_MM},
+                "flip_mm": [None] + [rano.flip_margin(spd, i, enh) for i in range(1, len(series))],
+            }
+        visits = []
+        for idx, (v, rating) in enumerate(series):
+            vdir = a.root / "Imaging" / patient / v
+            raw_ct1 = nib.load(str(vdir / "CT1.nii.gz"))
+            ct1 = nib.as_closest_canonical(raw_ct1)
+            sp = tuple(float(z) for z in ct1.header.get_zooms()[:3])
+            ct = np.asanyarray(ct1.dataobj).astype(np.float32)
+            masks, resampled = {}, {}
+            for t, (rel, label) in TOOLS.items():
+                img = nib.as_closest_canonical(nib.load(str(vdir / rel)))
+                same = img.shape[:3] == ct1.shape[:3] and np.allclose(img.affine, ct1.affine, atol=1e-3)
+                if not same:
+                    img = resample_from_to(img, ct1, order=0)
+                resampled[t] = not same
+                masks[t] = np.asanyarray(img.dataobj) == label
+                # Released HD-GLIO-AUTO native masks for PIR-stored CT1 are rotated 180 degrees in
+                # plane (see reports/v1/mask_alignment.json); undo it for display only.
+                if t == "hd_glio_auto" and nib.aff2axcodes(raw_ct1.affine) == ("P", "I", "R"):
+                    masks[t] = np.flip(masks[t], (0, 1))
+            axis = rano.measurement_axis(sp)
+            k = None
+            for t in ("hd_glio_auto", "deepbratumia"):
+                les = rano.largest_lesion(masks[t], sp, axis)
+                if les.slice_index >= 0:
+                    k = les.slice_index
+                    break
+            if k is None:
+                brain = (ct > 0).sum(axis=tuple(i for i in range(3) if i != axis))
+                k = int(np.argmax(brain))
+            rs, cs = plane_spacing(sp, axis)
+            gray = plane(ct, axis, k)
+            lo, hi = np.percentile(gray[gray > 0], [1, 99.5]) if (gray > 0).any() else (0, 1)
+            g8 = (np.clip((gray - lo) / max(hi - lo, 1e-6), 0, 1) * 255).astype(np.uint8)
+            # isotropic display grid: scale rows and cols so pixels are square, longest side <= MAX_PX
+            h_mm, w_mm = g8.shape[0] * rs, g8.shape[1] * cs
+            px_mm = max(h_mm, w_mm) / MAX_PX
+            size = (max(1, round(w_mm / px_mm)), max(1, round(h_mm / px_mm)))
+            Image.fromarray(g8).resize(size, Image.BILINEAR).save(cdir / f"{idx:02d}_t1c.png", optimize=True)
+            m2 = {t: plane(masks[t], axis, k) for t in TOOLS}
+            rgb = np.zeros(g8.shape + (3,), np.uint8)
+            rgb[..., 0] = m2["hd_glio_auto"] * 255
+            rgb[..., 1] = m2["deepbratumia"] * 255
+            Image.fromarray(rgb).resize(size, Image.NEAREST).save(cdir / f"{idx:02d}_mask.png", optimize=True)
+            sx, sy = size[0] / g8.shape[1], size[1] / g8.shape[0]
+            cal = {}
+            for t in TOOLS:
+                lesion3d = masks[t]
+                les = rano.largest_lesion(lesion3d, sp, axis)
+                if les.slice_index == k:
+                    comp, _ = ndimage.label(lesion3d, structure=np.ones((3, 3, 3), bool))
+                    sizes = np.bincount(comp.ravel())
+                    sizes[0] = 0
+                    c2 = plane(comp == int(np.argmax(sizes)), axis, k)
+                    cl = calipers(c2, rs, cs)
+                    if cl:
+                        cal[t] = {key: [[p[0] * sx, p[1] * sy] for p in seg] for key, seg in cl.items()}
+            spd_e, n_e = parse_expert_spd(rationale.get((patient, v), "")) if rating != "Post-Op" else (0.0, 0)
+            m0 = {t: meas[(t, patient, v)][0.0] for t in TOOLS}
+            visits.append({
+                "visit": v, "week": week_key(v)[0], "expert_call": "Baseline" if idx == 0 else rating,
+                "expert_spd": round(spd_e, 1) if n_e else None, "expert_lesions": n_e,
+                "plane": ["sagittal", "coronal", "axial"][axis], "slice": k,
+                "pixel_mm": round(px_mm, 3), "size": list(size),
+                "mask_resampled_for_display": resampled,
+                "tools": {t: {"d1": round(m0[t]["d1"], 1), "d2": round(m0[t]["d2"], 1),
+                              "volume_ml": round(m0[t]["volume"] / 1000, 2),
+                              "calipers_on_this_slice": cal.get(t)} for t in TOOLS},
+            })
+        case = {"patient": patient, "why": why, "visits": visits, "tools": tools}
+        (cdir / "case.json").write_text(json.dumps(case), encoding="utf-8")
+        index.append({"patient": patient, "why": why, "visits": len(visits)})
+        print(patient, len(visits), "visits")
+    (a.out / "index.json").write_text(json.dumps(index, indent=1), encoding="utf-8")
+    (a.out / "DATA-LICENCE.md").write_text(
+        "# Data in this folder\n\nDerived from the LUMIERE dataset (Suter et al., Scientific Data 9, 768, 2022; "
+        "https://doi.org/10.6084/m9.figshare.c.5904905.v1). The data descriptor states that the dataset may only be "
+        "used for non-commercial purposes; TumorLens follows that condition. These slices and numbers are NOT covered "
+        "by the repository's MIT licence. Not for clinical use.\n", encoding="utf-8")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

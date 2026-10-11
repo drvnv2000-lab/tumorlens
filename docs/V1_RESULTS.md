@@ -13,7 +13,7 @@ Both released segmentations (DeepBraTumIA, HD-GLIO-AUTO) were measured on every 
 3. **Direction agreement is in the range Suter et al. reported.** On 43 consecutive expert-measured pairs (17 patients), HD-GLIO-AUTO volume agrees with the expert's direction of change in 83.7% (72.2 to 97.0), against 81.1% in Suter et al. 2023. DeepBraTumIA volume: 79.1% (67.3 to 94.1). The preregistered change-from-nadir version: 88.4% (HD-GLIO-AUTO) and 81.4% (DeepBraTumIA). Intervals are wide because there are only 17 patients.
 4. **Automated calls are fragile to where the edge is drawn.** Moving every boundary in a series by the same 1 mm changes 17.1% (12.4 to 22.7) of HD-GLIO-AUTO calls and 28.3% (22.2 to 33.9) of DeepBraTumIA calls; within 2 mm, 37.7% and 54.6%.
 5. **The tools often see no enhancing tumour where the expert called progression.** Of 222 expert-PD follow-ups with a readable mask, HD-GLIO-AUTO found no enhancing voxel (automated CR) in 36 and DeepBraTumIA in 16. This is descriptive, not a preregistered analysis.
-6. **A labelling error in the released DeepBraTumIA feature table.** Its label 1 is named "Necrosis" and label 2 "Contrast-enhancing"; the tool's own volume file and the contrast signal show the reverse ([label check](LABEL_VERIFICATION.md)).
+6. **Two problems in the released files.** The DeepBraTumIA feature table names label 1 "Necrosis" and label 2 "Contrast-enhancing"; the tool's own volume file and the contrast signal show the reverse ([label check](LABEL_VERIFICATION.md)). And for the 514 visits whose CT1 is stored in PIR orientation, the native-space HD-GLIO-AUTO mask is rotated 180 degrees in plane relative to CT1 (median Dice with DeepBraTumIA 0.00 as stored, 0.74 after the rotation; [`reports/v1/mask_alignment.json`](../reports/v1/mask_alignment.json)). The rotation was found after the results; it changes no number above, because each tool is measured on its own grid, but it matters for any overlay or voxelwise comparison.
 
 Full tables: [`reports/v1/v1_tables.md`](../reports/v1/v1_tables.md).
 
@@ -35,6 +35,8 @@ One centre (Bern), 91 patients, 2008 to 2013. The expert measurement is free tex
 python scripts/verify_labels.py data/raw/lumiere reports/v1/label_check.json
 python scripts/run_v1_measure.py data/raw/lumiere/Imaging results/v1/measurements.csv --workers 4
 python scripts/run_v1_analysis.py results/v1/measurements.csv data/raw/lumiere results/lumiere-audit reports/v1
+python scripts/check_mask_alignment.py data/raw/lumiere/Imaging reports/v1/mask_alignment.json
+python scripts/build_viewer_cases.py data/raw/lumiere results/v1/measurements.csv docs/cases
 ```
 
 On Windows set `OPENBLAS_NUM_THREADS=1` for the measurement step. The audit folder comes from `tumorlens audit` (see `docs/INITIAL_DATA_AUDIT.md`).

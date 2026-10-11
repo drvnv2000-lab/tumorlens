@@ -1,0 +1,27 @@
+[
+ {
+  "patient": "Patient-018",
+  "why": "Both tools match the expert call at every visit, including complete response.",
+  "visits": 5
+ },
+ {
+  "patient": "Patient-007",
+  "why": "Tools miss early progression, then track the expert once the lesion is large.",
+  "visits": 9
+ },
+ {
+  "patient": "Patient-062",
+  "why": "HD-GLIO-AUTO sees no enhancing tumour for five visits the expert rated SD or PD.",
+  "visits": 7
+ },
+ {
+  "patient": "Patient-051",
+  "why": "The two tools disagree, and several calls flip with a 1 mm edge shift.",
+  "visits": 9
+ },
+ {
+  "patient": "Patient-078",
+  "why": "Long follow-up: HD-GLIO-AUTO calls PD throughout, DeepBraTumIA mostly SD.",
+  "visits": 16
+ }
+]
