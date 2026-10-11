@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1050" viewBox="0 0 1600 1050" role="img" aria-labelledby="title desc">
+  <title id="title">TumorLens LUMIERE feasibility audit</title>
+  <desc id="desc">Flow diagram separating rating rows, unique image-linked keys, duplicate-key exclusions, measurement-text screening, and response-class imbalance.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f4f6f8}.ink{fill:#14212b}.muted{fill:#61717d}.blue{fill:#176b87}.teal{fill:#00877b}.amber{fill:#bd7618}.red{fill:#b94c4c}.white{fill:#fff}.stroke{stroke:#d4dde3;stroke-width:2}.line{stroke:#91a1ac;stroke-width:3;fill:none}.dash{stroke-dasharray:8 8}.title{font:700 42px 'Segoe UI',Arial,sans-serif;letter-spacing:-.5px}.sub{font:400 21px 'Segoe UI',Arial,sans-serif}.section{font:700 22px 'Segoe UI',Arial,sans-serif;letter-spacing:1.5px}.head{font:700 26px 'Segoe UI',Arial,sans-serif}.body{font:400 21px 'Segoe UI',Arial,sans-serif}.small{font:400 17px 'Segoe UI',Arial,sans-serif}.num{font:700 38px 'Segoe UI',Arial,sans-serif}.tag{font:700 16px 'Segoe UI',Arial,sans-serif;letter-spacing:.8px}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#91a1ac"/></marker>
+  </defs>
+  <rect class="bg" width="1600" height="1050"/>
+  <text x="76" y="82" class="title ink">LUMIERE feasibility audit</text>
+  <text x="78" y="119" class="sub muted">TumorLens · source-table linkage, measurement screening, and the confirmatory feasibility gate</text>
+  <text x="78" y="180" class="section blue">01  EXACT-KEY COHORT FLOW</text>
+  <rect x="78" y="210" width="420" height="150" rx="18" class="white stroke"/>
+  <text x="112" y="255" class="tag muted">RELEASED EXPERT-RATING TABLE</text>
+  <text x="112" y="310" class="num ink">616 rows</text><text x="310" y="310" class="body muted">91 patients</text>
+  <path d="M500 285 H590" class="line" marker-end="url(#arrow)"/>
+  <rect x="612" y="210" width="420" height="150" rx="18" class="white stroke"/>
+  <text x="646" y="255" class="tag muted">EXACT IMAGE-FOLDER JOIN</text>
+  <text x="646" y="310" class="num blue">605 rows</text><text x="838" y="310" class="body muted">602 unique keys</text>
+  <path d="M1034 285 H1118" class="line" marker-end="url(#arrow)"/>
+  <rect x="1140" y="210" width="382" height="150" rx="18" fill="#e4f3f0" stroke="#9bcfc7" stroke-width="2"/>
+  <text x="1174" y="255" class="tag teal">AFTER COLLISION EXCLUSION</text>
+  <text x="1174" y="310" class="num teal">599 keys</text><text x="1174" y="340" class="small muted">Unambiguous scan-level links</text>
+  <rect x="612" y="386" width="420" height="80" rx="14" fill="#fff5e7" stroke="#e9c995" stroke-width="2"/>
+  <text x="642" y="420" class="body amber">3 duplicate keys · 6 rows</text><text x="642" y="447" class="small muted">2 call conflicts; 3 rationale conflicts</text>
+  <path d="M822 360 V378" class="line dash"/>
+  <rect x="1140" y="386" width="382" height="80" rx="14" fill="#fceeee" stroke="#e5b6b6" stroke-width="2"/>
+  <text x="1172" y="420" class="body red">11 rows have no exact image key</text><text x="1172" y="447" class="small muted">17 separate rating/completeness mismatches</text>
+  <path d="M1030 426 H1130" class="line dash"/>
+  <text x="78" y="535" class="section blue">02  MEASUREMENT-TEXT SCREEN</text>
+  <rect x="78" y="565" width="282" height="150" rx="18" class="white stroke"/>
+  <text x="106" y="607" class="tag muted">EXPLICIT DIMENSIONS</text><text x="106" y="663" class="num ink">149</text><text x="196" y="663" class="body muted">rows</text>
+  <path d="M362 640 H405" class="line" marker-end="url(#arrow)"/>
+  <rect x="427" y="565" width="282" height="150" rx="18" class="white stroke"/>
+  <text x="455" y="607" class="tag muted">SOURCE-FLAG SCREEN</text><text x="455" y="663" class="num ink">113</text><text x="545" y="663" class="body muted">rows</text>
+  <path d="M711 640 H754" class="line" marker-end="url(#arrow)"/>
+  <rect x="776" y="565" width="282" height="150" rx="18" class="white stroke"/>
+  <text x="804" y="607" class="tag muted">EXACT + COLLISION-FREE</text><text x="804" y="663" class="num blue">110</text><text x="894" y="663" class="body muted">keys</text><text x="804" y="696" class="small muted">49 patients</text>
+  <path d="M1060 640 H1103" class="line" marker-end="url(#arrow)"/>
+  <rect x="1125" y="565" width="397" height="150" rx="18" fill="#e4f3f0" stroke="#9bcfc7" stroke-width="2"/>
+  <text x="1155" y="607" class="tag teal">STRICTER TEXT HEURISTIC</text><text x="1155" y="663" class="num teal">56</text><text x="1240" y="663" class="body muted">keys</text><text x="1155" y="696" class="small muted">55 PD · 1 PR</text>
+  <rect x="78" y="755" width="700" height="194" rx="18" class="white stroke"/>
+  <text x="112" y="798" class="head ink">Broad screen response mix</text>
+  <text x="112" y="844" class="body muted">PD</text><rect x="205" y="824" width="405" height="25" rx="12" fill="#176b87"/><text x="626" y="845" class="body ink">106</text>
+  <text x="112" y="883" class="body muted">PR</text><rect x="205" y="863" width="16" height="25" rx="12" fill="#00877b"/><text x="236" y="884" class="body ink">4</text>
+  <text x="112" y="922" class="body muted">SD / CR</text><text x="266" y="922" class="body red">0 / 0</text>
+  <rect x="808" y="755" width="714" height="194" rx="18" fill="#14212b"/>
+  <text x="844" y="800" class="tag" fill="#8bd8cd">FEASIBILITY DECISION</text><text x="844" y="850" class="head white">Below the ~150-visit gate</text>
+  <text x="844" y="890" class="body white">Strong response imbalance; no confirmatory deferral claim.</text><text x="844" y="923" class="small" fill="#c3d0d8">All counts are automated screens; independent human coding remains required.</text>
+  <text x="78" y="1000" class="small muted">LUMIERE v202211 · exact keys only · patient-level rows and collision identities are excluded from this figure and portable archive.</text>
+</svg>

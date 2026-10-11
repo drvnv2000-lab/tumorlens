@@ -77,15 +77,23 @@ def bidimensional(mask2d: np.ndarray, spacing_xy: tuple[float, float]) -> tuple[
 
 
 def largest_lesion(mask3d: np.ndarray, spacing: tuple[float, float, float]) -> Lesion:
-    """Axial slice with the largest foreground area, measured bidimensionally.
+    """Measure the largest 26-connected 3D component on its maximal axial slice.
 
     mask3d is indexed (x, y, z); spacing is (sx, sy, sz) in mm.
     """
     if not mask3d.any():
         return Lesion(0.0, 0.0, -1)
-    areas = mask3d.sum(axis=(0, 1))
+    structure = np.ones((3, 3, 3), dtype=bool)
+    components, n_components = ndimage.label(mask3d, structure=structure)
+    if n_components == 0:
+        return Lesion(0.0, 0.0, -1)
+    sizes = np.bincount(components.ravel(), minlength=n_components + 1)
+    sizes[0] = 0
+    largest = int(np.argmax(sizes))
+    lesion_mask = components == largest
+    areas = lesion_mask.sum(axis=(0, 1))
     k = int(np.argmax(areas))
-    d1, d2 = bidimensional(mask3d[:, :, k].T, (spacing[1], spacing[0]))
+    d1, d2 = bidimensional(lesion_mask[:, :, k].T, (spacing[1], spacing[0]))
     return Lesion(d1, d2, k)
 
 

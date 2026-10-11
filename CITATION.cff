@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use TumorLens, cite this software and the original LUMIERE data descriptor."
+title: "TumorLens: Boundary Fragility of Automated Glioblastoma Response Calls"
+type: software
+version: 0.1.0
+date-released: 2026-10-11
+license: MIT
+authors:
+  - family-names: Vaidya
+    given-names: Varad
+references:
+  - type: article
+    title: "The LUMIERE dataset: Longitudinal Glioblastoma MRI with expert RANO evaluation"
+    authors:
+      - family-names: Suter
+        given-names: Yannick
+      - family-names: Knecht
+        given-names: Urspeter
+    year: 2022
+    doi: "10.1038/s41597-022-01881-7"

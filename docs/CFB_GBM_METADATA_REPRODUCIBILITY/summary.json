@@ -1,0 +1,149 @@
+{
+  "audit": "cfb_gbm_metadata_reproduction",
+  "dataset": "CFB-GBM Version 4",
+  "license": "CC BY 4.0",
+  "n_clinical_patients": 264,
+  "n_treatment_rows": 264,
+  "n_gtv_availability_rows": 533,
+  "gtv_availability_by_timepoint": {
+    "t0": 261,
+    "t1": 160,
+    "t2": 112
+  },
+  "t1gd_availability_by_timepoint": {
+    "t0": 264,
+    "t1": 163,
+    "t2": 118
+  },
+  "n_rano_table_rows": 165,
+  "total_labeled_pairs": 379,
+  "total_recomputed_label_mismatches": 0,
+  "total_pairs_missing_a_gtv_availability_record": 0,
+  "pairs": [
+    {
+      "pair": "t0_to_t1",
+      "timepoint_a": "t0",
+      "timepoint_b": "t1",
+      "n_labeled_pairs": 160,
+      "published_categories": {
+        "Complete Response (CR)": 1,
+        "Partial Response (PR)": 16,
+        "Stable Disease (SD)": 105,
+        "Progressive Disease (PD)": 38
+      },
+      "source_pair_counts": {
+        "genSegmentation / genSegmentation": 23,
+        "humanSegmentation / genSegmentation": 137
+      },
+      "source_pair_category_counts": {
+        "genSegmentation / genSegmentation": {
+          "Complete Response (CR)": 0,
+          "Partial Response (PR)": 3,
+          "Stable Disease (SD)": 14,
+          "Progressive Disease (PD)": 6
+        },
+        "humanSegmentation / genSegmentation": {
+          "Complete Response (CR)": 1,
+          "Partial Response (PR)": 13,
+          "Stable Disease (SD)": 91,
+          "Progressive Disease (PD)": 32
+        }
+      },
+      "recomputed_label_mismatches": 0,
+      "pairs_missing_a_gtv_availability_record": 0
+    },
+    {
+      "pair": "t0_to_t2",
+      "timepoint_a": "t0",
+      "timepoint_b": "t2",
+      "n_labeled_pairs": 112,
+      "published_categories": {
+        "Complete Response (CR)": 0,
+        "Partial Response (PR)": 18,
+        "Stable Disease (SD)": 64,
+        "Progressive Disease (PD)": 30
+      },
+      "source_pair_counts": {
+        "genSegmentation / genSegmentation": 15,
+        "humanSegmentation / genSegmentation": 97
+      },
+      "source_pair_category_counts": {
+        "genSegmentation / genSegmentation": {
+          "Complete Response (CR)": 0,
+          "Partial Response (PR)": 4,
+          "Stable Disease (SD)": 7,
+          "Progressive Disease (PD)": 4
+        },
+        "humanSegmentation / genSegmentation": {
+          "Complete Response (CR)": 0,
+          "Partial Response (PR)": 14,
+          "Stable Disease (SD)": 57,
+          "Progressive Disease (PD)": 26
+        }
+      },
+      "recomputed_label_mismatches": 0,
+      "pairs_missing_a_gtv_availability_record": 0
+    },
+    {
+      "pair": "t1_to_t2",
+      "timepoint_a": "t1",
+      "timepoint_b": "t2",
+      "n_labeled_pairs": 107,
+      "published_categories": {
+        "Complete Response (CR)": 0,
+        "Partial Response (PR)": 6,
+        "Stable Disease (SD)": 71,
+        "Progressive Disease (PD)": 30
+      },
+      "source_pair_counts": {
+        "genSegmentation / genSegmentation": 107
+      },
+      "source_pair_category_counts": {
+        "genSegmentation / genSegmentation": {
+          "Complete Response (CR)": 0,
+          "Partial Response (PR)": 6,
+          "Stable Disease (SD)": 71,
+          "Progressive Disease (PD)": 30
+        }
+      },
+      "recomputed_label_mismatches": 0,
+      "pairs_missing_a_gtv_availability_record": 0
+    }
+  ],
+  "input_tables": {
+    "clinical": {
+      "filename": "CFB-GBM_clinical_data_v03_20260619.tsv",
+      "sha256": "4dc0b833e264b87c8559a2bf392e4929b5d56dc4b444f563b9fa05ec5d5ab5ab"
+    },
+    "treatment": {
+      "filename": "CFB-GBM_treatment_data_v02_20260129.tsv",
+      "sha256": "5e1bde3a3c10cc5001968f02401a83700f8494ab1ca23850467d007d6ec904a3"
+    },
+    "availability": {
+      "filename": "CFB-GBM_treatment_imaging_availability_v03_20260619.tsv",
+      "sha256": "33d5b6e185cc9582af98285d1d199aa48ccd1a97e0c6e83e0defbd7f2dd515d8"
+    },
+    "ct_availability": {
+      "filename": "CFB-GBM_ct_availability_v02_20260129.tsv",
+      "sha256": "6d757e9041ca41eba3911b9e364e69f130a0a9fce126f719daea7e202ddd89c7"
+    },
+    "mri_availability": {
+      "filename": "CFB-GBM_mri_availability_v02_20260129.tsv",
+      "sha256": "74c40a04a5e0f328232e639e080dda8fbcc0d0297771d11eef3dab5e8abed389"
+    },
+    "rano": {
+      "filename": "CFB-GBM_rano_criteria_v04_20260909.tsv",
+      "sha256": "7277f1662e278267e129181d7674df5210aa47d7350adff97ee10198e3899dd1"
+    },
+    "dictionary": {
+      "filename": "CFB-GBM_column_descriptions_v03_20260619.tsv",
+      "sha256": "d5ee68bf02dd80042d7f04bc4881dc512c4370167876f94f6f4a7e637afc79f8"
+    }
+  },
+  "software": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "tumorlens": "0.1.0"
+  },
+  "claim_boundary": "RANO categories are derived from the same GTV volumes being assessed. This audit reproduces published labels; it does not estimate independent diagnostic accuracy or clinical prediction performance."
+}

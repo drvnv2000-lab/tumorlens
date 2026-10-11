@@ -67,3 +67,53 @@ expert measurement is a text field, parsed with a pattern, and unparsed rows are
 ## Deviations
 
 (none yet)
+
+### 2026-10-11 - status after the feasibility audit (replaces nothing above)
+
+The entries below were added after the "(none yet)" placeholder above was written; the plan text above is unchanged from the 2026-10-10 commit. After exact image linkage and removal of duplicate-key collisions, the measured-visit set is 110 rows (49 patients; 106 PD, 4 PR, no SD or CR), below the roughly 150 information threshold set in PHASE0.md. The confirmatory analysis 4 (does fragility flag disagreement with the expert call) is therefore not run as a confirmatory test. Analyses 1 to 3 (measurement agreement, direction agreement, fragility) remain in v1 as descriptive analyses. No replacement primary hypothesis has been frozen.
+
+### 2026-10-11 — data-rights and join audit; no outcome-driven changes
+
+A reproducible audit of the released tables and local image archive found 17 exact Patient/Date keys in the rating file without an exact Patient/Timepoint match in the completeness table. No fuzzy date mapping was applied. These rows remain unresolved pending an authoritative mapping. The imaging archive contains 638 visit folders across 91 patients; each native segmentation method was readable in 599 folders. DeepBraTumIA masks frequently have a different stored axis order/affine representation from CT1. This is not treated as a segmentation failure; spatial harmonization and header-level review are required before voxelwise comparison.
+
+The LUMIERE data descriptor states non-commercial use, while Figshare item metadata reports CC0. This project follows the stricter non-commercial condition unless the rights holders clarify the discrepancy. The Phase 0 count of 149 rationale rows with expert dimensions is retained as a feasibility count, not an eligibility guarantee. Blinded human review and the previously stated kill threshold remain in force. No analysis outcome has been inspected and no primary estimand was changed. See `docs/INITIAL_DATA_AUDIT.md` and `docs/DATA_PROVENANCE.md` for details.
+
+### 2026-10-11 — blinded rationale-coding operations specified
+
+Added `docs/RATIONALE_CODING_MANUAL.md` to make the preregistered measurement-driven subset curation reproducible before human adjudication. It defines blinded fields, MD/NMD/MIXED/IND rationale classes, strict-primary versus mixed-sensitivity candidates, double review and disagreement reporting. This is an operational clarification; it does not change the primary estimand or remove the sample-size/kill threshold. No segmentation-derived measurements or agreement results were inspected. The manual remains a draft until its pilot is completed and its version is frozen; any substantive revision must be dated here before full coding.
+
+### 2026-10-11 — direct exact-key image linkage
+
+The initial audit noted 17 rating/completeness key mismatches and left their image linkage unresolved pending clarification. A direct comparison against the actual imaging-folder names now shows exact `Patient` + timepoint matches for 605/616 rating rows; 11 rows have no exact image folder and will be excluded only from image-based analyses. This supersedes the earlier pending-linkage language: no author response is required to proceed. Patient-025's completeness/MRinfo timepoints remain disjoint from its image-folder timepoints, so analyses needing those tables must exclude that patient or use independently verifiable fields. Image/mask availability will be read from the actual files, not inferred from the conflicting completeness table. No offset or fuzzy match is used, and the primary estimand is unchanged.
+
+### 2026-10-11 — duplicate-key audit and feasibility downgrade
+
+A second source-table audit found 616 rating rows but only 613 unique patient/timepoint keys. Three keys contain duplicated ratings; two have conflicting expert calls, and all three have differing rationale text. The 605 exact image-linked rows therefore represent 602 unique keys, not 605 distinct visits. Excluding all three collided keys leaves 599 exact, unambiguous rating/image keys. The collision keys are retained in a local audit file and are not silently adjudicated.
+
+Of 149 rows with explicit dimensions, 113 remain after the released early-window and non-measurable source-flag screen; exact image linkage and collision exclusion reduce this broad screen to 110 rows across 49 patients (106 PD, 4 PR, no SD or CR). A stricter string heuristic retains 56 keys (55 PD, 1 PR). These are screening counts, not human-coded eligibility. Both the broad count and response mix fail the original ~150-visit feasibility gate and do not support a confirmatory expert-call discordance or deferral analysis. The study scope is therefore downgraded to descriptive data/measurement feasibility and pipeline robustness in LUMIERE; the preregistered boundary-fragility/deferral claim is not tested as confirmatory using this release. No segmentation-derived primary outcome has been inspected. Any subsequent confirmatory study requires a separately justified cohort and a new dated protocol before outcome analysis.
+
+### 2026-10-11 — method-specific enhancing-label correction
+
+The initial imaging-audit implementation counted integer label 2 for both segmenters. Inspection of the included DeepBraTumIA native mask and its per-visit volume JSON showed that label 1 corresponds to `Enhancing_Core`, label 2 to necrotic/non-enhancing tissue, and label 3 to edema; HD-GLIO-AUTO's two-class map uses label 2 for contrast-enhancing tumour. The code and local inventory now use these method-specific values. Earlier local DeepBraTumIA label-2 volume outputs are superseded. This corrects the measurement implementation before any segmentation-derived response or performance outcome was inspected; it does not change the feasibility question or estimand.
+
+The measurement utility now explicitly isolates the largest 26-connected 3D enhancing component before selecting its maximal axial slice, consistent with the v1 single-component rule. It previously selected the slice with the largest combined foreground area, which could combine separate lesions. No LUMIERE SPD or response series was calculated using the earlier behavior; the utility correction is documented for reproducibility.
+
+### 2026-10-11 — CFB-GBM metadata-only cohort gate
+
+A metadata-only audit of TCIA CFB-GBM Version 4 found 160 t0→t1, 112 t0→t2, and 107 t1→t2 GTV pairs with published volumetric RANO categories. Those categories are derived from the same GTV volumes and are not independent expert calls. At t0→t1, 137 pairs use a manually delineated t0 mask and generated t1 mask; 23 pairs use generated masks at both timepoints. The dataset paper reports a five-radiation-oncologist contour validation on 44 generated masks (mean Dice 0.97, HD95 1.87 mm, ASSD 0.31 mm), which validates sampled contours rather than the response labels. The CFB study is therefore scoped to geometric sensitivity of derived volumetric RANO categories, with no diagnostic or predictive accuracy claim; CR-specific inference is not supported. Only small Version 4 metadata tables were downloaded. TCIA lists the image package as 208.01 GB and requiring Aspera, while the standard public NBIA collection index did not expose CFB-GBM. Image download is gated on demonstrating a selective mask retrieval path and estimating its size. See docs/CFB_GBM_METADATA_AUDIT.md. This is a dataset selection and feasibility update, not inspection of any mask-derived perturbation result.
+
+### 2026-10-11 — Version 4 volumetric-label reproduction and selective access check
+
+The three RANO endpoints were recomputed from the official Version 4 GTV volume columns using the published RANO 2.0 thresholds. All 379 available labels reproduced exactly (160 t0→t1, 112 t0→t2, 107 t1→t2; zero mismatches). The TCIA Aspera package is browsable by patient/timepoint and exposes individual GTV files, but even a single-file transfer requires IBM Aspera Connect. No masks were downloaded. The local V: drive had approximately 215.8 GB free, so the 208 GB whole archive is not a safe download. Proceed with selective masks only after authorization to install the required Aspera client; see docs/CFB_GBM_METADATA_AUDIT.md. The label reproduction is a descriptive validation of the published table, not an independent endpoint analysis.
+
+### 2026-10-11 — CFB-GBM geometric protocol frozen before mask outcomes
+
+Added docs/CFB_GBM_PROTOCOL.md specifying the CFB-GBM Version 4 primary t0→t1 estimand, secondary intervals, signed-distance perturbation grid, category-recalculation rules, mask geometry/QC/exclusion rules, bootstrap, visual outputs, claim limits, and storage constraints. No CFB mask perturbation outcome was calculated before this protocol was written. Any later change must be dated here before further outcome analysis.
+
+### 2026-10-11 — CFB-GBM endpoint terminology clarified before mask analysis
+
+Updated the CFB protocol to call the outcomes dataset-derived pairwise volumetric response labels, rather than unqualified clinical RANO 2.0 categories. CFB-GBM t0 is pre-treatment, while RANO 2.0 recommends the first post-radiotherapy MRI as the reference for newly diagnosed glioma. The dataset's t0-based pairwise labels are therefore not complete clinical RANO adjudications. This pre-outcome clarification narrows terminology and claims only; the geometric sensitivity estimand and cohort are unchanged. See docs/CFB_GBM_PROTOCOL.md and docs/REFERENCES.md.
+
+### 2026-10-11 — CFB-GBM transfer route rechecked before mask outcomes
+
+The TCIA collection page and associated dataset processing repository were rechecked for a supported transfer path that would avoid installing Aspera. TCIA still requires IBM Aspera Connect for the image package and individual GTV file downloads; the GitHub repository contains processing scripts, not an image mirror. No supported no-install route was identified, no Aspera client was installed, and no mask transfer or perturbation analysis was started. Once client installation is authorized, transfer only the prespecified GTV masks and record their actual total size before analysis. This is an access-status update, not a protocol or outcome change.

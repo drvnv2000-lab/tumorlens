@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/tumorlens/analysis-manifest.schema.json",
+  "title": "TumorLens curated analysis manifest row",
+  "type": "object",
+  "required": ["patient_id", "visit_id", "visit_order", "measurement_driven", "expert_call", "automated_call", "threshold_margin_fraction", "segmentation_spread_fraction", "measurement_method", "rule_set"],
+  "properties": {
+    "patient_id": {"type": "string", "minLength": 1},
+    "visit_id": {"type": "string", "minLength": 1},
+    "visit_order": {"type": "integer", "minimum": 0},
+    "measurement_driven": {"type": "boolean"},
+    "eligibility_reason": {"type": "string"},
+    "expert_call": {"enum": ["CR", "PR", "SD", "PD", "PRE_OP", "POST_OP", "UNKNOWN"]},
+    "automated_call": {"enum": ["CR", "PR", "SD", "PD", "NOT_ASSESSABLE"]},
+    "baseline_spd_mm2": {"type": ["number", "null"], "minimum": 0},
+    "nadir_spd_mm2": {"type": ["number", "null"], "minimum": 0},
+    "current_spd_mm2": {"type": ["number", "null"], "minimum": 0},
+    "threshold_margin_fraction": {"type": ["number", "null"], "minimum": 0},
+    "segmentation_spread_fraction": {"type": ["number", "null"], "minimum": 0},
+    "measurement_method": {"type": "string"},
+    "rule_set": {"type": "string"},
+    "rationale_group": {"type": "string"},
+    "new_lesion": {"type": ["boolean", "null"]},
+    "less_than_3_months": {"type": ["boolean", "null"]}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,5 @@
+patient_id,visit_id,visit_order,measurement_driven,eligibility_reason,expert_call,automated_call,baseline_spd_mm2,nadir_spd_mm2,current_spd_mm2,threshold_margin_fraction,segmentation_spread_fraction,measurement_method,rule_set,rationale_group,new_lesion,less_than_3_months
+SYN-001,week-008,1,true,synthetic example,SD,SD,310,195,203,0.176,0.08,illustrative-mask,rano_2_0_radiographic_thresholds,measurement-only,false,false
+SYN-001,week-016,2,true,synthetic example,SD,PD,310,195,245,0.00,0.19,illustrative-mask,rano_2_0_radiographic_thresholds,measurement-only,false,false
+SYN-002,week-008,1,true,synthetic example,PD,SD,250,200,240,0.04,0.11,illustrative-mask,rano_2_0_radiographic_thresholds,measurement-only,false,false
+SYN-002,week-016,2,true,synthetic example,SD,SD,250,180,188,0.20,0.06,illustrative-mask,rano_2_0_radiographic_thresholds,measurement-only,false,false

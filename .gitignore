@@ -1,8 +1,25 @@
-﻿data/
+!data/
 *.nii
 *.nii.gz
 .venv/
 __pycache__/
 .pytest_cache/
+.cache/
+.ruff_cache/
 .jobs/
 
+# Keep local LUMIERE data and derived patient-level outputs out of Git
+data/*
+!data/raw/
+!data/curated/
+data/raw/*
+!data/raw/README.md
+data/curated/*
+!data/curated/README.md
+results/*
+!results/README.md
+__pycache__/
+*.egg-info/
+dist/
+build/
+.vendor/

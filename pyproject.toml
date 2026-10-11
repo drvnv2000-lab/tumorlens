@@ -1,9 +1,12 @@
 [project]
 name = "tumorlens"
 version = "0.1.0"
-description = "How fragile are automated RANO response calls?"
+description = "Reproducible feasibility and measurement utilities for longitudinal glioblastoma MRI research"
 requires-python = ">=3.10"
-dependencies = ["numpy", "scipy", "pandas", "nibabel"]
+dependencies = ["numpy", "scipy", "pandas", "nibabel", "matplotlib"]
+
+[project.scripts]
+tumorlens = "tumorlens.cli:main"
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff"]
@@ -17,3 +20,5 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
+extend-exclude = ["prototype-import", ".vendor"]
+

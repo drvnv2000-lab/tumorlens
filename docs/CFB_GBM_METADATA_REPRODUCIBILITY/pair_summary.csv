@@ -1,0 +1,4 @@
+pair,n_labeled_pairs,Complete Response (CR),Partial Response (PR),Stable Disease (SD),Progressive Disease (PD),recomputed_label_mismatches
+t0_to_t1,160,1,16,105,38,0
+t0_to_t2,112,0,18,64,30,0
+t1_to_t2,107,0,6,71,30,0
