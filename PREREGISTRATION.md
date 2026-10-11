@@ -125,3 +125,29 @@ The plan requires both tools' label identities to be confirmed from documentatio
 - HD-GLIO-AUTO: label 2 = contrast-enhancing tumour, label 1 = non-enhancing T2/FLAIR signal abnormality. Source: the tool's own code (`scripts/run.py` in NeuroAI-HD/HD-GLIO-AUTO, commit 6acaad8, writes `volume_contrast_enhancing_tumor_mm3` from `data == 2`), repeated in the LUMIERE authors' modified copy (ysuter/gbm-data-longitudinal, commit e57c5b4). Signal check: median CT1/T1 intensity ratio 1.70 for label 2 versus 0.91 for label 1; label 2 enhances more in 424 of 424 visits.
 - DeepBraTumIA: no public label documentation was found. Its own per-visit output `measured_volumes_in_mm3.json` names the compartments; in 60 of 60 sampled visits label 1 matched `Enhancing_Core`, label 2 `Necrotic_NonEnhancing` and label 3 `Edema_Compartment` exactly (to 1 mm³). Signal check: median CT1/T1 ratio 1.64 for label 1 versus 0.89 for label 2; label 1 enhances most in 501 of 529 visits (94.7%).
 - Discrepancy: the released `LUMIERE-pyradiomics-deepbratumia-features.csv` names label 1 "Necrosis" and label 2 "Contrast-enhancing". Both checks above contradict that naming, so it is treated as a labelling error in the released feature table. DeepBraTumIA label 1 and HD-GLIO-AUTO label 2 are used as the contrast-enhancing compartment, as in the earlier correction entry. No segmentation-derived response or agreement outcome had been computed when this check was made.
+
+### 2026-10-11 — analysis details fixed before any automated measurement is computed
+
+Written after reading the expert rating text and image headers only; no automated SPD, call or agreement value exists yet. Analyses 1 to 3 run as descriptive analyses (see the status entry above); analysis 4 is not run.
+
+Measurement.
+- Masks: native CT1-space maps (`DeepBraTumIA-segmentation/native/segmentation/ct1_seg_mask.nii.gz`, label 1; `HD-GLIO-AUTO-segmentation/native/segmentation_CT1_origspace.nii.gz`, label 2), reoriented to the closest canonical (RAS) axes with nibabel. Each tool is measured on its own grid.
+- Measurement plane (deviation from "axial"): many LUMIERE CT1 series are thick-slice 2D acquisitions, some coronal or sagittal (for example 0.9 x 0.9 mm in plane, 6 mm between slices). Measuring axially on a coronal series would use 6 mm pixels. The plane is therefore the acquisition plane: perpendicular to the axis with the coarsest spacing when that spacing is at least 1.5 times the finest, otherwise axial. The number of non-axial visits is reported.
+- Lesion: largest 26-connected 3D component of the enhancing label; its slice with the largest area in the measurement plane; longest diameter and longest perpendicular (convex hull), as in `rano.py`.
+- Automated SPD for calls: the product if both diameters are at least 10 mm, otherwise 0 (non-measurable). For analysis 1 the raw product is used whatever its size, and the measurable share is reported.
+- Boundary offsets: -3 to +3 mm in 0.5 mm steps, applied in 3D to the enhancing mask with a Euclidean distance transform in mm (grow: distance to mask at most d; shrink: distance inside mask greater than d), then measured as above.
+
+Expert values.
+- Visit set: the 110 audited rows (dimension in the rationale, released early-window and non-measurable flags clear, exact image folder, no duplicate key).
+- Expert SPD: every "a mm x b mm" pair in the rationale (a missing second "m" accepted), multiplied and summed. Visits with more than one pair are reported separately, because v1 measures one automated lesion.
+
+Calls (analysis 3).
+- Series: each expert "Post-Op" row starts a series as its baseline; later rows rated CR, PR, SD or PD follow until the next "Post-Op" row. "Pre-Op", "None" and "Post-Op/PD" rows are left out, and "Post-Op/PD" ends a series. A series needs a baseline with a readable mask for that tool.
+- Rule clarified in `rano.py` (previously untested case): when the nadir SPD is 0 (no measurable disease), a measurable lesion is PD. CR needs no enhancing voxel at all; SPD 0 with some enhancing voxels is SD unless another rule applies. Confirmation, steroids, clinical status and non-enhancing disease remain unmodelled.
+- Fragility: for each automated follow-up call, the smallest absolute offset (same offset for every scan in the series) that changes it; shares flipping within 1, 2 and 3 mm, per tool.
+
+Direction agreement (analysis 2).
+- As planned: within a patient's series, on each expert-measured visit that has an earlier expert-measured visit, sign of (current - minimum of earlier expert SPDs) versus the same quantity from the automated SPD at the same visits.
+- Suter-matched comparison: Suter et al. 2023 computed trend agreement from the slope between consecutive follow-ups, automated enhancing volume against expert SPD (81.1 percent for HD-GLIO volume). Here: consecutive expert-measured visits in the same series, sign of change in expert SPD versus sign of change in automated enhancing volume (and automated SPD). Suter et al. used BraTumIA, not DeepBraTumIA, and had expert measurements at more time points than the released sheet, so this is a like-for-like method on a smaller subset, not an exact replication. Ties count as agreement only when both changes are zero.
+
+Statistics. Patient-level bootstrap, 10,000 resamples, percentile 95 percent intervals, seed 20261011. Analysis 1: median and IQR of automated/expert SPD ratio; Bland-Altman bias and 95 percent limits on SPD in mm². Visits where a tool has no readable mask or no enhancing voxel are counted and excluded from that tool's ratio.
