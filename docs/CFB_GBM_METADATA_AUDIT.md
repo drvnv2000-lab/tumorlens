@@ -1,5 +1,7 @@
 # CFB-GBM Version 4 metadata audit
 
+> **Archived (pre-v1).** CFB-GBM was a candidate cohort that was not pursued; v1 uses LUMIERE. Kept for the audit trail. Current results: [`V1_RESULTS.md`](V1_RESULTS.md). Index of all documents: [`README.md`](README.md).
+
 Audit date: 2026-10-11  
 Purpose: decide whether the public CFB-GBM cohort can support a longitudinal, contour-robustness study before downloading imaging data.
 

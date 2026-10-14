@@ -3,8 +3,8 @@
 > **Status: superseded for confirmatory research.** This plan operationalizes the LUMIERE
 > expert-reference/deferral question. The dataset feasibility gate failed and that claim was
 > retired before outcome analysis. Do not read the steps below as an active analysis protocol.
-> See [`CFB_GBM_STUDY_DECISION.md`](CFB_GBM_STUDY_DECISION.md) and
-> [`UPENN_GBM_FEASIBILITY.md`](UPENN_GBM_FEASIBILITY.md) for current cohort decisions.
+> v1 is a descriptive LUMIERE study: [`V1_RESULTS.md`](V1_RESULTS.md). The CFB-GBM and UPENN-GBM
+> cohorts were considered and not pursued. Index of all documents: [`README.md`](README.md).
 
 **Controlling preregistration:** [`../PREREGISTRATION.md`](../PREREGISTRATION.md), including its append-only deviations. This document makes the preregistered boundary-fragility study operational. It does not replace the registered estimands or report outcome results.
 

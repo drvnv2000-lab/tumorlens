@@ -1,5 +1,7 @@
 # Curated analysis manifest
 
+> **Archived (pre-v1).** Manifest format for the early CLI workflow; v1 does not use it. Kept for the audit trail. Current results: [`V1_RESULTS.md`](V1_RESULTS.md). Index of all documents: [`README.md`](README.md).
+
 The normalized manifest is one row per patient visit. Keep source ratings and derived calls in separate columns. Never overwrite the original CSVs.
 
 | Column | Required | Meaning |

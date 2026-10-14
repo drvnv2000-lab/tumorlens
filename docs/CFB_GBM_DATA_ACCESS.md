@@ -1,5 +1,7 @@
 # CFB-GBM data access and custody
 
+> **Archived (pre-v1).** CFB-GBM was a candidate cohort that was not pursued; v1 uses LUMIERE. Kept for the audit trail. Current results: [`V1_RESULTS.md`](V1_RESULTS.md). Index of all documents: [`README.md`](README.md).
+
 **Checked:** 2026-10-11  
 **Dataset:** CFB-GBM Version 4, TCIA collection `cfb-gbm`  
 **DOI:** https://doi.org/10.7937/v9pn-2f72  

@@ -1,5 +1,7 @@
 # CFB-GBM geometric robustness protocol
 
+> **Archived (pre-v1).** This protocol was retired before any mask-derived outcome was computed; see [`CFB_GBM_STUDY_DECISION.md`](CFB_GBM_STUDY_DECISION.md). Kept for the audit trail. Current results: [`V1_RESULTS.md`](V1_RESULTS.md). Index of all documents: [`README.md`](README.md).
+
 Version: 1.1 (pre-outcome clarification)  
 Date frozen: 2026-10-11  
 Status: specified before any CFB-GBM mask-derived perturbation results are calculated.  

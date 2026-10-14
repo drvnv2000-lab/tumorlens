@@ -1,5 +1,7 @@
 # LUMIERE feasibility results
 
+> **Background to v1.** This audit found the confirmatory expert-referenced analysis infeasible, which is why v1 is a descriptive methods study. Current results: [`V1_RESULTS.md`](V1_RESULTS.md). Index of all documents: [`README.md`](README.md).
+
 **Status:** completed descriptive source-table and local-file feasibility audit; not a clinical validation study.
 **Dataset release:** LUMIERE v202211.
 **Audit run:** 2026-10-11 with TumorLens 0.1.0.

@@ -1,5 +1,7 @@
 # Methods notes
 
+> **Archived (pre-v1).** Early methods notes for the retired deferral plan. The v1 methods are in [`V1_RESULTS.md`](V1_RESULTS.md) and [`../PREREGISTRATION.md`](../PREREGISTRATION.md). Kept for the audit trail. Current results: [`V1_RESULTS.md`](V1_RESULTS.md). Index of all documents: [`README.md`](README.md).
+
 ## Measurement convention
 
 The protocol distinguishes expert-provided values, algorithm-derived values and segmentation spread. The CLI does not estimate tumor boundaries from an MRI. It consumes a curated manifest so source-specific label values, coordinate conventions and lesion inclusion can be independently validated first.
