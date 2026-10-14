@@ -1,0 +1,62 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Martian+Mono:wght@300;400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap">
+<style>
+:root{--film:#04070c;--slate:#0a111b;--rule:#1d2b3c;--ink:#e6edf5;--ink2:#93a1b4;--ink3:#5f6d80;--enh:#eaf6ff;--doubt:#ffb23f;
+--fd:"Newsreader",Georgia,serif;--fb:"Hanken Grotesk",sans-serif;--fm:"Martian Mono",monospace}
+*{box-sizing:border-box;margin:0}
+body{width:1280px;height:640px;overflow:hidden;background:radial-gradient(900px 600px at 72% 50%,#0b1622 0%,var(--film) 70%);color:var(--ink);font-family:var(--fb);position:relative}
+header{position:absolute;left:0;right:0;top:0;height:60px;display:flex;align-items:center;padding:0 32px;border-bottom:1px solid var(--rule)}
+.wm{font-family:var(--fd);font-size:22px;letter-spacing:-.01em}.wm i{font-style:italic}
+.badge{margin-left:16px;font-family:var(--fm);font-size:10.5px;letter-spacing:.12em;color:var(--doubt);border:1px solid var(--doubt);border-radius:3px;padding:3px 8px}
+nav{margin-left:auto;display:flex;gap:22px;font-size:14.5px;color:var(--ink2)}
+.card{position:absolute;left:64px;top:96px;width:540px;padding:32px 30px 30px;border:1px solid var(--rule);border-radius:14px;background:rgba(10,17,27,.82)}
+.eb{font-family:var(--fm);font-size:11px;letter-spacing:.14em;color:var(--ink3);text-transform:uppercase}
+h1{font-family:var(--fd);font-weight:400;font-size:58px;line-height:1.02;letter-spacing:-.015em;margin:18px 0 20px}
+h1 i{font-style:italic}
+p{font-size:18.5px;line-height:1.5;color:var(--ink2)}
+p b{color:var(--ink);font-weight:600}
+.meta{margin-top:22px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--fm);font-size:11px;color:var(--ink3);display:flex;gap:22px}
+.meta span b{color:var(--ink2);font-weight:400}
+svg{position:absolute;left:620px;top:60px}
+.lab{font-family:var(--fm);font-size:10.5px;letter-spacing:.06em}
+</style></head><body>
+<header><span class="wm">Tumor<i>Lens</i></span><span class="badge">PRE-REGISTERED</span>
+<nav><span>Real cases</span><span>Results</span><span>Code</span></nav></header>
+<div class="card">
+<div class="eb">A descriptive methods study · LUMIERE</div>
+<h1>How fragile is an automated <i>response call?</i></h1>
+<p>Measurement-driven RANO calls from two segmentation tools on <b>350 real follow-up calls</b> each. Shifting every tumour edge by 1&nbsp;mm changed <b>17%</b> of one tool&rsquo;s calls and <b>28%</b> of the other&rsquo;s.</p>
+<div class="meta"><span>RANO <b>bidimensional</b></span><span>Tools <b>HD-GLIO-AUTO · DeepBraTumIA</b></span></div>
+</div>
+<svg id="s" width="660" height="580" viewBox="0 0 660 580"></svg>
+<script>
+const s=document.getElementById('s'),NS='http://www.w3.org/2000/svg';
+const el=(t,a,p=s)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
+let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+const cx=330,cy=290;
+// irregular tumour outline: radius as smooth function of angle
+const R=a=>150+18*Math.sin(3*a+.6)+11*Math.sin(5*a+1.9)+7*Math.cos(2*a+.3)+5*Math.sin(7*a);
+const defs=el('defs',{});const f=el('filter',{id:'g',x:'-50%',y:'-50%',width:'200%',height:'200%'},defs);
+el('feGaussianBlur',{stdDeviation:'2.2',result:'b'},f);const m=el('feMerge',{},f);el('feMergeNode',{in:'b'},m);el('feMergeNode',{in:'SourceGraphic'},m);
+// rings: offset in "mm" mapped to 14px per mm
+const rings=[{o:-2,c:'#5f6d80',op:.55,n:520},{o:-1,c:'#ffb23f',op:.85,n:620},{o:0,c:'#eaf6ff',op:1,n:900},{o:1,c:'#ffb23f',op:.85,n:720},{o:2,c:'#5f6d80',op:.55,n:820}];
+const g=el('g',{filter:'url(#g)'});
+for(const r of rings){for(let i=0;i<r.n;i++){const a=rnd()*Math.PI*2,j=(rnd()-.5)*(r.o===0?3:5);const rr=R(a)+r.o*16+j;
+el('circle',{cx:cx+rr*Math.cos(a),cy:cy+rr*Math.sin(a),r:(r.o===0?1.5:1.2)*(0.6+rnd()*.7),fill:r.c,opacity:r.op*(0.45+rnd()*.55)},g)}}
+// enhancing core haze
+for(let i=0;i<260;i++){const a=rnd()*Math.PI*2,t=Math.sqrt(rnd())*.9;const rr=R(a)*t;el('circle',{cx:cx+rr*Math.cos(a),cy:cy+rr*Math.sin(a),r:.9,fill:'#93a1b4',opacity:.12+rnd()*.2})}
+// calipers: longest diameter + perpendicular on the 0-ring
+let best=[0,0];for(let k=0;k<360;k++){const a=k*Math.PI/180,d=R(a)+R(a+Math.PI);if(d>best[1])best=[a,d]}
+const pt=(a,rr)=>[cx+rr*Math.cos(a),cy+rr*Math.sin(a)];
+const ln=(a,col,w,dash)=>{const p1=pt(a,R(a)),p2=pt(a+Math.PI,R(a+Math.PI));el('line',{x1:p1[0],y1:p1[1],x2:p2[0],y2:p2[1],stroke:col,'stroke-width':w,'stroke-dasharray':dash,opacity:.8});
+for(const p of[p1,p2])el('circle',{cx:p[0],cy:p[1],r:3.2,fill:'none',stroke:col,'stroke-width':1.3})};
+ln(best[0],'#eaf6ff',1.2,'5 5');ln(best[0]+Math.PI/2,'#eaf6ff',1.2,'5 5');
+// labels
+const tl=(x,y,t,c,anchor='start')=>{const e=el('text',{x,y,fill:c,'text-anchor':anchor,class:'lab'});e.textContent=t};
+const la=-0.62;const [ax,ay]=pt(la,R(la)+16),[bx,by]=pt(la,R(la)+32);
+el('line',{x1:ax+6,y1:ay-4,x2:530,y2:96,stroke:'#ffb23f','stroke-width':.8,opacity:.6});tl(536,92,'+1 mm','#ffb23f');tl(536,108,'edge','#5f6d80');
+const lb=2.45;const [cx2,cy2]=pt(lb,R(lb)-16);
+el('line',{x1:cx2-4,y1:cy2+4,x2:120,y2:500,stroke:'#ffb23f','stroke-width':.8,opacity:.6});tl(116,516,'−1 mm','#ffb23f','end');
+tl(cx,cy+R(Math.PI/2)+62,'LONGEST DIAMETER × PERPENDICULAR','#5f6d80','middle');
+tl(640,566,'SYNTHETIC OUTLINE · NOT PATIENT DATA','#5f6d80','end');
+</script></body></html>
