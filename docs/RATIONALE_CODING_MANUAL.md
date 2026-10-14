@@ -1,5 +1,7 @@
 # LUMIERE expert-rationale coding manual (draft v1)
 
+> **Archived (pre-v1).** Draft for a human rationale review that was not run; v1 uses the parser audit described in [`V1_RESULTS.md`](V1_RESULTS.md). Kept for the audit trail. Current results: [`V1_RESULTS.md`](V1_RESULTS.md). Index of all documents: [`README.md`](README.md).
+
 **Purpose:** identify visits whose released free-text rationale supports a measurement-driven analysis, independently of automated segmentations and calls. This document operationalizes the existing TumorLens protocol; it does not replace the preregistered endpoint or convert text coding into clinical adjudication.
 
 **Status:** ready for two independent human reviewers to pilot. Do not use the heuristic review queue as labels. Freeze this manual before reviewers see model or segmentation results.

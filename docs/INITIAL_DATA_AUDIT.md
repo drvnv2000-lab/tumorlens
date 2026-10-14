@@ -1,5 +1,7 @@
 # Initial LUMIERE feasibility audit
 
+> **Background to v1.** The LUMIERE data audit that preceded v1; its counts carry into v1. Current results: [`V1_RESULTS.md`](V1_RESULTS.md). Index of all documents: [`README.md`](README.md).
+
 **Release inspected:** LUMIERE v202211. **Purpose:** data readiness and integrity only. These counts are not clinical performance results and do not establish a publishable primary endpoint.
 
 ## Rating tables

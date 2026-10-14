@@ -12,7 +12,7 @@ On 350 real follow-up calls per tool from the LUMIERE dataset, a uniform 1 mm of
 
 ## What v1 found (LUMIERE, descriptive)
 
-Both segmentations released with LUMIERE were measured on all 638 visit folders (599 readable per tool) the RANO way: largest enhancing lesion, its largest slice, longest diameter and longest perpendicular. Calls compare with the nadir and ignore confirmation, steroids, clinical status and non-enhancing disease. Intervals are 95% patient-level bootstrap intervals (10,000 resamples). An independent review (ChatGPT) was run on v1; its requests are implemented and recorded in [`PREREGISTRATION.md`](PREREGISTRATION.md).
+Both segmentations released with LUMIERE were measured on all 638 visit folders (599 readable per tool) the RANO way: largest enhancing lesion, its largest slice, longest diameter and longest perpendicular. Calls compare with the nadir and ignore confirmation, steroids, clinical status and non-enhancing disease. Intervals are 95% patient-level bootstrap intervals (10,000 resamples). v1 was reviewed three times with an LLM (ChatGPT); this is not peer review. The changes it prompted are recorded in [`PREREGISTRATION.md`](PREREGISTRATION.md).
 
 | | HD-GLIO-AUTO | DeepBraTumIA |
 |---|---|---|
@@ -28,7 +28,7 @@ Both segmentations released with LUMIERE were measured on all 638 visit folders 
 - **No enhancing voxels at some expert-PD visits:** 36 (HD-GLIO-AUTO) and 16 (DeepBraTumIA) of 222. Expert PD can rest on new lesions, T2/FLAIR progression or clinical grounds, so this is not proof of a missed tumour.
 - **Two discrepancies in the released files:** the DeepBraTumIA feature table's names for labels 1 and 2 conflict with the tool's own volume file and the contrast signal ([label check](docs/LABEL_VERIFICATION.md)), and native-space HD-GLIO-AUTO masks are rotated 180 degrees in plane for 507 of the 514 PIR-stored visits with both masks non-empty (6 consistent but weak, 1 undetermined) ([alignment check](reports/v1/mask_alignment.json)). Undoing the rotation leaves every v1 measurement identical ([check](reports/v1/pir_invariance.json)); it matters for overlays.
 
-Checks: all 110 expert measurements were transcribed by hand and compared with the parser (110 match; 6 flagged by meaning and tested as a sensitivity), labels confirmed on the native masks measured, 76 tests in CI, and a project-run fresh clone reproduces every result file byte for byte (CI itself does not rerun the LUMIERE pipeline). Limits and full results: [`docs/V1_RESULTS.md`](docs/V1_RESULTS.md).
+Checks: all 110 expert measurements were transcribed by hand and compared with the parser (110 match; 6 flagged by meaning and tested as a sensitivity), labels confirmed on the native masks measured, 76 tests in CI, and a project-run fresh clone reproduces every result file byte for byte (CI itself does not rerun the LUMIERE pipeline). Limits and full results: [`docs/V1_RESULTS.md`](docs/V1_RESULTS.md). All documents, current and archived: [`docs/README.md`](docs/README.md).
 
 ## How we avoid fooling ourselves
 
@@ -38,7 +38,7 @@ Checks: all 110 expert measurements were transcribed by hand and compared with t
 - Calls compare with the **nadir**, not the previous scan or the baseline, as RANO requires.
 - Intervals resample patients, because visits from one patient are not independent.
 - Analysis 4 (does fragility flag disagreement with the expert call) was run as **exploratory**, with its rules fixed before running; the original confirmatory test is not claimed.
-- Only aggregate results are committed. Patient-level measurements stay local.
+- Only aggregate results are committed, apart from 15 disclosed viewer cases (2D slices and their measurements; see [`docs/cases/DATA-LICENCE.md`](docs/cases/DATA-LICENCE.md)). All other patient-level measurements stay local.
 
 ## Relation to prior work
 

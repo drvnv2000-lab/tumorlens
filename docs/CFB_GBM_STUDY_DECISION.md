@@ -1,5 +1,7 @@
 # CFB-GBM study decision
 
+> **Archived (pre-v1).** Records why the CFB-GBM threshold-flip question was retired before outcome analysis. Kept for the audit trail. Current results: [`V1_RESULTS.md`](V1_RESULTS.md). Index of all documents: [`README.md`](README.md).
+
 **Decision date:** 2026-10-11  
 **Status:** Original primary question retired before outcome analysis.
 
